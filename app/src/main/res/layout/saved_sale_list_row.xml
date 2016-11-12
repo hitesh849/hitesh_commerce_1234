@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/txtSaveSaleItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/sale_list_selector"
+    android:paddingBottom="@dimen/dim_2"
+    android:paddingLeft="@dimen/dim_4"
+    android:paddingRight="@dimen/dim_4"
+    android:paddingTop="@dimen/dim_2"
+    android:singleLine="true" />

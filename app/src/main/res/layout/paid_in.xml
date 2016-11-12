@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/add_cash_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_16"
+        android:layout_marginRight="@dimen/dim_16"
+        android:layout_marginTop="@dimen/dim_8"
+        android:text="Paid In"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_dim_15"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_5"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_16"
+            android:text="Amount to be paid is"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_dim_12"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtCashAmountPayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_4"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etxtAmountPaidInDialog"
+        style="@style/et_new_customer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_16"
+        android:layout_marginRight="@dimen/dim_16"
+        android:hint="Amount"
+        android:inputType="numberDecimal"
+        android:singleLine="true" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_16"
+        android:layout_marginTop="@dimen/dim_4"
+        android:text="You have to choose a reason"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_dim_12"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_16"
+        android:layout_marginRight="@dimen/dim_16"
+        android:layout_marginTop="@dimen/dim_5"
+        android:background="@drawable/transparent_background_border"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/drpdwnPaidInDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_16"
+        android:layout_marginTop="@dimen/dim_4"
+        android:text="You can insert a comment"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_dim_12"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etxtCommentPaidInDialog"
+        style="@style/et_new_customer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_16"
+        android:layout_marginRight="@dimen/dim_16"
+        android:hint="@string/comment"
+        android:inputType="text"
+        android:singleLine="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dim_5"
+        android:layout_marginTop="@dimen/dim_5"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtCancelPaidInDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dim_20"
+            android:background="@drawable/background_selector"
+            android:padding="@dimen/dim_5"
+            android:text="Cancel"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_dim_15"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtConfirmPaidInDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dim_20"
+            android:background="@drawable/background_selector"
+            android:padding="@dimen/dim_5"
+            android:text="Confirm ?"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_dim_15"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

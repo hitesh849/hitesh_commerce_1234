@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/settingsMenuDashboard"
+        android:showAsAction="ifRoom"
+        android:title="Settings" />
+    <item
+        android:id="@+id/menuPaidInDashboard"
+        android:showAsAction="ifRoom"
+        android:title="Paid In" />
+
+    <item
+        android:id="@+id/menuPaidOutDashboard"
+        android:showAsAction="ifRoom"
+        android:title="Paid Out" />
+    <item
+        android:id="@+id/menuSaveSaleDashboard"
+        android:showAsAction="ifRoom"
+        android:title="Save Sale" />
+    <item
+        android:id="@+id/menuLoadSaleDashboard"
+        android:showAsAction="ifRoom"
+        android:title="Load Sale" />
+    <item
+        android:id="@+id/menuOpenTerminalDashboard"
+        android:showAsAction="ifRoom"
+        android:title="Open Terminal" />
+    <item
+        android:id="@+id/menuCloseTerminalDashboard"
+        android:showAsAction="ifRoom"
+        android:title="Close Terminal" />
+    <item
+        android:id="@+id/menuSignOutDashboard"
+        android:showAsAction="ifRoom"
+        android:title="Sign Out" />
+</menu>

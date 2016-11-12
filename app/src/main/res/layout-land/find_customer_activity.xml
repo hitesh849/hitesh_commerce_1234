@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background_land"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/application_header_height"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgBackFindCustomer"
+            android:layout_width="@dimen/application_header_height"
+            android:layout_height="@dimen/application_header_height"
+            android:background="@drawable/background_selector"
+            android:padding="@dimen/dim_5"
+            android:src="@mipmap/back_arrow_white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:gravity="center"
+            android:text="@string/find_customer"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dim_16"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="@dimen/dim_10"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/rdgrpFilterFindCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dim_5">
+
+                <RadioButton
+                    android:id="@+id/rdByFirstName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_2"
+                    android:background="@null"
+                    android:buttonTint="@android:color/black"
+                    android:text="By First Name"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dim_8" />
+
+                <RadioButton
+                    android:id="@+id/rdByLastName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_2"
+                    android:background="@null"
+                    android:buttonTint="@android:color/black"
+                    android:text="By Last Name"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dim_8" />
+
+                <RadioButton
+                    android:id="@+id/rdById"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_2"
+                    android:background="@null"
+                    android:buttonTint="@android:color/black"
+                    android:text="By ID"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dim_8" />
+            </RadioGroup>
+
+            <AutoCompleteTextView
+                android:id="@+id/txtSearchParty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_5"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:hint="Search Customer"
+                android:imeOptions="flagNoExtractUi"
+                android:padding="@dimen/dim_5"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_dim_15" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6.5"
+            android:orientation="vertical">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="8">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@color/lighter_gray"
+                    android:gravity="left|center"
+                    android:padding="@dimen/dim_2"
+                    android:text="Name"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dim_11" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/lighter_gray"
+                    android:gravity="left|center"
+                    android:padding="@dimen/dim_2"
+                    android:text="Phone"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dim_11" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@color/lighter_gray"
+                    android:gravity="left|center"
+                    android:padding="@dimen/dim_2"
+                    android:text="EMail"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dim_11" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@color/lighter_gray"
+                    android:gravity="left|center"
+                    android:padding="@dimen/dim_2"
+                    android:singleLine="true"
+                    android:text="Address"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dim_11" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/lighter_gray"
+                    android:gravity="center"
+                    android:padding="@dimen/dim_2"
+                    android:text="Select"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dim_11" />
+            </TableRow>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:id="@+id/llCustomerListContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/application_header_height"
+            android:gravity="right|center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtAddNewCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dim_15"
+                android:background="@color/dark_pink"
+                android:gravity="center"
+                android:padding="@dimen/dim_5"
+                android:text="Add New Customer"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:id="@+id/imgDoneDashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:paddingLeft="@dimen/dim_20"
+                android:paddingRight="@dimen/dim_20"
+                android:src="@mipmap/complete" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

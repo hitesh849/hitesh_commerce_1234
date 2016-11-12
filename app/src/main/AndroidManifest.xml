@@ -1,0 +1,77 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dwacommerce.pos">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+
+    <application
+        android:name=".viewControllers.DwaCommerceApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/MyMaterialTheme">
+        <activity
+            android:name=".viewControllers.LogInActivity"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".viewControllers.PrintScreen"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
+        </activity>
+
+        <activity
+            android:name=".viewControllers.SettingsActivity"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".viewControllers.SettingActivity"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".viewControllers.DashBordActivity"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".viewControllers.FindCustomerActivity"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".viewControllers.AddNewCustomerActivity"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".viewControllers.BarcodeActivity"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".viewControllers.DiscoverActivity"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
+    </application>
+</manifest>

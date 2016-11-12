@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dim_1"
+    android:background="@drawable/background_border"
+    android:weightSum="11">
+
+    <TableRow
+        android:id="@+id/itemRowDashboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/txtProductNameDashboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="left"
+            android:padding="@dimen/dim_4"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_dim_10" />
+
+        <TextView
+            android:id="@+id/txtQuantityDahsboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="@dimen/dim_4"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_dim_10" />
+
+        <TextView
+            android:id="@+id/txtRateDashboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="@dimen/dim_4"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_dim_10" />
+
+        <TextView
+            android:id="@+id/txtAmountDashboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="@dimen/dim_4"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_dim_10" />
+    </TableRow>
+
+
+    <ImageView
+        android:id="@+id/imgDeleteItemDashboard"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:padding="@dimen/dim_5"
+        android:src="@mipmap/delete_bin"
+        android:tint="@android:color/black" />
+</TableRow>

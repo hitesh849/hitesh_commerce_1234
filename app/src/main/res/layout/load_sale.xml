@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/load_sale_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_5"
+        android:layout_marginRight="@dimen/dim_16"
+        android:layout_marginTop="@dimen/dim_8"
+        android:text="LOAD SALE"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_dim_15"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_10"
+        android:layout_marginTop="@dimen/dim_10"
+        android:text="Saved Sale list"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_dim_12"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/dim_10"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dim_10"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/llSaleListContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="left|top"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtAddLoadSaleDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_green_dark"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dim_7"
+                android:paddingLeft="@dimen/dim_2"
+                android:paddingRight="@dimen/dim_2"
+                android:paddingTop="@dimen/dim_7"
+                android:text="ADD"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dim_10"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtReplaceLoadSaleDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_5"
+                android:background="@android:color/holo_blue_light"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dim_7"
+                android:paddingLeft="@dimen/dim_2"
+                android:paddingRight="@dimen/dim_2"
+                android:paddingTop="@dimen/dim_7"
+                android:text="REPLACE"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dim_10"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDeleteLoadSaleDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_5"
+                android:background="@android:color/holo_red_dark"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dim_7"
+                android:paddingLeft="@dimen/dim_2"
+                android:paddingRight="@dimen/dim_2"
+                android:paddingTop="@dimen/dim_7"
+                android:text="DELETE"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dim_10"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtReplaceDeleteLoadSaleDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_5"
+                android:background="@android:color/holo_purple"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dim_7"
+                android:paddingLeft="@dimen/dim_2"
+                android:paddingRight="@dimen/dim_2"
+                android:paddingTop="@dimen/dim_7"
+                android:text="@string/replace_delete"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dim_10"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCancelLoadSaleDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dim_5"
+                android:layout_marginTop="@dimen/dim_5"
+                android:background="@android:color/darker_gray"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dim_7"
+                android:paddingLeft="@dimen/dim_2"
+                android:paddingRight="@dimen/dim_2"
+                android:paddingTop="@dimen/dim_7"
+                android:text="CANCEL"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dim_10"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

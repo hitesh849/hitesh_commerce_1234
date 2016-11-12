@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayoutCategoryFragment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_25"
+        android:background="@color/colorPrimary"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabIndicatorColor="@color/border_color"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="@color/white" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/parentCategoryView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_5"
+        android:orientation="horizontal"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+    <View
+        android:id="@+id/childCategoryHeaderView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dim_5"
+        android:background="@drawable/separator_bg"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/childCategoryView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_5"
+        android:orientation="horizontal"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+    <View
+        android:id="@+id/productItemHeaderView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_1"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dim_5"
+        android:background="@drawable/separator_bg"
+        android:visibility="gone" />
+
+    <GridView
+        android:id="@+id/productView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dim_5"
+        android:columnWidth="@dimen/category_item_height"
+        android:gravity="center"
+        android:horizontalSpacing="@dimen/dim_5"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="@dimen/dim_5" />
+
+</LinearLayout>
