@@ -158,6 +158,10 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         if (TextUtils.isEmpty(Config.getCountryList())) {
             dashboardModel.getCountryList();
         }
+        if (!Config.getInternalScannerUse())
+            etxtBarcode.setVisibility(View.VISIBLE);
+        else
+            etxtBarcode.setVisibility(View.GONE);
         fetchCartData();
     }
 
@@ -201,7 +205,15 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                     addNewItemToCartWithBarCode(barcode, "1");
                 }
             } else if (requestCode == Constants.REQUEST_CODE_FOR_SETTINGS) {
-                goToLoginScreen();
+                try {
+                    Intent intent = new Intent(DashBordActivity.this, DashBordActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

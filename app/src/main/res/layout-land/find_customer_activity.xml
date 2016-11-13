@@ -210,6 +210,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimary"
                 android:paddingLeft="@dimen/dim_20"
+                android:visibility="gone"
                 android:paddingRight="@dimen/dim_20"
                 android:src="@mipmap/complete" />
 

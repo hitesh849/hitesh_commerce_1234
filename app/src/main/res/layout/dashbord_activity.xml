@@ -36,7 +36,7 @@
                 android:singleLine="true"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="@dimen/text_dim_15" />
+                android:textSize="@dimen/text_dim_12" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,16 +60,7 @@
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/text_dim_11" />
 
-            <ImageView
-                android:id="@+id/imgRefreshCartDashboard"
-                android:layout_width="@dimen/dim_25"
-                android:layout_height="@dimen/dim_25"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/dim_3"
-                android:background="@drawable/background_selector"
-                android:padding="@dimen/dim_3"
-                android:src="@mipmap/refresh"
-                android:tint="@color/white" />
+
 
             <ImageView
                 android:id="@+id/imgAddToCartDashboard"
@@ -162,16 +153,17 @@
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_dim_12" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                <ImageView
+                    android:id="@+id/imgRefreshCartDashboard"
                     android:layout_weight="1"
-                    android:gravity="left|center"
-                    android:paddingBottom="@dimen/dim_4"
-                    android:paddingTop="@dimen/dim_4"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_dim_12" />
+                    android:layout_width="@dimen/dim_25"
+                    android:layout_height="@dimen/dim_25"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/dim_3"
+                    android:background="@drawable/background_selector"
+                    android:padding="@dimen/dim_3"
+                    android:src="@mipmap/refresh"
+                    android:tint="@color/white" />
             </TableRow>
 
             <ScrollView

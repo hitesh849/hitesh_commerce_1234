@@ -46,7 +46,7 @@ public class DashBordDialogs {
         final View dialogView = inflater.inflate(R.layout.payment, null);
         dialogBuilder.setView(dialogView);
         TextView txtCashAmountPayment = (TextView) dialogView.findViewById(R.id.txtCashAmountPayment);
-        txtCashAmountPayment.setText("Rs. " + grandTotalAmount + " " + currency);
+        txtCashAmountPayment.setText(grandTotalAmount + " " + currency);
         TextView txtCancelPayment = (TextView) dialogView.findViewById(R.id.txtCancelPayment);
         TextView txtSavePayment = (TextView) dialogView.findViewById(R.id.txtSavePayment);
         final EditText etxtCashPaymentDialog = (EditText) dialogView.findViewById(R.id.etxtCashPaymentDialog);
@@ -83,7 +83,7 @@ public class DashBordDialogs {
         TextView txtAmountCreditCard = (TextView) dialogView.findViewById(R.id.txtAmountCreditCard);
         TextView txtHeaderPayment = (TextView) dialogView.findViewById(R.id.txtHeaderPayment);
         txtHeaderPayment.setText(headerText);
-        txtAmountCreditCard.setText("Rs. " + grandTotalAmount + " " + currency);
+        txtAmountCreditCard.setText(grandTotalAmount + " " + currency);
         TextView txtCancelCreditCard = (TextView) dialogView.findViewById(R.id.txtCancelCreditCard);
         TextView txtConfirmCreditCard = (TextView) dialogView.findViewById(R.id.txtConfirmCreditCard);
         final EditText etxtAmountCreditCard = (EditText) dialogView.findViewById(R.id.etxtAmountCreditCard);

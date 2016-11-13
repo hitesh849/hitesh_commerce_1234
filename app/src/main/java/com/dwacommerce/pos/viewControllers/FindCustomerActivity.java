@@ -112,6 +112,8 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
             txtCustomerPhone.setText(customerData.phone);
             txtCustomerAddress.setText(customerData.address1);
             txtCustomerEmail.setText(customerData.email);
+            tableRow.setTag(customerData);
+            tableRow.setOnClickListener(this);
             rdbtnSelectedCustomer.setTag(customerData);
             rdbtnSelectedCustomer.setOnCheckedChangeListener(this);
             return tableRow;
@@ -139,6 +141,18 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
         } else if (vid == R.id.txtAddNewCustomer) {
             Intent intent = new Intent(FindCustomerActivity.this, AddNewCustomerActivity.class);
             startActivityForResult(intent, Constants.REQUEST_CODE_FOR_ADD_NEW_CUSTOMER);
+        } else if (vid == R.id.customerDataContainer) {
+            try {
+                selectedPartyData = ((PartyData) v.getTag());
+                if (Util.isDeviceOnline()) {
+                    Util.showProDialog(FindCustomerActivity.this);
+                    findCustomerModel.setPartyToCart(selectedPartyData.partyId, selectedPartyData.contactMechPurposeTypeId, selectedPartyData.contactMechId);
+                } else {
+                    Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -184,6 +198,12 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
             }
             seletedButton = ((RadioButton) buttonView);
             selectedPartyData = ((PartyData) seletedButton.getTag());
+            if (Util.isDeviceOnline()) {
+                Util.showProDialog(FindCustomerActivity.this);
+                findCustomerModel.setPartyToCart(selectedPartyData.partyId, selectedPartyData.contactMechPurposeTypeId, selectedPartyData.contactMechId);
+            } else {
+                Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
