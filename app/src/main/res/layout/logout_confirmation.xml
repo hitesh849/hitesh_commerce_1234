@@ -42,11 +42,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/background_selector"
+            android:background="@color/colorAccent"
             android:gravity="center"
             android:padding="@dimen/dim_5"
             android:text="NO"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
 
@@ -55,11 +55,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/background_selector"
+            android:background="@color/dark_pink"
             android:gravity="center"
             android:padding="@dimen/dim_5"
             android:text="YES"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
     </LinearLayout>

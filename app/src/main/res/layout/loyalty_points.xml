@@ -57,10 +57,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/dim_20"
-            android:background="@drawable/background_selector"
+            android:background="@color/colorAccent"
             android:padding="@dimen/dim_5"
             android:text="CANCEL"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
 
@@ -69,10 +69,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/dim_20"
-            android:background="@drawable/background_selector"
+            android:background="@color/dark_pink"
             android:padding="@dimen/dim_5"
             android:text="APPLY"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
     </LinearLayout>
