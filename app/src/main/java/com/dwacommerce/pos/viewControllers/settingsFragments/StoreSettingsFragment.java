@@ -3,7 +3,6 @@ package com.dwacommerce.pos.viewControllers.settingsFragments;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -48,7 +47,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
     private View view;
 
     @Override
-    protected View onCreateViewPost(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
+    protected View onCreateViewPost(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.setting_store_layout, null);
         init();
         return view;
@@ -145,6 +144,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
             if (Util.isDeviceOnline()) {
                 Util.showProDialog(getActivity());
                 settingsModel.fetchSettings(url, userName, password);
+                Config.setDemo(false);
             } else {
                 Util.showCenteredToast(getActivity(), Constants.INTERNET_ERROR_MSG);
             }
@@ -154,6 +154,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
             Config.setBaseUrl(getDomainUrl(Config.getServerUrl()));
             ((SettingActivity) getActivity()).setResult = true;
             Intent intent = new Intent(getActivity(), LogInActivity.class);
+            Config.setDemo(true);
             startActivity(intent);
         } else {
             getActivity().finish();
@@ -168,7 +169,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
         TextView txtOkStore = ((TextView) dialogView.findViewById(R.id.txtOkStore));
         TextView txtCancelStore = ((TextView) dialogView.findViewById(R.id.txtCancelStore));
 
-        if(!TextUtils.isEmpty(Config.getStoreName()))
+        if (!TextUtils.isEmpty(Config.getStoreName()))
             txtOkStore.setText(getString(R.string.change_store));
         final AlertDialog alertDialog = storeDialogBuilder.create();
         if (stores != null) {

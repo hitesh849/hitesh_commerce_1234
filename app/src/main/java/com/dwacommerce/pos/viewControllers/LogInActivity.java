@@ -54,7 +54,7 @@ public class LogInActivity extends AbstractFragmentActivity implements View.OnCl
             goToSettings();
         } /*else if (!TextUtils.isEmpty(Config.getPosTerminalId())) {
             gotoDashboard();
-        } */else {
+        } */ else {
             init();
         }
     }
@@ -102,6 +102,12 @@ public class LogInActivity extends AbstractFragmentActivity implements View.OnCl
                 if (configurationsData.posTerminals != null && !configurationsData.posTerminals.isEmpty()) {
                     terminals = new Terminals[configurationsData.posTerminals.size()];
                     terminals = configurationsData.posTerminals.toArray(terminals);
+                    if (Config.isDemo()) {
+                        etxtUserNameLogin.setText("demo");
+                        etxtPasswordLogin.setText("demo");
+                        selectedTerminal = terminals[0];
+                        txtTerminalNameLogin.setText(selectedTerminal.terminalName);
+                    }
                 } else {
                     Util.showCenteredToast(LogInActivity.this, "No Terminals found!");
                     goToSettings();
