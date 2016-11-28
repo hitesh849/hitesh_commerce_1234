@@ -106,12 +106,12 @@
                     android:id="@+id/txtSaveStoreSetting"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@drawable/background_selector"
+                    android:background="@color/dark_pink"
                     android:gravity="center"
                     android:paddingLeft="@dimen/dim_5"
                     android:paddingRight="@dimen/dim_5"
                     android:text="Save"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -119,12 +119,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dim_20"
-                    android:background="@drawable/background_selector"
+                    android:background="@color/colorAccent"
                     android:gravity="center"
                     android:paddingLeft="@dimen/dim_5"
                     android:paddingRight="@dimen/dim_5"
                     android:text="Cancel"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
             </LinearLayout>
 

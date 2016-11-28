@@ -27,6 +27,9 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
     private TextView txtSaveDisplaySetting;
     private TextView txtCancelDisplaySetting;
     private RadioGroup rdbtngrpLayoutSetting;
+    private RadioGroup rdbtngrpPrintConfirmation;
+    private RadioButton rdbtnWithoutConfirmation;
+    private RadioButton rdbtnWithConfirmation;
     private RadioButton rdbtnWithCategory;
     private RadioButton rdbtnWithoutCategory;
 
@@ -41,12 +44,20 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
         txtSaveDisplaySetting = (TextView) view.findViewById(R.id.txtSaveDisplaySetting);
         txtCancelDisplaySetting = (TextView) view.findViewById(R.id.txtCancelDisplaySetting);
         rdbtngrpLayoutSetting = (RadioGroup) view.findViewById(R.id.rdbtngrpLayoutSetting);
+        rdbtngrpPrintConfirmation = (RadioGroup) view.findViewById(R.id.rdbtngrpPrintConfirmation);
         rdbtnWithCategory = (RadioButton) view.findViewById(R.id.rdbtnWithCategory);
+        rdbtnWithConfirmation = (RadioButton) view.findViewById(R.id.rdbtnWithConfirmation);
+        rdbtnWithoutConfirmation = (RadioButton) view.findViewById(R.id.rdbtnWithoutConfirmation);
         rdbtnWithoutCategory = (RadioButton) view.findViewById(R.id.rdbtnWithoutCategory);
         if (Config.getFancyDashboard()) {
             rdbtnWithCategory.setChecked(true);
         } else {
             rdbtnWithoutCategory.setChecked(true);
+        }
+        if (Config.getPrintWithoutUserConfirmation()) {
+            rdbtnWithConfirmation.setChecked(true);
+        } else {
+            rdbtnWithoutConfirmation.setChecked(true);
         }
         txtSaveDisplaySetting.setOnClickListener(this);
         txtCancelDisplaySetting.setOnClickListener(this);
@@ -68,7 +79,9 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
         if (vid == R.id.txtSaveDisplaySetting) {
             ((SettingActivity) getActivity()).setResult = true;
             int selectedRdBtnId = rdbtngrpLayoutSetting.getCheckedRadioButtonId();
+            int selctedRdBtnIdPrinting = rdbtngrpPrintConfirmation.getCheckedRadioButtonId();
             Config.setFancyDashboard(selectedRdBtnId == R.id.rdbtnWithCategory);
+            Config.setPrintWithoutUserConfirmation(selctedRdBtnIdPrinting == R.id.rdbtnWithConfirmation);
             Util.showCenteredToast(getActivity(), "Settings saved");
         } else if (vid == R.id.txtCancelDisplaySetting) {
             getActivity().finish();

@@ -36,8 +36,11 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
     private TextView txtSavePrinterSetting;
     private TextView txtCancelPrinterSetting;
     private RadioGroup rdbtngrpScannerSetting;
+    private RadioGroup rdbtngrpPrinterWidth;
     private RadioButton rdbtnInternalScanner;
     private RadioButton rdbtnExternalScanner;
+    private RadioButton rdbtnTwoInchPrinter;
+    private RadioButton rdbtnThreeInchPrinter;
     private TextView txtSearchPrinter;
     private TextView txtTestConnection;
     private TextView txtPrinterName;
@@ -56,6 +59,8 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
     private void init() {
         rdbtnInternalScanner = ((RadioButton) view.findViewById(R.id.rdbtnInternalScanner));
         rdbtnExternalScanner = ((RadioButton) view.findViewById(R.id.rdbtnExternalScanner));
+        rdbtnTwoInchPrinter = ((RadioButton) view.findViewById(R.id.rdbtnTwoInchPrinter));
+        rdbtnThreeInchPrinter = ((RadioButton) view.findViewById(R.id.rdbtnThreeInchPrinter));
         txtSearchPrinter = ((TextView) view.findViewById(R.id.txtSearchPrinter));
         txtPrinterName = ((TextView) view.findViewById(R.id.txtPrinterName));
         etxtPrinterIpPort = ((EditText) view.findViewById(R.id.etxtPrinterIpPort));
@@ -65,7 +70,13 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         } else {
             rdbtnExternalScanner.setChecked(true);
         }
+        if (Config.getPrinterWidth() == 2) {
+            rdbtnTwoInchPrinter.setChecked(true);
+        } else {
+            rdbtnThreeInchPrinter.setChecked(true);
+        }
         rdbtngrpScannerSetting = ((RadioGroup) view.findViewById(R.id.rdbtngrpScannerSetting));
+        rdbtngrpPrinterWidth = ((RadioGroup) view.findViewById(R.id.rdbtngrpPrinterWidth));
         txtSavePrinterSetting = ((TextView) view.findViewById(R.id.txtSavePrinterSetting));
         txtCancelPrinterSetting = ((TextView) view.findViewById(R.id.txtCancelPrinterSetting));
         txtSavePrinterSetting.setOnClickListener(this);
@@ -181,6 +192,8 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         if (vid == R.id.txtSavePrinterSetting) {
             ((SettingActivity) getActivity()).setResult = true;
             int scannerSelected = rdbtngrpScannerSetting.getCheckedRadioButtonId();
+            int printerWidthSelectedId = rdbtngrpPrinterWidth.getCheckedRadioButtonId();
+            Config.setPrinterWidth(printerWidthSelectedId == R.id.rdbtnTwoInchPrinter ? 2 : 3);
             Config.setInternalScannerUse(scannerSelected == R.id.rdbtnInternalScanner);
             Config.setPrinterIpAddress(etxtPrinterIpPort.getText().toString().trim());
             Config.setPrinterSeriesConstant(((SpnModelsItem) mSpnSeries.getSelectedItem()).getModelConstant());

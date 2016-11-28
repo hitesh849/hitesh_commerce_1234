@@ -59,7 +59,7 @@ public class ShowMsg {
                 return_text = "";
                 break;
             case Epos2Exception.ERR_CONNECT:
-                return_text = "Epson Printer: Successfully connected";
+                return_text = "Epson Printer: Not connected";
                 break;
             case Epos2Exception.ERR_TIMEOUT:
                 return_text = "Epson Printer: Connection timeout";

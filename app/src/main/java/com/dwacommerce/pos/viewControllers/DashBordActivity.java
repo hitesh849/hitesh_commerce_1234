@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
@@ -72,6 +71,8 @@ import retrofit.RetrofitError;
 
 public class DashBordActivity extends AbstractFragmentActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, ReceiveListener, TextView.OnEditorActionListener {
     private DashboardModel dashboardModel = new DashboardModel();
+    private int TWO_INCH_CHAR = 35;
+    private int THREE_INCH_CHAR = 50;
     private ImageView imgAddToCartDashboard;
     private TextView txtCustomerNameDashboard;
     private TextView txtSubTotalDashboard;
@@ -350,9 +351,13 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             CheckOutData responseData = ((CheckOutData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(responseData.response)) {
                 orderId = responseData.orderId;
-                Util.showCenteredToast(this, responseData.responseMessage);
                 customerData = null;
                 fetchCartData();
+                if (Config.getPrintWithoutUserConfirmation()) {
+                    onClick(imgPrintInvoiceDashboard);
+                } else {
+                    Util.showCenteredToast(this, responseData.responseMessage);
+                }
             } else if (Constants.RESPONSE_ERROR_MSG.equals(responseData.response)) {
                 Util.showAlertDialog(null, responseData.responseMessage);
             }
@@ -557,21 +562,51 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             textData.append(receiptData.order_details.orderHeader.orderDate + "\n");
             textData.append("Customer Name - " + receiptData.order_details.customerName + "\n");
             textData.append("Order Details\n");
-            textData.append("----------------------------------\n");
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+                textData.append("-");
+            }
+            textData.append("\n");
             method = "addText";
             mPrinter.addText(textData.toString());
             textData.delete(0, textData.length());
-            textData.append("      Item Name        Qty  Amt   \n");
-            textData.append("----------------------------------\n");
+            if (Config.getPrinterWidth() == 2) {
+                textData.append("      Item Name        Qty  Amt   \n");
+            } else {
+                textData.append("            Item Name              Qty  Amt   \n");
+            }
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+                textData.append("-");
+            }
+            textData.append("\n");
             for (ReceiptItemsData receiptItemsData : receiptData.order_details.orderItems) {
                 String str = "";
-                if (receiptItemsData.itemDescription.length() > 20)
-                    str = receiptItemsData.itemDescription.substring(0, 20) + "..";
-                else
-                    str = receiptItemsData.itemDescription;
+                if (Config.getPrinterWidth() == 2) {
+                    if (receiptItemsData.itemDescription.length() > 20) {
+                        str = receiptItemsData.itemDescription.substring(0, 20) + "..";
+                    } else {
+                        str = receiptItemsData.itemDescription;
+                        for (int i = 0; i <= 22 - receiptItemsData.itemDescription.length(); i++) {
+                            str += " ";
+                        }
+                    }
+                } else {
+                    if (receiptItemsData.itemDescription.length() > 33) {
+                        str = receiptItemsData.itemDescription.substring(0, 33) + "..";
+                    } else {
+                        str = receiptItemsData.itemDescription;
+                        for (int i = 0; i <= 35 - receiptItemsData.itemDescription.length(); i++) {
+                            str += " ";
+                        }
+                    }
+
+                }
+
                 textData.append(str + "  " + (int) receiptItemsData.quantity + "  " + receiptItemsData.unitPrice + "\n");
             }
-            textData.append("---------------------------------\n");
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+                textData.append("-");
+            }
+            textData.append("\n");
             method = "addText";
             mPrinter.addText(textData.toString());
             textData.delete(0, textData.length());

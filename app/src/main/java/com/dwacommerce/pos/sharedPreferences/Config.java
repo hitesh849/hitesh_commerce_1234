@@ -197,4 +197,20 @@ public class Config {
     public static int getPrinterLanguageConstant() {
         return preferences.getInt("language_constant", 0);
     }
+
+    public static void setPrinterWidth(int width) {
+        editor.putInt("printer_width", width).commit();
+    }
+
+    public static int getPrinterWidth() {
+        return preferences.getInt("printer_width", 2);
+    }
+
+    public static void setPrintWithoutUserConfirmation(boolean printWithoutUserConfirmation) {
+        editor.putBoolean("printing_confirmation", printWithoutUserConfirmation).commit();
+    }
+
+    public static boolean getPrintWithoutUserConfirmation() {
+        return preferences.getBoolean("printing_confirmation", false);
+    }
 }
