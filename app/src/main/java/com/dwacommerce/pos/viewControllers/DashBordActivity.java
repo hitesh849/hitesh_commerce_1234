@@ -72,7 +72,7 @@ import retrofit.RetrofitError;
 public class DashBordActivity extends AbstractFragmentActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, ReceiveListener, TextView.OnEditorActionListener {
     private DashboardModel dashboardModel = new DashboardModel();
     private int TWO_INCH_CHAR = 35;
-    private int THREE_INCH_CHAR = 50;
+    private int THREE_INCH_CHAR = 48;
     private ImageView imgAddToCartDashboard;
     private TextView txtCustomerNameDashboard;
     private TextView txtSubTotalDashboard;
@@ -572,7 +572,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             if (Config.getPrinterWidth() == 2) {
                 textData.append("      Item Name        Qty  Amt   \n");
             } else {
-                textData.append("            Item Name              Qty  Amt   \n");
+                textData.append("            Item Name               Qty   Amt \n");
             }
             for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
                 textData.append("-");

@@ -60,7 +60,7 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
         txtAddNewCustomer.setOnClickListener(this);
         imgDoneDashboard.setOnClickListener(this);
         imgBackFindCustomer.setOnClickListener(this);
-        rdgrpFilterFindCustomer.check(R.id.rdByFirstName);
+        rdgrpFilterFindCustomer.check(R.id.rdByName);
     }
 
     @Override
@@ -173,18 +173,19 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
             String searchText = editable.toString();
             if (searchText.length() >= 2) {
                 int selectedFilterId = rdgrpFilterFindCustomer.getCheckedRadioButtonId();
+                String searchType = "name";
                 switch (selectedFilterId) {
-                    case R.id.rdByFirstName:
-                        findCustomerModel.findPartyByFirstName(searchText);
+                    case R.id.rdByName:
+                        searchType = "name";
                         break;
-                    case R.id.rdByLastName:
-                        findCustomerModel.findPartyBylastName(searchText);
+                    case R.id.rdByContact:
+                        searchType = "contact";
                         break;
-                    case R.id.rdById:
-                        findCustomerModel.findPartyByById(searchText);
+                    case R.id.rdByEmail:
+                        searchType = "email";
                         break;
                 }
-
+                findCustomerModel.searchParty(searchType, searchText);
             }
         }
     }

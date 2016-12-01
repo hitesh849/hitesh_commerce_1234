@@ -21,36 +21,8 @@ public class FindCustomerModel extends BasicModel {
     RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Config.getServerUrl()).build();
     RestInterface restInterface = restAdapter.create(RestInterface.class);
 
-    public void findPartyByFirstName(String searchString) {
-        restInterface.searchByPartyFirstName(new HashMap<String, Object>(), searchString, Config.getCustomerId(), new Callback<PartyData>() {
-            @Override
-            public void success(PartyData partyData, Response response) {
-                notifyObservers(partyData);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                notifyObservers(error);
-            }
-        });
-    }
-
-    public void findPartyBylastName(String searchString) {
-        restInterface.searchByPartyLastName(new HashMap<String, Object>(), searchString, Config.getCustomerId(), new Callback<PartyData>() {
-            @Override
-            public void success(PartyData partyData, Response response) {
-                notifyObservers(partyData);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                notifyObservers(error);
-            }
-        });
-    }
-
-    public void findPartyByById(String partyID) {
-        restInterface.searchByPartyIdValue(new HashMap<String, Object>(), partyID, Config.getCustomerId(), new Callback<PartyData>() {
+    public void searchParty(String searchType, String searchString) {
+        restInterface.findParty(new HashMap<String, Object>(), searchType, searchString, Config.getCustomerId(), new Callback<PartyData>() {
             @Override
             public void success(PartyData partyData, Response response) {
                 notifyObservers(partyData);

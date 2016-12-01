@@ -55,35 +55,35 @@
                 android:paddingLeft="@dimen/dim_5">
 
                 <RadioButton
-                    android:id="@+id/rdByFirstName"
+                    android:id="@+id/rdByName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dim_2"
                     android:background="@null"
                     android:buttonTint="@android:color/black"
-                    android:text="By First Name"
+                    android:text="Name"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_dim_8" />
 
                 <RadioButton
-                    android:id="@+id/rdByLastName"
+                    android:id="@+id/rdByContact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dim_2"
                     android:background="@null"
                     android:buttonTint="@android:color/black"
-                    android:text="By Last Name"
+                    android:text="Contact"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_dim_8" />
 
                 <RadioButton
-                    android:id="@+id/rdById"
+                    android:id="@+id/rdByEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dim_2"
                     android:background="@null"
                     android:buttonTint="@android:color/black"
-                    android:text="By ID"
+                    android:text="Email"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_dim_8" />
             </RadioGroup>
@@ -92,8 +92,8 @@
                 android:id="@+id/txtSearchParty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dim_5"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dim_5"
                 android:layout_weight="1"
                 android:hint="Search Customer"
                 android:imeOptions="flagNoExtractUi"
@@ -210,9 +210,9 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimary"
                 android:paddingLeft="@dimen/dim_20"
-                android:visibility="gone"
                 android:paddingRight="@dimen/dim_20"
-                android:src="@mipmap/complete" />
+                android:src="@mipmap/complete"
+                android:visibility="gone" />
 
         </LinearLayout>
 

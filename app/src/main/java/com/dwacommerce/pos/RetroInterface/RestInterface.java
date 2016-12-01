@@ -72,15 +72,7 @@ public interface RestInterface {
 
     @Headers({"Content-Type:application/json"})
     @POST("/findParties")
-    void searchByPartyFirstName(@Body HashMap<String, Object> map, @Query("searchByPartyFirstName") String firstName, @Query("tenantId") String tenantId, Callback<PartyData> callback);
-
-    @Headers({"Content-Type:application/json"})
-    @POST("/findParties")
-    void searchByPartyLastName(@Body HashMap<String, Object> map, @Query("searchByPartyLastName") String lastName, @Query("tenantId") String tenantId, Callback<PartyData> callback);
-
-    @Headers({"Content-Type:application/json"})
-    @POST("/findParties")
-    void searchByPartyIdValue(@Body HashMap<String, Object> map, @Query("searchByPartyIdValue") String partyIdValue, @Query("tenantId") String tenantId, Callback<PartyData> callback);
+    void findParty(@Body HashMap<String, Object> map, @Query("searchType") String searchType, @Query("searchText") String searchText, @Query("tenantId") String tenantId, Callback<PartyData> callback);
 
     @Headers({"Content-Type:application/json"})
     @POST("/addCartItem")
