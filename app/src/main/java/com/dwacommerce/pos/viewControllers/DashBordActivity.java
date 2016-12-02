@@ -633,15 +633,15 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                     }
                 }
             }
-            textData.append("Items SubTotal :" + receiptData.order_details.orderSubTotal + "\n");
+            textData.append("Items SubTotal : " + receiptData.order_details.orderSubTotal + "\n");
             if (receiptData.order_details.VAT_TAX > 0)
-                textData.append("      VAT Tax  :" + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
+                textData.append("       VAT Tax : " + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
             if (receiptData.order_details.SALES_TAX > 0)
-                textData.append("     SALES Tax :" + String.format("%.2f", receiptData.order_details.SALES_TAX) + "\n");
+                textData.append("     SALES Tax : " + String.format("%.2f", receiptData.order_details.SALES_TAX) + "\n");
             if (receiptData.order_details.PROMOTION_AMOUNT != 0)
-                textData.append(" Promotion Amt :" + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
+                textData.append(" Promotion Amt : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
             if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
-                textData.append(" Loyalty Point :" + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
+                textData.append(" Loyalty Point : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
             mPrinter.addFeedLine(1);
             method = "addText";
             mPrinter.addText(textData.toString());
@@ -649,10 +649,9 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             method = "addTextSize";
             mPrinter.addTextSize(2, 2);
             method = "addText";
-            mPrinter.addText("TOTAL  " + receiptData.order_details.orderHeader.grandTotal + "\n");
+            mPrinter.addText("TOTAL " + receiptData.order_details.orderHeader.grandTotal + "\n");
             mPrinter.addTextSize(1, 1);
             textData.append("Thanks for shopping with us\n");
-            textData.append("Powered by: DWA Commerce");
             method = "addText";
             mPrinter.addText(textData.toString());
             textData.delete(0, textData.length());
@@ -660,6 +659,12 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             mPrinter.addFeedLine(2);
             method = "addBarcode";
             mPrinter.addBarcode(receiptData.order_details.orderHeader.orderId, Printer.BARCODE_CODE39, Printer.HRI_BELOW, Printer.FONT_A, barcodeWidth, barcodeHeight);
+            method = "addText";
+            mPrinter.addFeedLine(1);
+            mPrinter.addTextAlign(Printer.ALIGN_RIGHT);
+            textData.append("Powered by : DWA Commerce");
+            mPrinter.addText(textData.toString());
+            textData.delete(0, textData.length());
             method = "addCut";
             mPrinter.addCut(Printer.CUT_FEED);
         } catch (Exception e) {

@@ -33,9 +33,9 @@ public class SettingActivity extends FragmentActivity implements TabLayout.OnTab
         imgBackSettingsCustomer = (ImageView) findViewById(R.id.imgBackSettingsCustomer);
         settingViewPager = (ViewPager) findViewById(R.id.settingViewPager);
         imgBackSettingsCustomer.setOnClickListener(this);
+        tabLayoutSettings.addTab(tabLayoutSettings.newTab().setText("General"));
+        tabLayoutSettings.addTab(tabLayoutSettings.newTab().setText("Printer"));
         tabLayoutSettings.addTab(tabLayoutSettings.newTab().setText("Store"));
-        tabLayoutSettings.addTab(tabLayoutSettings.newTab().setText("Display"));
-        tabLayoutSettings.addTab(tabLayoutSettings.newTab().setText("Printer/Scanner"));
         settingsFragmentPagerAdapter = new SettingsFragmentPagerAdapter(getSupportFragmentManager(), tabLayoutSettings.getTabCount());
         settingViewPager.setAdapter(settingsFragmentPagerAdapter);
         settingViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayoutSettings));

@@ -35,12 +35,10 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
     private View view;
     private TextView txtSavePrinterSetting;
     private TextView txtCancelPrinterSetting;
-    private RadioGroup rdbtngrpScannerSetting;
     private RadioGroup rdbtngrpPrinterWidth;
-    private RadioButton rdbtnInternalScanner;
-    private RadioButton rdbtnExternalScanner;
     private RadioButton rdbtnTwoInchPrinter;
     private RadioButton rdbtnThreeInchPrinter;
+    private RadioGroup rdbtngrpPrintConfirmation;
     private TextView txtSearchPrinter;
     private TextView txtTestConnection;
     private TextView txtPrinterName;
@@ -48,6 +46,8 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
     private Spinner spnLang;
     private EditText etxtPrinterIpPort;
     private Printer mPrinter;
+    private RadioButton rdbtnWithoutConfirmation;
+    private RadioButton rdbtnWithConfirmation;
 
     @Override
     protected View onCreateViewPost(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,25 +57,26 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
     }
 
     private void init() {
-        rdbtnInternalScanner = ((RadioButton) view.findViewById(R.id.rdbtnInternalScanner));
-        rdbtnExternalScanner = ((RadioButton) view.findViewById(R.id.rdbtnExternalScanner));
         rdbtnTwoInchPrinter = ((RadioButton) view.findViewById(R.id.rdbtnTwoInchPrinter));
         rdbtnThreeInchPrinter = ((RadioButton) view.findViewById(R.id.rdbtnThreeInchPrinter));
+        rdbtngrpPrintConfirmation = (RadioGroup) view.findViewById(R.id.rdbtngrpPrintConfirmation);
+        rdbtnWithConfirmation = (RadioButton) view.findViewById(R.id.rdbtnWithConfirmation);
+        rdbtnWithoutConfirmation = (RadioButton) view.findViewById(R.id.rdbtnWithoutConfirmation);
         txtSearchPrinter = ((TextView) view.findViewById(R.id.txtSearchPrinter));
         txtPrinterName = ((TextView) view.findViewById(R.id.txtPrinterName));
         etxtPrinterIpPort = ((EditText) view.findViewById(R.id.etxtPrinterIpPort));
         txtTestConnection = ((TextView) view.findViewById(R.id.txtTestConnection));
-        if (Config.getInternalScannerUse()) {
-            rdbtnInternalScanner.setChecked(true);
-        } else {
-            rdbtnExternalScanner.setChecked(true);
-        }
         if (Config.getPrinterWidth() == 2) {
             rdbtnTwoInchPrinter.setChecked(true);
         } else {
             rdbtnThreeInchPrinter.setChecked(true);
         }
-        rdbtngrpScannerSetting = ((RadioGroup) view.findViewById(R.id.rdbtngrpScannerSetting));
+        if (Config.getPrintWithoutUserConfirmation()) {
+            rdbtnWithConfirmation.setChecked(true);
+        } else {
+            rdbtnWithoutConfirmation.setChecked(true);
+        }
+
         rdbtngrpPrinterWidth = ((RadioGroup) view.findViewById(R.id.rdbtngrpPrinterWidth));
         txtSavePrinterSetting = ((TextView) view.findViewById(R.id.txtSavePrinterSetting));
         txtCancelPrinterSetting = ((TextView) view.findViewById(R.id.txtCancelPrinterSetting));
@@ -191,13 +192,13 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         int vid = v.getId();
         if (vid == R.id.txtSavePrinterSetting) {
             ((SettingActivity) getActivity()).setResult = true;
-            int scannerSelected = rdbtngrpScannerSetting.getCheckedRadioButtonId();
             int printerWidthSelectedId = rdbtngrpPrinterWidth.getCheckedRadioButtonId();
             Config.setPrinterWidth(printerWidthSelectedId == R.id.rdbtnTwoInchPrinter ? 2 : 3);
-            Config.setInternalScannerUse(scannerSelected == R.id.rdbtnInternalScanner);
             Config.setPrinterIpAddress(etxtPrinterIpPort.getText().toString().trim());
             Config.setPrinterSeriesConstant(((SpnModelsItem) mSpnSeries.getSelectedItem()).getModelConstant());
             Config.setPrinterLanguageConstant(((SpnModelsItem) spnLang.getSelectedItem()).getModelConstant());
+            int selctedRdBtnIdPrinting = rdbtngrpPrintConfirmation.getCheckedRadioButtonId();
+            Config.setPrintWithoutUserConfirmation(selctedRdBtnIdPrinting == R.id.rdbtnWithConfirmation);
             Util.showCenteredToast(getActivity(), "Settings saved");
         } else if (vid == R.id.txtCancelPrinterSetting) {
             getActivity().finish();

@@ -150,10 +150,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dim_5"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -161,38 +160,39 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:padding="@dimen/dim_5"
-                    android:text="Scan"
+                    android:text="@string/printing_confirmation"
                     android:textColor="@color/dark_pink"
                     android:textSize="@dimen/text_dim_12" />
 
                 <RadioGroup
-                    android:id="@+id/rdbtngrpScannerSetting"
+                    android:id="@+id/rdbtngrpPrintConfirmation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <RadioButton
-                        android:id="@+id/rdbtnInternalScanner"
+                        android:id="@+id/rdbtnWithConfirmation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dim_5"
                         android:background="@null"
                         android:checked="true"
                         android:padding="@dimen/dim_2"
-                        android:text="Internal"
+                        android:text="Auto"
                         android:textColor="@android:color/darker_gray" />
 
                     <RadioButton
-                        android:id="@+id/rdbtnExternalScanner"
+                        android:id="@+id/rdbtnWithoutConfirmation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dim_5"
                         android:background="@null"
                         android:padding="@dimen/dim_2"
-                        android:text="External"
+                        android:text="Manual"
                         android:textColor="@android:color/darker_gray" />
                 </RadioGroup>
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

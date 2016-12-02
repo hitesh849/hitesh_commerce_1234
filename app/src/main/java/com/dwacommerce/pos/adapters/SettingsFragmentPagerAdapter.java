@@ -23,16 +23,16 @@ public class SettingsFragmentPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: {
-                StoreSettingsFragment fragment = new StoreSettingsFragment();
-                return fragment;
-            }
-            case 1: {
                 DisplaySettingsFragment displaySettingsFragment = new DisplaySettingsFragment();
                 return displaySettingsFragment;
             }
-            case 2: {
+            case 1: {
                 PrinterScannerFragment printerScannerFragment = new PrinterScannerFragment();
                 return printerScannerFragment;
+            }
+            case 2: {
+                StoreSettingsFragment fragment = new StoreSettingsFragment();
+                return fragment;
             }
         }
         return null;
