@@ -601,7 +601,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
                 }
 
-                textData.append(str + "  " + (int) receiptItemsData.quantity + "  " + receiptItemsData.unitPrice + "\n");
+                textData.append(str + "  " + (int) receiptItemsData.quantity + "  " + (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice) + "\n");
             }
             for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
                 textData.append("-");
@@ -638,9 +638,9 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                 textData.append("      VAT Tax  :" + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
             if (receiptData.order_details.SALES_TAX > 0)
                 textData.append("     SALES Tax :" + String.format("%.2f", receiptData.order_details.SALES_TAX) + "\n");
-            if (receiptData.order_details.PROMOTION_AMOUNT > 0)
+            if (receiptData.order_details.PROMOTION_AMOUNT != 0)
                 textData.append(" Promotion Amt :" + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
-            if (receiptData.order_details.LOYALTY_POINTS_AMOUNT > 0)
+            if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
                 textData.append(" Loyalty Point :" + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
             mPrinter.addFeedLine(1);
             method = "addText";
