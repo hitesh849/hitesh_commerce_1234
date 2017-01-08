@@ -1,9 +1,15 @@
 package com.dwacommerce.pos.viewControllers;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -52,9 +58,7 @@ public class LogInActivity extends AbstractFragmentActivity implements View.OnCl
         setContentView(R.layout.login_activity);
         if (TextUtils.isEmpty(Config.getProductStoreId())) {
             goToSettings();
-        } /*else if (!TextUtils.isEmpty(Config.getPosTerminalId())) {
-            gotoDashboard();
-        } */ else {
+        } else {
             init();
         }
     }
@@ -69,6 +73,29 @@ public class LogInActivity extends AbstractFragmentActivity implements View.OnCl
         rlSelectTerminalLogin.setOnClickListener(this);
         Util.showProDialog(LogInActivity.this);
         loginModel.saveSettings(Config.getProductStoreId());
+        checkPermissions();
+    }
+
+    private void checkPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            if (!hasPermissions(permissions)) {
+                ActivityCompat.requestPermissions(this, permissions, 1);
+            }
+        }
+    }
+
+    private boolean hasPermissions(String[] permissions) {
+        try {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(LogInActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     private void goToSettings() {

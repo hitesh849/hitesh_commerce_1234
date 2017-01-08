@@ -1,7 +1,9 @@
 package com.dwacommerce.pos.viewControllers;
 
+import android.content.ContentProviderOperation;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.dao.CommonResponseData;
+import com.dwacommerce.pos.dao.CustomerData;
 import com.dwacommerce.pos.dao.PartyData;
 import com.dwacommerce.pos.model.FindCustomerModel;
 import com.dwacommerce.pos.utility.Constants;
@@ -24,6 +27,7 @@ import org.byteclues.lib.model.BasicModel;
 import org.byteclues.lib.utils.Util;
 import org.byteclues.lib.view.AbstractFragmentActivity;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 import retrofit.RetrofitError;
@@ -78,6 +82,7 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
         } else if (data instanceof CommonResponseData) {
             CommonResponseData responseData = ((CommonResponseData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(responseData.response)) {
+                addNewContact(selectedPartyData);
                 setResult(RESULT_OK);
                 this.finish();
             } else {
@@ -90,7 +95,7 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
 
     private void setSuggestionList(PartyData partyData) {
         try {
-            for (PartyData customerData : partyData.partiesList) {
+            for (PartyData customerData : partyData.searchedParties) {
                 TableRow tableRow = getCustomerRow(customerData);
                 llCustomerListContainer.addView(tableRow);
             }
@@ -109,7 +114,7 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
             TextView txtCustomerAddress = (TextView) tableRow.findViewById(R.id.txtCustomerAddress);
             RadioButton rdbtnSelectedCustomer = (RadioButton) tableRow.findViewById(R.id.rdbtnSelectedCustomer);
             txtCustomerName.setText(customerData.firstName);
-            txtCustomerPhone.setText(customerData.phone);
+            txtCustomerPhone.setText(customerData.contact);
             txtCustomerAddress.setText(customerData.address1);
             txtCustomerEmail.setText(customerData.email);
             tableRow.setTag(customerData);
@@ -209,5 +214,38 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
             e.printStackTrace();
         }
 
+    }
+
+    private boolean addNewContact(PartyData partInfo) {
+        if (partInfo != null) {
+            try {
+                ArrayList<ContentProviderOperation> batch = new ArrayList<>();
+                batch.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                        .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                        .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                        .build());
+
+                // Adding insert operation to operations list
+                // to insert display name in the table ContactsContract.Data
+                batch.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                        .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, partInfo.firstName)
+                        .build());
+
+                // Adding insert operation to operations list
+                // to insert Mobile Number in the table ContactsContract.Data
+                batch.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                        .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, partInfo.contact)
+                        .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                        .build());
+                getContentResolver().applyBatch(ContactsContract.AUTHORITY, batch);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 }

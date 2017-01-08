@@ -35,7 +35,8 @@
         android:layout_marginBottom="@dimen/dim_5"
         android:layout_marginTop="@dimen/dim_25"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="3">
 
         <TextView
             android:id="@+id/txtNoLogout"
@@ -46,6 +47,16 @@
             android:gravity="center"
             android:padding="@dimen/dim_5"
             android:text="NO"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dim_15"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:padding="@dimen/dim_5"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />

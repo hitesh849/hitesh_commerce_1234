@@ -1,10 +1,15 @@
 package com.dwacommerce.pos.viewControllers;
 
+import android.content.ContentProviderOperation;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
@@ -16,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.dao.AddToCartData;
@@ -61,6 +67,7 @@ import org.byteclues.lib.model.BasicModel;
 import org.byteclues.lib.utils.Util;
 import org.byteclues.lib.view.AbstractFragmentActivity;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 import retrofit.RetrofitError;
@@ -425,10 +432,29 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     private void printReceipt(ReceiptData receiptData) {
+        String receiptText = getReceiptText(receiptData);
         updateButtonState(false);
         if (!runPrintReceiptSequence(receiptData)) {
             updateButtonState(true);
         }
+        if (Config.getReceiptSharing()) {
+            openWhatsappContact(receiptText);
+        }
+    }
+
+    private void openWhatsappContact(String text) {
+        PackageManager pm = getPackageManager();
+        try {
+            PackageInfo info = pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.setType("text/plain");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+            sendIntent.setPackage("com.whatsapp");
+            startActivity(Intent.createChooser(sendIntent, "Share with.."));
+        } catch (PackageManager.NameNotFoundException e) {
+            Util.showCenteredToast(DashBordActivity.this, "WhatsApp not Installed");
+        }
+
     }
 
     private void finalizeObject() {
@@ -539,7 +565,95 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         return true;
     }
 
+    private String getReceiptText(ReceiptData receiptData) {
+        StringBuilder sharedMessageText = new StringBuilder();
+        try {
+            sharedMessageText.append(Config.getStoreName() + "\n");
+            sharedMessageText.append(Config.getStoreAddress() + "\n");
+            sharedMessageText.append("\n");
+            sharedMessageText.append("Order No - " + receiptData.order_details.orderHeader.orderId + "\n");
+            sharedMessageText.append(receiptData.order_details.orderHeader.orderDate + "\n");
+            sharedMessageText.append("Customer Name - " + receiptData.order_details.customerName + "\n");
+            sharedMessageText.append("Order Details\n");
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+                sharedMessageText.append("-");
+            }
+            sharedMessageText.append("\n");
+            sharedMessageText.append("      Item Name        Qty  Amt   \n");
+            for (int i = 0; i < TWO_INCH_CHAR; i++) {
+                sharedMessageText.append("-");
+            }
+            sharedMessageText.append("\n");
+            for (ReceiptItemsData receiptItemsData : receiptData.order_details.orderItems) {
+                String str = "";
+                if (Config.getPrinterWidth() == 2) {
+                    if (receiptItemsData.itemDescription.length() > 20) {
+                        str = receiptItemsData.itemDescription.substring(0, 20) + "..";
+                    } else {
+                        str = receiptItemsData.itemDescription;
+                        for (int i = 0; i <= 22 - receiptItemsData.itemDescription.length(); i++) {
+                            str += " ";
+                        }
+                    }
+                } else {
+                    if (receiptItemsData.itemDescription.length() > 33) {
+                        str = receiptItemsData.itemDescription.substring(0, 33) + "..";
+                    } else {
+                        str = receiptItemsData.itemDescription;
+                        for (int i = 0; i <= 35 - receiptItemsData.itemDescription.length(); i++) {
+                            str += " ";
+                        }
+                    }
+
+                }
+
+                sharedMessageText.append(str + "  " + (int) receiptItemsData.quantity + "  " + (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice) + "\n");
+            }
+            for (int i = 0; i < TWO_INCH_CHAR; i++) {
+                sharedMessageText.append("-");
+            }
+            sharedMessageText.append("\n");
+            for (OrderAdjustmentsData orderAdjustmentsData : receiptData.order_details.orderAdjustments) {
+                switch (orderAdjustmentsData.orderAdjustmentTypeId) {
+                    case "VAT_TAX": {
+                        receiptData.order_details.VAT_TAX += orderAdjustmentsData.amountAlreadyIncluded;
+                        break;
+                    }
+                    case "SALES_TAX": {
+                        receiptData.order_details.SALES_TAX += orderAdjustmentsData.amount;
+                        break;
+                    }
+                    case "PROMOTION_ADJUSTMENT": {
+                        receiptData.order_details.PROMOTION_AMOUNT += orderAdjustmentsData.amount;
+                        break;
+                    }
+                    case "LOYALITY_POINTS": {
+                        receiptData.order_details.LOYALTY_POINTS_AMOUNT += orderAdjustmentsData.amount;
+                        break;
+                    }
+                }
+            }
+            sharedMessageText.append("Items SubTotal : " + receiptData.order_details.orderSubTotal + "\n");
+            if (receiptData.order_details.VAT_TAX > 0)
+                sharedMessageText.append("       VAT Tax : " + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
+            if (receiptData.order_details.SALES_TAX > 0)
+                sharedMessageText.append("     SALES Tax : " + String.format("%.2f", receiptData.order_details.SALES_TAX) + "\n");
+            if (receiptData.order_details.PROMOTION_AMOUNT != 0)
+                sharedMessageText.append(" Promotion Amt : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
+            if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
+                sharedMessageText.append(" Loyalty Point : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
+            sharedMessageText.append("TOTAL " + receiptData.order_details.orderHeader.grandTotal + "\n");
+            sharedMessageText.append("Thanks for shopping with us\n");
+            sharedMessageText.append("Powered by : DWA Commerce");
+            return sharedMessageText.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private boolean createReceiptData(ReceiptData receiptData) {
+        StringBuilder sharedMessageText = new StringBuilder();
         String method = "Default";
         Bitmap logoData = TextUtils.isEmpty(Config.getStoreImageString()) ? BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher) : Util.getDecode64ImageStringFromBitmap(Config.getStoreImageString(), R.mipmap.ic_launcher);
         StringBuilder textData = new StringBuilder();
@@ -568,6 +682,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             textData.append("\n");
             method = "addText";
             mPrinter.addText(textData.toString());
+            sharedMessageText.append(textData.toString());
             textData.delete(0, textData.length());
             if (Config.getPrinterWidth() == 2) {
                 textData.append("      Item Name        Qty  Amt   \n");
@@ -609,6 +724,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             textData.append("\n");
             method = "addText";
             mPrinter.addText(textData.toString());
+            sharedMessageText.append(textData.toString());
             textData.delete(0, textData.length());
             method = "addTextSize";
             mPrinter.addTextSize(1, 1);
@@ -645,6 +761,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             mPrinter.addFeedLine(1);
             method = "addText";
             mPrinter.addText(textData.toString());
+            sharedMessageText.append(textData.toString());
             textData.delete(0, textData.length());
             method = "addTextSize";
             mPrinter.addTextSize(2, 2);
@@ -654,6 +771,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             textData.append("Thanks for shopping with us\n");
             method = "addText";
             mPrinter.addText(textData.toString());
+            sharedMessageText.append(textData.toString());
             textData.delete(0, textData.length());
             method = "addFeedLine";
             mPrinter.addFeedLine(2);
@@ -664,6 +782,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             mPrinter.addTextAlign(Printer.ALIGN_RIGHT);
             textData.append("Powered by : DWA Commerce");
             mPrinter.addText(textData.toString());
+            sharedMessageText.append(textData.toString());
             textData.delete(0, textData.length());
             method = "addCut";
             mPrinter.addCut(Printer.CUT_FEED);

@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="10"
+        android:background="@drawable/background_selector"
         android:weightSum="10">
 
         <TextView
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center"
-            android:padding="@dimen/dim_4"
+            android:layout_gravity="center"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_dim_10" />
@@ -41,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center"
-            android:padding="@dimen/dim_4"
+            android:layout_gravity="center"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_dim_10" />
@@ -52,12 +53,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center"
-            android:padding="@dimen/dim_4"
+            android:layout_gravity="center"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_dim_10" />
     </TableRow>
-
 
     <ImageView
         android:id="@+id/imgDeleteItemDashboard"
@@ -65,6 +65,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:background="@drawable/background_selector"
         android:padding="@dimen/dim_5"
         android:src="@mipmap/delete_bin"
         android:tint="@android:color/black" />

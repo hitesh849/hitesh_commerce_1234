@@ -9,6 +9,7 @@ public class CustomerData {
     public CustomerData partyInfo;
     public long availableLoyaltyPoints;
     public String partyName;
+    public String contact;
     public String partyAddress;
     public long loyaltyPointsRedeemed;
     public double promotionAmount;

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
     private RadioButton rdbtnExternalScanner;
     private RadioButton rdbtnWithCategory;
     private RadioButton rdbtnWithoutCategory;
+    private CheckBox chkbxShareWithWhatsApp;
 
     @Override
     protected View onCreateViewPost(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
         rdbtnWithCategory = (RadioButton) view.findViewById(R.id.rdbtnWithCategory);
         rdbtnWithoutCategory = (RadioButton) view.findViewById(R.id.rdbtnWithoutCategory);
         rdbtngrpScannerSetting = ((RadioGroup) view.findViewById(R.id.rdbtngrpScannerSetting));
+        chkbxShareWithWhatsApp = ((CheckBox) view.findViewById(R.id.chkbxShareWithWhatsApp));
         if (Config.getInternalScannerUse()) {
             rdbtnInternalScanner.setChecked(true);
         } else {
@@ -59,6 +62,7 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
         } else {
             rdbtnWithoutCategory.setChecked(true);
         }
+        chkbxShareWithWhatsApp.setChecked(Config.getReceiptSharing());
         txtSaveDisplaySetting.setOnClickListener(this);
         txtCancelDisplaySetting.setOnClickListener(this);
     }
@@ -82,6 +86,7 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
             Config.setFancyDashboard(selectedRdBtnId == R.id.rdbtnWithCategory);
             int scannerSelected = rdbtngrpScannerSetting.getCheckedRadioButtonId();
             Config.setInternalScannerUse(scannerSelected == R.id.rdbtnInternalScanner);
+            Config.setReceiptSharing(chkbxShareWithWhatsApp.isChecked());
             Util.showCenteredToast(getActivity(), "Settings saved");
         } else if (vid == R.id.txtCancelDisplaySetting) {
             getActivity().finish();

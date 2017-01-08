@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PartyData implements Serializable, CharSequence {
     public String responseMessage;
-    public ArrayList<PartyData> partiesList;
+    public ArrayList<PartyData> searchedParties;
     public String lastName;
     public String contactMechId;
     public String stateProvinceGeoId;
@@ -23,7 +23,7 @@ public class PartyData implements Serializable, CharSequence {
     public String fromDate;
     public String partyId;
     public String firstName;
-    public String phone;
+    public String contact;
     public String email;
 
     @Override

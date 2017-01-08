@@ -46,8 +46,8 @@ public class AddNewCustomerModel extends BasicModel {
         });
     }
 
-    public void createNewParty(String firstName, String lastName, String email, String address, String city, String postalCode, String countryGeoId, String stateProvinceGeoId) {
-        restInterface.createPartyRequest(new HashMap<String, Object>(), firstName, lastName, email, address, city, postalCode, countryGeoId, stateProvinceGeoId, Config.getCustomerId(),new Callback<CommonResponseData>() {
+    public void createNewParty(String firstName, String lastName, String email, String address, String city, String postalCode, String countryGeoId,String contact, String stateProvinceGeoId) {
+        restInterface.createPartyRequest(new HashMap<String, Object>(), firstName, lastName, email, address, city, postalCode, countryGeoId, stateProvinceGeoId, contact,Config.getCustomerId(),new Callback<CommonResponseData>() {
             @Override
             public void success(CommonResponseData commonResponseData, Response response) {
                 notifyObservers(commonResponseData);

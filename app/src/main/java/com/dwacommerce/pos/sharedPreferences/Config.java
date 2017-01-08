@@ -213,4 +213,12 @@ public class Config {
     public static boolean getPrintWithoutUserConfirmation() {
         return preferences.getBoolean("printing_confirmation", false);
     }
+
+    public static void setReceiptSharing(boolean sharing) {
+        editor.putBoolean("receipt_sharing", sharing).commit();
+    }
+
+    public static boolean getReceiptSharing() {
+        return preferences.getBoolean("receipt_sharing", true);
+    }
 }

@@ -178,7 +178,7 @@ public class AddNewCustomerActivity extends AbstractFragmentActivity implements 
             if (validDetails(firstName, lastName, email, address, country, state, city, postalCode, phone)) {
                 if (Util.isDeviceOnline()) {
                     Util.showProDialog(this);
-                    addNewCustomerModel.createNewParty(firstName, lastName, email, address, city, postalCode, countryGeoId, stateProvinceId);
+                    addNewCustomerModel.createNewParty(firstName, lastName, email, address, city, postalCode, countryGeoId, phone,stateProvinceId);
                 } else {
                     Util.showCenteredToast(AddNewCustomerActivity.this, Constants.INTERNET_ERROR_MSG);
                 }

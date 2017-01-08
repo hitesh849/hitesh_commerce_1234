@@ -117,7 +117,7 @@ public interface RestInterface {
 
     @Headers({"Content-Type:application/json"})
     @POST("/createParty")
-    void createPartyRequest(@Body HashMap<String, Object> map, @Query("firstName") String firstName, @Query("lastName") String lastName, @Query("email") String email, @Query("address1") String address1, @Query("city") String city, @Query("postalCode") String postalCode, @Query("countryGeoId") String countryGeoId, @Query("stateProvinceGeoId") String stateProvinceGeoId, @Query("tenantId") String tenantId, Callback<CommonResponseData> callback);
+    void createPartyRequest(@Body HashMap<String, Object> map, @Query("firstName") String firstName, @Query("lastName") String lastName, @Query("email") String email, @Query("address1") String address1, @Query("city") String city, @Query("postalCode") String postalCode, @Query("countryGeoId") String countryGeoId, @Query("stateProvinceGeoId") String stateProvinceGeoId, @Query("contact") String contact, @Query("tenantId") String tenantId, Callback<CommonResponseData> callback);
 
     @Headers({"Content-Type:application/json"})
     @POST("/addLoyaltyPoints")
