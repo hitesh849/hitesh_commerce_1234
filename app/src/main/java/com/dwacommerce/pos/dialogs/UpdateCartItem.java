@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,11 +35,12 @@ public class UpdateCartItem extends AbstractDialogFragment implements View.OnCli
     private Dialog dialog;
     private CartLineData cartLineData;
     private TextView txtNameUpdateCartItem;
-    private TextView txtQuantityUpdateItem;
+    private EditText etxtQuantityUpdateItem;
     private TextView txtUpdateCartItem;
     private TextView txtDismissUpdateItem;
     private Button btnPlusUpdateItem;
     private Button btnMinusUpdateCartItem;
+    private TextView txtPrice;
 
     @Override
     protected Dialog onCreateDialogPost(Bundle savedInstanceState) {
@@ -60,8 +62,9 @@ public class UpdateCartItem extends AbstractDialogFragment implements View.OnCli
         if (bundle != null && bundle.containsKey(Constants.SERIALIZABLE_DATA)) {
             cartLineData = ((CartLineData) bundle.getSerializable(Constants.SERIALIZABLE_DATA));
         }
+        txtPrice = (TextView) dialog.findViewById(R.id.txtPrice);
         txtNameUpdateCartItem = (TextView) dialog.findViewById(R.id.txtNameUpdateCartItem);
-        txtQuantityUpdateItem = (TextView) dialog.findViewById(R.id.txtQuantityUpdateItem);
+        etxtQuantityUpdateItem = (EditText) dialog.findViewById(R.id.etxtQuantityUpdateItem);
         txtUpdateCartItem = (TextView) dialog.findViewById(R.id.txtUpdateCartItem);
         txtDismissUpdateItem = (TextView) dialog.findViewById(R.id.txtDismissUpdateItem);
         btnPlusUpdateItem = (Button) dialog.findViewById(R.id.btnPlusUpdateItem);
@@ -71,7 +74,15 @@ public class UpdateCartItem extends AbstractDialogFragment implements View.OnCli
         txtUpdateCartItem.setOnClickListener(this);
         txtDismissUpdateItem.setOnClickListener(this);
         txtNameUpdateCartItem.setText(cartLineData.productName);
-        txtQuantityUpdateItem.setText(cartLineData.quantity + "");
+        etxtQuantityUpdateItem.setFocusable(false);
+        if ("Y".equals(cartLineData.orderDecimalQuantity)) {
+            btnPlusUpdateItem.setVisibility(View.GONE);
+            btnMinusUpdateCartItem.setVisibility(View.GONE);
+            etxtQuantityUpdateItem.setFocusableInTouchMode(true);
+            etxtQuantityUpdateItem.setFocusable(true);
+        }
+        txtPrice.setText(cartLineData.basePrice + "");
+        etxtQuantityUpdateItem.setText(cartLineData.quantity + "");
     }
 
     @Override
@@ -104,22 +115,22 @@ public class UpdateCartItem extends AbstractDialogFragment implements View.OnCli
         } else if (vid == R.id.txtUpdateCartItem) {
             if (Util.isDeviceOnline()) {
                 Util.showProDialog(Env.currentActivity);
-                updateCartItemModel.updateCartItem(txtQuantityUpdateItem.getText().toString().trim(), cartLineData.cartLineIndex + "");
+                updateCartItemModel.updateCartItem(etxtQuantityUpdateItem.getText().toString().trim(), cartLineData.cartLineIndex + "", txtPrice.getText().toString().trim());
             } else {
                 Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
             }
 
         } else if (vid == R.id.btnPlusUpdateItem) {
-            int quantity = Integer.parseInt(txtQuantityUpdateItem.getText().toString());
+            int quantity = Integer.parseInt(etxtQuantityUpdateItem.getText().toString());
             quantity++;
-            txtQuantityUpdateItem.setText("" + quantity);
+            etxtQuantityUpdateItem.setText("" + quantity);
         } else if (vid == R.id.btnMinusUpdateCartItem) {
-            int quantity = Integer.parseInt(txtQuantityUpdateItem.getText().toString());
+            int quantity = Integer.parseInt(etxtQuantityUpdateItem.getText().toString());
             quantity--;
             if (quantity < 1) {
                 quantity = 1;
             }
-            txtQuantityUpdateItem.setText("" + quantity);
+            etxtQuantityUpdateItem.setText("" + quantity);
         }
     }
 

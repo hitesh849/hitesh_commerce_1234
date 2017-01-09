@@ -16,7 +16,7 @@ public class CartLineData implements Serializable {
     public String itemType;
     public long reservLength;
     public long reservPersons;
-    public long quantity;
+    public double quantity;
     public long basePrice;
     public long displayPrice;
     public long reserv2ndPPPerc;
@@ -38,4 +38,5 @@ public class CartLineData implements Serializable {
     public JSONObject additionalProductFeatureAndAppls;
     public String[] featuresForSupplier;
     public int cartLineIndex;
+    public String orderDecimalQuantity;
 }

@@ -64,7 +64,7 @@ public interface RestInterface {
 
     @Headers({"Content-Type:application/json"})
     @POST("/updateCartItem")
-    void updateCartItem(@Body HashMap<String, Object> map, @Header("Cookie") String header, @Query("cartLineIndex") String cartLineIndex, @Query("quantity") String quantity, @Query(Constants.KEY_SESSION_ID) String jsessionId, @Query(Constants.KEY_POS_TERMINAL_ID) String posTerminalId, @Query("tenantId") String tenantId, Callback<CommonResponseData> callback);
+    void updateCartItem(@Body HashMap<String, Object> map, @Header("Cookie") String header, @Query("cartLineIndex") String cartLineIndex, @Query("quantity") String quantity,@Query("price") String price, @Query(Constants.KEY_SESSION_ID) String jsessionId, @Query(Constants.KEY_POS_TERMINAL_ID) String posTerminalId, @Query("tenantId") String tenantId, Callback<CommonResponseData> callback);
 
     @Headers({"Content-Type:application/json"})
     @POST("/findProduct")

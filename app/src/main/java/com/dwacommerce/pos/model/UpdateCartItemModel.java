@@ -21,8 +21,8 @@ public class UpdateCartItemModel extends BasicModel {
     RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Config.getServerUrl()).build();
     RestInterface restInterface = restAdapter.create(RestInterface.class);
 
-    public void updateCartItem(String quantity,String cartLineIndex) {
-        restInterface.updateCartItem(new HashMap<String, Object>(), "JSESSIONID=" + Config.getSessionId(), cartLineIndex,quantity, Config.getSessionId(), Config.getPosTerminalId(), Config.getCustomerId(),new Callback<CommonResponseData>() {
+    public void updateCartItem(String quantity, String cartLineIndex, String price) {
+        restInterface.updateCartItem(new HashMap<String, Object>(), "JSESSIONID=" + Config.getSessionId(), cartLineIndex, quantity, price, Config.getSessionId(), Config.getPosTerminalId(), Config.getCustomerId(), new Callback<CommonResponseData>() {
             @Override
             public void success(CommonResponseData responseData, Response response) {
                 notifyObservers(responseData);

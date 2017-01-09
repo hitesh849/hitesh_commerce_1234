@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">DWACommerce</string>
     <string name="url">URL</string>
-    <string name="user_name">User Name</string>
-    <string name="password">Password</string>
+    <string name="user_name">उपयोगकर्ता नाम</string>
+    <string name="password">पासवर्ड</string>
     <string name="customer_id">Customer Id</string>
     <string name="submit">Submit</string>
     <string name="login">Login</string>
@@ -25,7 +25,7 @@
     <string name="find_customer">Find Customer</string>
     <string name="add_customer">Add Customer</string>
     <string name="filter">Filter</string>
-    <string name="name">Name</string>
+    <string name="name">नाम</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="address">Address</string>
@@ -123,9 +123,9 @@
     <string name="price">Price(INR) :</string>
     <string name="per_unit">Per unit</string>
     <string name="language">Language</string>
-    <string name="hindi">Hindi</string>
+    <string name="hindi">हिंदी</string>
     <string name="english">English</string>
-    <string name="qty">Qty</string>
-    <string name="rate">Rate</string>
-    <string name="amount">Amount</string>
+    <string name="qty">मात्रा</string>
+    <string name="rate">दर</string>
+    <string name="amount">रकम</string>
 </resources>

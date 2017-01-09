@@ -1,5 +1,6 @@
 package com.dwacommerce.pos.viewControllers.settingsFragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,12 +13,15 @@ import android.widget.TextView;
 
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.sharedPreferences.Config;
+import com.dwacommerce.pos.viewControllers.DwaCommerceApp;
 import com.dwacommerce.pos.viewControllers.SettingActivity;
 
+import org.byteclues.lib.init.Env;
 import org.byteclues.lib.model.BasicModel;
 import org.byteclues.lib.utils.Util;
 import org.byteclues.lib.view.AbstractFragment;
 
+import java.util.Locale;
 import java.util.Observable;
 
 /**
@@ -27,9 +31,12 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
     private View view;
     private TextView txtSaveDisplaySetting;
     private TextView txtCancelDisplaySetting;
+    private RadioGroup rdbtngrpLangugeSetting;
     private RadioGroup rdbtngrpLayoutSetting;
     private RadioGroup rdbtngrpScannerSetting;
     private RadioButton rdbtnInternalScanner;
+    private RadioButton rdbtnHindiLanguage;
+    private RadioButton rdbtnEnglishLanguage;
     private RadioButton rdbtnExternalScanner;
     private RadioButton rdbtnWithCategory;
     private RadioButton rdbtnWithoutCategory;
@@ -43,10 +50,13 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
     }
 
     private void init() {
+        rdbtnEnglishLanguage = ((RadioButton) view.findViewById(R.id.rdbtnEnglishLanguage));
+        rdbtnHindiLanguage = ((RadioButton) view.findViewById(R.id.rdbtnHindiLanguage));
         rdbtnInternalScanner = ((RadioButton) view.findViewById(R.id.rdbtnInternalScanner));
         rdbtnExternalScanner = ((RadioButton) view.findViewById(R.id.rdbtnExternalScanner));
         txtSaveDisplaySetting = (TextView) view.findViewById(R.id.txtSaveDisplaySetting);
         txtCancelDisplaySetting = (TextView) view.findViewById(R.id.txtCancelDisplaySetting);
+        rdbtngrpLangugeSetting = (RadioGroup) view.findViewById(R.id.rdbtngrpLangugeSetting);
         rdbtngrpLayoutSetting = (RadioGroup) view.findViewById(R.id.rdbtngrpLayoutSetting);
         rdbtnWithCategory = (RadioButton) view.findViewById(R.id.rdbtnWithCategory);
         rdbtnWithoutCategory = (RadioButton) view.findViewById(R.id.rdbtnWithoutCategory);
@@ -61,6 +71,11 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
             rdbtnWithCategory.setChecked(true);
         } else {
             rdbtnWithoutCategory.setChecked(true);
+        }
+        if (Config.getLanguageSelected().equals(getString(R.string.hindi))) {
+            rdbtnHindiLanguage.setChecked(true);
+        } else {
+            rdbtnEnglishLanguage.setChecked(true);
         }
         chkbxShareWithWhatsApp.setChecked(Config.getReceiptSharing());
         txtSaveDisplaySetting.setOnClickListener(this);
@@ -82,14 +97,26 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
         int vid = v.getId();
         if (vid == R.id.txtSaveDisplaySetting) {
             ((SettingActivity) getActivity()).setResult = true;
+            int selectedLanguageRdbtnId = rdbtngrpLangugeSetting.getCheckedRadioButtonId();
             int selectedRdBtnId = rdbtngrpLayoutSetting.getCheckedRadioButtonId();
             Config.setFancyDashboard(selectedRdBtnId == R.id.rdbtnWithCategory);
             int scannerSelected = rdbtngrpScannerSetting.getCheckedRadioButtonId();
             Config.setInternalScannerUse(scannerSelected == R.id.rdbtnInternalScanner);
             Config.setReceiptSharing(chkbxShareWithWhatsApp.isChecked());
+            String language = (selectedLanguageRdbtnId == R.id.rdbtnEnglishLanguage) ? "en" : "hi";
+            Config.setLanguageSelected(selectedLanguageRdbtnId == R.id.rdbtnEnglishLanguage ? getResources().getString(R.string.english) : getResources().getString(R.string.hindi));
+            ((DwaCommerceApp) Env.appContext).setLanguage(language);
             Util.showCenteredToast(getActivity(), "Settings saved");
         } else if (vid == R.id.txtCancelDisplaySetting) {
             getActivity().finish();
         }
+    }
+
+    private void setLanguage(String locale) {
+        Locale mLocale = new Locale(locale);
+        Locale.setDefault(mLocale);
+        Configuration config = new Configuration();
+        config.locale = mLocale;
+        getContext().getResources().updateConfiguration(config, getContext().getResources().getDisplayMetrics());
     }
 }

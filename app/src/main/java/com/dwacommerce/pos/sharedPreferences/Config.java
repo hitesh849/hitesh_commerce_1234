@@ -221,4 +221,12 @@ public class Config {
     public static boolean getReceiptSharing() {
         return preferences.getBoolean("receipt_sharing", true);
     }
+
+    public static void setLanguageSelected(String language) {
+        editor.putString("language", language).commit();
+    }
+
+    public static String getLanguageSelected() {
+        return preferences.getString("language", Env.appContext.getResources().getString(R.string.english));
+    }
 }

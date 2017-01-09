@@ -117,7 +117,7 @@
                         android:paddingLeft="@dimen/dim_4"
                         android:paddingTop="@dimen/dim_4"
                         android:singleLine="true"
-                        android:text="Name"
+                        android:text="@string/name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_dim_12" />
 
@@ -129,7 +129,7 @@
                         android:paddingBottom="@dimen/dim_4"
                         android:paddingTop="@dimen/dim_4"
                         android:singleLine="true"
-                        android:text="Qty"
+                        android:text="@string/qty"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_dim_12" />
 
