@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:padding="@dimen/dim_5"
-                android:text="Layout Setting"
+                android:text="@string/layout_setting"
                 android:textColor="@color/dark_pink"
                 android:textSize="@dimen/text_dim_12" />
 
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:padding="@dimen/dim_5"
-                android:text="Scan"
+                android:text="@string/scan"
                 android:textColor="@color/dark_pink"
                 android:textSize="@dimen/text_dim_12" />
 
@@ -166,7 +166,7 @@
             android:gravity="center"
             android:paddingLeft="@dimen/dim_5"
             android:paddingRight="@dimen/dim_5"
-            android:text="Save"
+            android:text="@string/save"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -179,7 +179,7 @@
             android:gravity="center"
             android:paddingLeft="@dimen/dim_5"
             android:paddingRight="@dimen/dim_5"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             android:textStyle="bold" />
     </LinearLayout>

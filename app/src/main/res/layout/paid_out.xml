@@ -11,7 +11,7 @@
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginRight="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_8"
-        android:text="Paid Out"
+        android:text="@string/paid_out"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
         android:textStyle="bold" />
@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dim_16"
-                android:text="Enter amount to withdraw"
+                android:text="@string/enter_amount_to_withdraw"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dim_12"
                 android:textStyle="bold" />
@@ -62,7 +62,7 @@
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginRight="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_5"
-        android:hint="Amount"
+        android:hint="@string/amount"
         android:inputType="numberDecimal"
         android:singleLine="true" />
 
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_4"
-        android:text="You have to choose a reason"
+        android:text="@string/you_have_to_choose_reason"
         android:textColor="@color/black"
         android:textSize="@dimen/text_dim_12"
         android:textStyle="bold" />
@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_4"
-        android:text="You can insert a comment"
+        android:text="@string/you_can_insert_comment"
         android:textColor="@color/black"
         android:textSize="@dimen/text_dim_12"
         android:textStyle="bold" />
@@ -129,7 +129,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/colorAccent"
             android:padding="@dimen/dim_5"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
@@ -141,7 +141,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/dark_pink"
             android:padding="@dimen/dim_5"
-            android:text="Confirm ?"
+            android:text="@string/confirm"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />

@@ -121,11 +121,11 @@ public class UpdateCartItem extends AbstractDialogFragment implements View.OnCli
             }
 
         } else if (vid == R.id.btnPlusUpdateItem) {
-            int quantity = Integer.parseInt(etxtQuantityUpdateItem.getText().toString());
+            double quantity = Double.parseDouble(etxtQuantityUpdateItem.getText().toString());
             quantity++;
             etxtQuantityUpdateItem.setText("" + quantity);
         } else if (vid == R.id.btnMinusUpdateCartItem) {
-            int quantity = Integer.parseInt(etxtQuantityUpdateItem.getText().toString());
+            double quantity = Double.parseDouble(etxtQuantityUpdateItem.getText().toString());
             quantity--;
             if (quantity < 1) {
                 quantity = 1;

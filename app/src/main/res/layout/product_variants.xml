@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please Select Variants"
+        android:text="@string/please_select_variants"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
         android:layout_marginBottom="@dimen/dim_4"
@@ -76,7 +76,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/colorAccent"
             android:padding="@dimen/dim_5"
-            android:text="CANCEL"
+            android:text="@string/CANCEL"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
@@ -88,7 +88,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/dark_pink"
             android:padding="@dimen/dim_5"
-            android:text="ADD TO CART"
+            android:text="@string/add_to_cart"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />

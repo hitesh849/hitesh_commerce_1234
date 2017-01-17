@@ -119,7 +119,7 @@
                         android:paddingLeft="@dimen/dim_4"
                         android:paddingTop="@dimen/dim_4"
                         android:singleLine="true"
-                        android:text="Name"
+                        android:text="@string/name"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_dim_12" />
 
@@ -131,7 +131,7 @@
                         android:paddingBottom="@dimen/dim_4"
                         android:paddingTop="@dimen/dim_4"
                         android:singleLine="true"
-                        android:text="Qty"
+                        android:text="@string/qty"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_dim_12" />
 
@@ -223,7 +223,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:text="Sub Total" />
+                        android:text="@string/sub_total" />
 
                     <TextView
                         android:id="@+id/txtSubTotalDashboard"
@@ -323,7 +323,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:text="Loyalty Points" />
+                        android:text="@string/loyalty_points" />
 
                     <TextView
                         android:id="@+id/txtLoyaltyPointsDashboard"
@@ -360,7 +360,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:text="Cash" />
+                        android:text="@string/cash" />
 
                     <TextView
                         android:id="@+id/txtCashDashBoard"
@@ -382,7 +382,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:text="CC" />
+                        android:text="@string/cc" />
 
                     <TextView
                         android:id="@+id/txtCCDashboard"
@@ -404,7 +404,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:text="Cheque" />
+                        android:text="@string/cheque" />
 
                     <TextView
                         android:id="@+id/txtChequeDashboard"
@@ -451,7 +451,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:text="Grand Total"
+                        android:text="@string/grand_total"
                         android:textColor="@color/lighter_green"
                         android:textSize="@dimen/text_dim_10"
                         android:textStyle="bold" />

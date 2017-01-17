@@ -274,7 +274,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         } else if (vid == R.id.imgChequeDashboard) {
             dashBordDialogs.paymentDialog("PayCheque", "Cheque Payment", txtTotalDueDashboard.getText().toString(), currency);
         } else if (vid == R.id.imgCCDashboard) {
-            dashBordDialogs.paymentDialog("PayCC", "Credit Card Payment", txtTotalDueDashboard.getText().toString(), currency);
+            dashBordDialogs.paymentDialog("PayCC", getResources().getString(R.string.credit_card_payment), txtTotalDueDashboard.getText().toString(), currency);
         } else if (vid == R.id.imgClearResetDashboard) {
             if (Util.isDeviceOnline()) {
                 Util.showProDialog(DashBordActivity.this);

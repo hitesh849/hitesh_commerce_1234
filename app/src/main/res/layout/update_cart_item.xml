@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Update Item"
+        android:text="@string/update_item"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
         android:textStyle="bold" />
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dim_5"
-                android:text="Lorem Ipsum is the sample text"
+                android:text="@string/lorem_ipsum_is_the_sample_text"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_dim_15" />
         </LinearLayout>
@@ -156,7 +156,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/colorAccent"
             android:padding="@dimen/dim_5"
-            android:text="DISMISS"
+            android:text="@string/DISMISS"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
@@ -168,7 +168,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/dark_pink"
             android:padding="@dimen/dim_5"
-            android:text="UPDATE"
+            android:text="@string/UPDATE"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />

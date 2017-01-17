@@ -11,7 +11,7 @@
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginRight="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_8"
-        android:text="Redeem Loyalty Points"
+        android:text="@string/redeem_loyalty_points"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
         android:textStyle="bold" />
@@ -59,7 +59,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/colorAccent"
             android:padding="@dimen/dim_5"
-            android:text="CANCEL"
+            android:text="@string/CANCEL"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
@@ -71,7 +71,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/dark_pink"
             android:padding="@dimen/dim_5"
-            android:text="APPLY"
+            android:text="@string/APPLY"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />

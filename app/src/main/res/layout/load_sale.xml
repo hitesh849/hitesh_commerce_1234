@@ -11,7 +11,7 @@
         android:layout_marginLeft="@dimen/dim_5"
         android:layout_marginRight="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_8"
-        android:text="LOAD SALE"
+        android:text="@string/load"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
         android:textStyle="bold" />
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dim_10"
         android:layout_marginTop="@dimen/dim_10"
-        android:text="Saved Sale list"
+        android:text="@string/saved_sale_list"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_12"
         android:textStyle="bold" />
@@ -67,7 +67,7 @@
                 android:paddingLeft="@dimen/dim_2"
                 android:paddingRight="@dimen/dim_2"
                 android:paddingTop="@dimen/dim_7"
-                android:text="ADD"
+                android:text="@string/ADD"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dim_10"
                 android:textStyle="bold" />
@@ -132,7 +132,7 @@
                 android:paddingLeft="@dimen/dim_2"
                 android:paddingRight="@dimen/dim_2"
                 android:paddingTop="@dimen/dim_7"
-                android:text="CANCEL"
+                android:text="@string/CANCEL"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dim_10"
                 android:textStyle="bold" />

@@ -11,7 +11,7 @@
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginRight="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_8"
-        android:text="Cash Payment"
+        android:text="@string/cash_payment"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
         android:textStyle="bold" />
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dim_16"
-            android:text="Amount to be paid is"
+            android:text="@string/amount_to_be_paid_is"
             android:textColor="@color/black"
             android:textSize="@dimen/text_dim_12"
             android:textStyle="bold" />
@@ -74,7 +74,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/colorAccent"
             android:padding="@dimen/dim_5"
-            android:text="CANCEL"
+            android:text="@string/CANCEL"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
@@ -86,7 +86,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/dark_pink"
             android:padding="@dimen/dim_5"
-            android:text="SAVE"
+            android:text="@string/SAVE"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />

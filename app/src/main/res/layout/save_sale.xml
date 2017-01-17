@@ -11,7 +11,7 @@
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginRight="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_8"
-        android:text="SAVE SALE"
+        android:text="@string/save_sale"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
         android:textStyle="bold" />
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dim_16"
             android:layout_marginRight="@dimen/dim_16"
-            android:hint="WebPos Save Sale"
+            android:hint="@string/webpos_save_sale"
             android:inputType="text"
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
@@ -53,7 +53,7 @@
             android:background="@android:color/holo_blue_light"
             android:gravity="center"
             android:padding="@dimen/dim_5"
-            android:text="SAVE"
+            android:text="@string/SAVE"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_10"
             android:textStyle="bold" />
@@ -79,7 +79,7 @@
             android:background="@android:color/darker_gray"
             android:gravity="center"
             android:padding="@dimen/dim_5"
-            android:text="CANCEL"
+            android:text="@string/CANCEL"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_10"
             android:textStyle="bold" />

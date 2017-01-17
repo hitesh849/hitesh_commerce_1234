@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dim_16"
-            android:text="Amount to be paid is"
+            android:text="@string/amount_to_be_paid_is"
             android:textColor="@color/black"
             android:textSize="@dimen/text_dim_12"
             android:textStyle="bold" />
@@ -54,7 +54,7 @@
             style="@style/et_new_customer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Amount"
+            android:hint="@string/amount"
             android:inputType="numberDecimal"
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
@@ -72,7 +72,7 @@
             style="@style/et_new_customer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Reference No."
+            android:hint="@string/reference_no"
             android:inputType="text"
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
@@ -92,7 +92,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/colorAccent"
             android:padding="@dimen/dim_5"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
@@ -104,7 +104,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/dark_pink"
             android:padding="@dimen/dim_5"
-            android:text="Confirm ?"
+            android:text="@string/confirm"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />

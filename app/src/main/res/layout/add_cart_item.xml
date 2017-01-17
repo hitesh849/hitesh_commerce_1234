@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dim_5"
             android:layout_weight="7"
-            android:hint="Product Name"
+            android:hint="@string/product_name"
             android:imeOptions="flagNoExtractUi"
             android:padding="@dimen/dim_5"
             android:textColor="@android:color/black"
@@ -92,7 +92,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/colorAccent"
             android:padding="@dimen/dim_5"
-            android:text="DISMISS"
+            android:text="@string/dismiss"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
@@ -104,7 +104,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/dark_pink"
             android:padding="@dimen/dim_5"
-            android:text="ADD TO CART"
+            android:text="@string/add_to_cart"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />

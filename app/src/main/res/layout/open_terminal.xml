@@ -11,7 +11,7 @@
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginRight="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_8"
-        android:text="Open Terminal"
+        android:text="@string/open_terminal"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
         android:textStyle="bold" />
@@ -23,7 +23,7 @@
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginRight="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_10"
-        android:text="Starting Drawer Amount"
+        android:text="@string/starting_drawer_amount"
         android:textColor="@color/black"
         android:textSize="@dimen/text_dim_12" />
 
@@ -40,7 +40,7 @@
             style="@style/et_new_customer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Amount"
+            android:hint="@string/enter_amount"
             android:inputType="numberDecimal"
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
@@ -60,7 +60,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/colorAccent"
             android:padding="@dimen/dim_5"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />
@@ -72,7 +72,7 @@
             android:layout_marginRight="@dimen/dim_20"
             android:background="@color/dark_pink"
             android:padding="@dimen/dim_5"
-            android:text="Confirm ?"
+            android:text="@string/confirm"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dim_15"
             android:textStyle="bold" />

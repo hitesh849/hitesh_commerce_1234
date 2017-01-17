@@ -26,6 +26,13 @@ public class DwaCommerceApp extends MultiDexApplication {
         setLanguage(language);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        String language = Config.getLanguageSelected().equals(getResources().getString(R.string.hindi)) ? "hi" : "en";
+        setLanguage(language);
+    }
+
     public void setLanguage(String locale) {
         Locale mLocale = new Locale(locale);
         Locale.setDefault(mLocale);

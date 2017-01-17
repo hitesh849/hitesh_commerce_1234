@@ -26,7 +26,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:padding="@dimen/dim_5"
-                    android:text="Select Printer"
+                    android:text="@string/select_printer"
                     android:textColor="@color/dark_pink"
                     android:textSize="@dimen/text_dim_12" />
 
@@ -79,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dim_5"
-                        android:text="Language"
+                        android:text="@string/language"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="@dimen/text_dim_11" />
 
@@ -101,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="left"
                             android:padding="@dimen/dim_5"
-                            android:text="Printer Width(inch)"
+                            android:text="@string/printer_width_inch"
                             android:textColor="@color/dark_pink"
                             android:textSize="@dimen/text_dim_12" />
 
@@ -143,7 +143,7 @@
                         android:layout_marginTop="@dimen/dim_5"
                         android:background="@drawable/background_selector"
                         android:padding="@dimen/dim_5"
-                        android:text="Test Connection"
+                        android:text="@string/test_connection"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_dim_11" />
                 </LinearLayout>
@@ -210,7 +210,7 @@
                 android:gravity="center"
                 android:paddingLeft="@dimen/dim_5"
                 android:paddingRight="@dimen/dim_5"
-                android:text="Save"
+                android:text="@string/save"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -223,7 +223,7 @@
                 android:gravity="center"
                 android:paddingLeft="@dimen/dim_5"
                 android:paddingRight="@dimen/dim_5"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </LinearLayout>
