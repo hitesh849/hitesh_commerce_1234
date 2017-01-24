@@ -6,22 +6,23 @@
     android:background="@drawable/category_selector">
 
 
-
     <ImageView
         android:id="@+id/imgProduct"
         android:layout_width="@dimen/category_item_height"
         android:layout_height="match_parent"
         android:contentDescription="@string/app_name"
         android:padding="1dp" />
+
     <TextView
         android:id="@+id/txtProductName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#4F5467"
         android:background="#CCFFFFFF"
+        android:gravity="center"
         android:maxLines="2"
+        android:layout_margin="@dimen/dim_1"
+        android:textColor="#4F5467"
         android:textSize="@dimen/text_dim_6" />
 </RelativeLayout>

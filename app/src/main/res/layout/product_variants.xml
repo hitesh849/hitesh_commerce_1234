@@ -10,56 +10,27 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dim_4"
         android:text="@string/please_select_variants"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
-        android:layout_marginBottom="@dimen/dim_4"
         android:textStyle="bold" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dim_5"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:id="@+id/txtNameProductVariants"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="2.5"
-            android:gravity="center|left"
-            android:padding="@dimen/dim_2"
-            android:text=""
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_dim_10" />
+        android:scrollbars="none"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/variantContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="7.5"
-            android:background="@drawable/background_border">
+            android:layout_margin="@dimen/dim_5"
+            android:gravity="center"
+            android:orientation="vertical" />
+    </ScrollView>
 
-            <Spinner
-                android:id="@+id/drpDwnProductVariants"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/dim_1"
-                android:padding="@dimen/dim_1"
-                android:spinnerMode="dropdown" />
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llVariantsContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dim_5"
-        android:gravity="center"
-        android:orientation="vertical" />
 
     <LinearLayout
         android:layout_width="match_parent"

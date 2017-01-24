@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.adapters.CategoryProductsAdapter;
@@ -50,7 +51,7 @@ public class CategoryFragment extends AbstractFragment implements TabLayout.OnTa
     private CategoryProductsAdapter categoryProductsAdapter;
     private LinearLayout lastParentSelectedCategory;
     private LinearLayout lastChildSelectedCategory;
-    private LinearLayout lastProductSelected;
+    private RelativeLayout lastProductSelected;
     private View childCategoryHeaderView;
     private View productItemHeaderView;
 
@@ -184,7 +185,7 @@ public class CategoryFragment extends AbstractFragment implements TabLayout.OnTa
                     categoryFragmentModel.getProductType(productData.productId);
                     // categoryFragmentModel.getProductType("DWA122116");
                 }
-                lastProductSelected = ((LinearLayout) view.getTag(vid));
+                lastProductSelected = ((RelativeLayout) view.getTag(vid));
                 lastProductSelected.setSelected(true);
             }
         } catch (Exception ex) {

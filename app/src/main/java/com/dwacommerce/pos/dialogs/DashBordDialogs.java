@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by admin on 26-08-2016.
+ * Created by phoosaram on 26-08-2016.
  */
 
 public class DashBordDialogs {
@@ -210,98 +210,65 @@ public class DashBordDialogs {
         dialogBuilder.setView(dialogView);
         TextView txtCancelProductVariants = ((TextView) dialogView.findViewById(R.id.txtCancelProductVariants));
         TextView txtAddToCartProductVariants = ((TextView) dialogView.findViewById(R.id.txtAddToCartProductVariants));
-        TextView txtNameProductVariants = ((TextView) dialogView.findViewById(R.id.txtNameProductVariants));
-        Spinner drpDwnProductVariants = ((Spinner) dialogView.findViewById(R.id.drpDwnProductVariants));
-        final LinearLayout llVariantsContainer = ((LinearLayout) dialogView.findViewById(R.id.llVariantsContainer));
+        final LinearLayout variantContainer = ((LinearLayout) dialogView.findViewById(R.id.variantContainer));
         try {
-            if (!productAttributesData.featureOrder.isEmpty()) {
-                String key = productAttributesData.featureOrder.get(0);
-                String variantName = ((String) productAttributesData.featureTypes.get(key));
-                txtNameProductVariants.setText(variantName);
-                Set<String> variants = ((Set<String>) productAttributesData.variantTree.keySet());
-                ArrayAdapter arrayAdapter = new ArrayAdapter(drpDwnProductVariants.getContext(), android.R.layout.simple_spinner_dropdown_item, new ArrayList(variants));
-                drpDwnProductVariants.setAdapter(arrayAdapter);
-                drpDwnProductVariants.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        llVariantsContainer.removeAllViews();
-                        String itemName = ((String) parent.getItemAtPosition(position));
-                        final Object variantSubTree = productAttributesData.variantTree.get(itemName);
-                        if (variantSubTree instanceof Map) {
-                            if (productAttributesData.featureOrder.size() > 1) {
-                                String subVariantName = ((String) productAttributesData.featureTypes.get(productAttributesData.featureOrder.get(1)));
-                                ;
-                                Set<String> subVariants = ((Map) variantSubTree).keySet();
-                                View subVariantView = AddSubVariant(inflater, new ArrayList<String>(subVariants), subVariantName, new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                        Object object = ((Map) variantSubTree).get(((String) parent.getSelectedItem()));
-                                        if (object instanceof Map) {
-
-                                        } else if (object instanceof ArrayList) {
-                                            productId = ((String) ((ArrayList) object).get(0));
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
-
-                                    }
-                                });
-                                if (subVariantView != null) {
-                                    llVariantsContainer.addView(subVariantView);
-                                }
-                            }
-                        } else if (variantSubTree instanceof ArrayList) {
-                            productId = ((String) ((ArrayList) variantSubTree).get(0));
-                        }
+            variantContainer.removeAllViews();
+            Object object = productAttributesData.variantTree;
+            for (int i = 0; i < productAttributesData.featureOrder.size(); i++) {
+                String variantName = ((String) productAttributesData.featureTypes.get(productAttributesData.featureOrder.get(i)));
+                if (object instanceof Map) {
+                    Set<String> variantOptions = ((Map) object).keySet();
+                    ArrayList<String> variantOptionsList = new ArrayList<String>(variantOptions);
+                    if (variantOptionsList.size() > 0) {
+                        object = ((Map) object).get(variantOptionsList.get(0));
                     }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
+                    View subVariantView = addSubVariant(inflater, variantOptionsList, variantName);
+                    variantContainer.addView(subVariantView);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         final AlertDialog alertDialog = dialogBuilder.create();
-        txtCancelProductVariants.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        txtAddToCartProductVariants.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(productId)) {
-                    Util.showCenteredToast(Env.currentActivity, "Invalid details");
-                    return;
+                int vid = v.getId();
+                if (vid == R.id.txtAddToCartProductVariants) {
+                    Object productTree = productAttributesData.variantTree;
+                    for (int i = 0; i < variantContainer.getChildCount(); i++) {
+                        Spinner dropdownList = ((Spinner) variantContainer.getChildAt(i).getTag());
+                        String key = dropdownList.getSelectedItem().toString();
+                        if (productTree instanceof Map) {
+                            productTree = ((Map) productTree).get(key);
+                        }
+                    }
+                    if (productTree instanceof ArrayList) {
+                        productId = ((String) ((ArrayList) productTree).get(0));
+                    }
+                    if (TextUtils.isEmpty(productId)) {
+                        Util.showCenteredToast(Env.currentActivity, "Invalid details");
+                        return;
+                    }
+                    ((DashBordActivity) Env.currentActivity).addNewItemToCart(productId, "1");
                 }
-                ((DashBordActivity) Env.currentActivity).addNewItemToCart(productId, "1");
                 alertDialog.dismiss();
             }
-        });
+        };
+        txtCancelProductVariants.setOnClickListener(onClickListener);
+        txtAddToCartProductVariants.setOnClickListener(onClickListener);
         alertDialog.show();
     }
 
-    private View AddSubVariant(LayoutInflater inflater, List<String> list, String subVariantName, AdapterView.OnItemSelectedListener selectedListener) {
-        try {
-            LinearLayout variant_row = (LinearLayout) inflater.inflate(R.layout.variant_row, null);
-            TextView txtVariantName = ((TextView) variant_row.findViewById(R.id.txtVariantName));
-            Spinner drpDwnVariant = ((Spinner) variant_row.findViewById(R.id.drpDwnVariant));
-            drpDwnVariant.setOnItemSelectedListener(selectedListener);
-            txtVariantName.setText(subVariantName);
-            ArrayAdapter adapter = new ArrayAdapter(drpDwnVariant.getContext(), android.R.layout.simple_spinner_dropdown_item, list);
-            drpDwnVariant.setAdapter(adapter);
-            return variant_row;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    private View addSubVariant(LayoutInflater inflater, List<String> list, String subVariantName) throws Exception {
+        LinearLayout variant_row = (LinearLayout) inflater.inflate(R.layout.variant_row, null);
+        TextView txtVariantName = ((TextView) variant_row.findViewById(R.id.txtVariantName));
+        Spinner drpDwnVariant = ((Spinner) variant_row.findViewById(R.id.drpDwnVariant));
+        txtVariantName.setText(subVariantName);
+        variant_row.setTag(drpDwnVariant);
+        ArrayAdapter adapter = new ArrayAdapter(drpDwnVariant.getContext(), android.R.layout.simple_spinner_dropdown_item, list);
+        drpDwnVariant.setAdapter(adapter);
+        return variant_row;
     }
 
 
