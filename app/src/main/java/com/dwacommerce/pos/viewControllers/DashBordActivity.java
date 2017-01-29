@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,8 +21,6 @@ import android.widget.TextView;
 
 import com.aem.api.AEMPrinter;
 import com.aem.api.AEMScrybeDevice;
-import com.aem.api.CardReader;
-import com.aem.api.IAemCardScanner;
 import com.aem.api.IAemScrybe;
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.dao.AddToCartData;
@@ -79,7 +76,7 @@ import retrofit.RetrofitError;
  * Created by admin on 11-08-2016.
  */
 
-public class DashBordActivity extends AbstractFragmentActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, ReceiveListener, TextView.OnEditorActionListener, IAemScrybe, IAemCardScanner {
+public class DashBordActivity extends AbstractFragmentActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, ReceiveListener, TextView.OnEditorActionListener, IAemScrybe {
     private DashboardModel dashboardModel = new DashboardModel();
     private int TWO_INCH_CHAR = 35;
     private int THREE_INCH_CHAR = 48;
@@ -117,7 +114,6 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     private BarcodeScanner mBarCodeScanner;
     private EditText etxtBarcode;
     private AEMScrybeDevice m_AemScrybeDevice;
-    private CardReader m_cardReader = null;
     private AEMPrinter m_AemPrinter = null;
     private ArrayList<String> printerList;
 
@@ -170,7 +166,6 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         imgAddToCartDashboard.setOnClickListener(this);
         txtCustomerNameDashboard.setOnClickListener(this);
         etxtBarcode.setOnEditorActionListener(this);
-        registerForContextMenu(imgPrintInvoiceDashboard);
         if (TextUtils.isEmpty(Config.getCountryList())) {
             dashboardModel.getCountryList();
         }
@@ -439,42 +434,9 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
     }
 
-    public boolean pairAemPrinter(View v) {
+    public boolean printByAemPrinter(String receiptText) {
         try {
-            m_AemScrybeDevice = new AEMScrybeDevice(DashBordActivity.this);
-            m_AemScrybeDevice.pairPrinter("BTprinter0314");
-            printerList = m_AemScrybeDevice.getPairedPrinters();
-            if (printerList.size() > 0) {
-                openContextMenu(v);
-                return true;
-            } else {
-                Util.showAlertDialog(null, "No Paired Printers found");
-                return false;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Select Printer to connect");
-        for (int i = 0; i < printerList.size(); i++) {
-            menu.add(0, v.getId(), 0, printerList.get(i));
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        super.onContextItemSelected(item);
-        String receiptText = ((String) imgPrintInvoiceDashboard.getTag());
-        String printerName = item.getTitle().toString();
-        try {
-            m_AemScrybeDevice.connectToPrinter(printerName);
-            m_cardReader = m_AemScrybeDevice.getCardReader(DashBordActivity.this);
+            m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
             m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
             m_AemPrinter.print(receiptText);
             m_AemPrinter.setCarriageReturn();
@@ -486,7 +448,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         } catch (IOException e) {
             if (e.getMessage().contains("Service discovery failed")) {
                 Util.showAlertDialog(null, "Not Connected\n"
-                        + printerName
+                        + Config.getAemPrinterName()
                         + " is unreachable or off otherwise it is connected with other device");
             } else if (e.getMessage().contains("Device or resource busy")) {
                 Util.showAlertDialog(null, "the device is already connected");
@@ -498,17 +460,17 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         if (Config.getReceiptSharing()) {
             shareWithWhatsApp(receiptText);
         }
-        return true;
+        return false;
     }
+
 
     private void printReceipt(ReceiptData receiptData) {
         String receiptText = getReceiptText(receiptData);
         updateButtonState(false);
         if (Config.getPrinterId() == R.id.rdbtnAemPrinter) {
-            imgPrintInvoiceDashboard.setTag(receiptText);
-            if (!pairAemPrinter(imgPrintInvoiceDashboard)) {
+            if (!printByAemPrinter(receiptText)) {
                 updateButtonState(true);
-            }else{
+            } else {
                 return;
             }
         } else if (!runPrintReceiptSequence(receiptData)) {
@@ -1400,26 +1362,6 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
     @Override
     public void onDiscoveryComplete(ArrayList<String> arrayList) {
-    }
-
-    @Override
-    public void onScanMSR(String s, CardReader.CARD_TRACK card_track) {
-
-    }
-
-    @Override
-    public void onScanDLCard(String s) {
-
-    }
-
-    @Override
-    public void onScanRCCard(String s) {
-
-    }
-
-    @Override
-    public void onScanRFD(String s) {
-
     }
 
     @Override

@@ -3,7 +3,10 @@ package com.dwacommerce.pos.viewControllers.settingsFragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aem.api.AEMScrybeDevice;
+import com.aem.api.IAemScrybe;
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
@@ -26,12 +31,14 @@ import org.byteclues.lib.model.BasicModel;
 import org.byteclues.lib.utils.Util;
 import org.byteclues.lib.view.AbstractFragment;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 
 /**
  * Created by Admin on 10/23/2016.
  */
-public class PrinterScannerFragment extends AbstractFragment implements View.OnClickListener {
+public class PrinterScannerFragment extends AbstractFragment implements View.OnClickListener, IAemScrybe {
     private View view;
     private TextView txtSavePrinterSetting;
     private TextView txtCancelPrinterSetting;
@@ -49,6 +56,8 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
     private RadioButton rdbtnWithoutConfirmation;
     private RadioButton rdbtnWithConfirmation;
     private RadioGroup rdgroupSelectPrinter;
+    private AEMScrybeDevice m_AemScrybeDevice;
+    private ArrayList<String> printerList;
     private RadioButton rdbtnAemPrinter;
     private RadioButton rdbtnEpsonPrinter;
 
@@ -57,6 +66,41 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         view = inflater.inflate(R.layout.printer_scanner_layout, null);
         init();
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Select Printer to connect");
+        for (int i = 0; i < printerList.size(); i++) {
+            menu.add(0, v.getId(), 0, printerList.get(i));
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
+        String printerName = item.getTitle().toString();
+        try {
+            m_AemScrybeDevice.connectToPrinter(printerName);
+            Util.showCenteredToast(getActivity(), "Printer connected Successfully");
+            txtTestConnection.setTag(printerName);
+
+        } catch (IOException e) {
+            if (e.getMessage().contains("Service discovery failed")) {
+                Util.showAlertDialog(null, "Not Connected\n"
+                        + printerName
+                        + " is unreachable or off otherwise it is connected with other device");
+            } else if (e.getMessage().contains("Device or resource busy")) {
+                Util.showAlertDialog(null, "the device is already connected");
+            } else {
+                Util.showAlertDialog(null, "Unable to connect");
+            }
+
+        } finally {
+            disconnectAemPrinter();
+        }
+        return true;
     }
 
     private void init() {
@@ -72,6 +116,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         rdgroupSelectPrinter = ((RadioGroup) view.findViewById(R.id.rdgroupSelectPrinter));
         rdbtnAemPrinter = ((RadioButton) view.findViewById(R.id.rdbtnAemPrinter));
         rdbtnEpsonPrinter = ((RadioButton) view.findViewById(R.id.rdbtnEpsonPrinter));
+        m_AemScrybeDevice = new AEMScrybeDevice(this);
         if (Config.getPrinterWidth() == 2) {
             rdbtnTwoInchPrinter.setChecked(true);
         } else {
@@ -95,6 +140,17 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         setModelSpinner();
         spnLang = (Spinner) view.findViewById(R.id.spnLang);
         setLanguageSpinner();
+        registerForContextMenu(txtTestConnection);
+    }
+
+    private void disconnectAemPrinter() {
+        if (m_AemScrybeDevice != null) {
+            try {
+                m_AemScrybeDevice.disConnectPrinter();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setLanguageSpinner() {
@@ -206,6 +262,14 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
             int selctedRdBtnIdPrinting = rdbtngrpPrintConfirmation.getCheckedRadioButtonId();
             int selctedRdBtnSelectBtnId = rdgroupSelectPrinter.getCheckedRadioButtonId();
             Config.setPrintWithoutUserConfirmation(selctedRdBtnIdPrinting == R.id.rdbtnWithConfirmation);
+            if (selctedRdBtnSelectBtnId == R.id.rdbtnAemPrinter) {
+                String tag = ((String) txtTestConnection.getTag());
+                if (TextUtils.isEmpty(tag)) {
+                    Util.showCenteredToast(getActivity(), "Aem printer not connected");
+                    return;
+                }
+                Config.setAemPrinterName(tag);
+            }
             Config.setPrinterId(selctedRdBtnSelectBtnId);
             Util.showCenteredToast(getActivity(), "Settings saved");
         } else if (vid == R.id.txtCancelPrinterSetting) {
@@ -214,13 +278,41 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
             Intent intent = new Intent(getActivity(), DiscoverActivity.class);
             startActivityForResult(intent, Constants.REQUEST_CODE_FOR_DISCOVER_PRINTER);
         } else if (vid == R.id.txtTestConnection) {
-            if (!initializeObject()) {
-                Util.showAlertDialog(null, "Unable to connect to printer");
+            if (rdgroupSelectPrinter.getCheckedRadioButtonId() == R.id.rdbtnAemPrinter) {
+                pairAemPrinter(v);
+            } else {
+                if (!initializeObject()) {
+                    Util.showAlertDialog(null, "Unable to connect to printer");
+                }
+                if (connectPrinter()) {
+                    Util.showAlertDialog(null, "Connection Successful");
+                    disconnectPrinter();
+                }
             }
-            if (connectPrinter()) {
-                Util.showAlertDialog(null, "Connection Successful");
-                disconnectPrinter();
-            }
+
         }
+    }
+
+    @Override
+    public void onDiscoveryComplete(ArrayList<String> arrayList) {
+
+    }
+
+    public boolean pairAemPrinter(View v) {
+        try {
+            m_AemScrybeDevice.pairPrinter("BTprinter0314");
+            printerList = m_AemScrybeDevice.getPairedPrinters();
+            if (printerList.size() > 0) {
+                v.showContextMenu();
+                return true;
+            } else {
+                Util.showAlertDialog(null, "No Paired Printers found");
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
