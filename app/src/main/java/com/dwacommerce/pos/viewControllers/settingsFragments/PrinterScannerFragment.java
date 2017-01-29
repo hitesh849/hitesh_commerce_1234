@@ -48,6 +48,9 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
     private Printer mPrinter;
     private RadioButton rdbtnWithoutConfirmation;
     private RadioButton rdbtnWithConfirmation;
+    private RadioGroup rdgroupSelectPrinter;
+    private RadioButton rdbtnAemPrinter;
+    private RadioButton rdbtnEpsonPrinter;
 
     @Override
     protected View onCreateViewPost(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,6 +69,9 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         txtPrinterName = ((TextView) view.findViewById(R.id.txtPrinterName));
         etxtPrinterIpPort = ((EditText) view.findViewById(R.id.etxtPrinterIpPort));
         txtTestConnection = ((TextView) view.findViewById(R.id.txtTestConnection));
+        rdgroupSelectPrinter = ((RadioGroup) view.findViewById(R.id.rdgroupSelectPrinter));
+        rdbtnAemPrinter = ((RadioButton) view.findViewById(R.id.rdbtnAemPrinter));
+        rdbtnEpsonPrinter = ((RadioButton) view.findViewById(R.id.rdbtnEpsonPrinter));
         if (Config.getPrinterWidth() == 2) {
             rdbtnTwoInchPrinter.setChecked(true);
         } else {
@@ -198,7 +204,9 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
             Config.setPrinterSeriesConstant(((SpnModelsItem) mSpnSeries.getSelectedItem()).getModelConstant());
             Config.setPrinterLanguageConstant(((SpnModelsItem) spnLang.getSelectedItem()).getModelConstant());
             int selctedRdBtnIdPrinting = rdbtngrpPrintConfirmation.getCheckedRadioButtonId();
+            int selctedRdBtnSelectBtnId = rdgroupSelectPrinter.getCheckedRadioButtonId();
             Config.setPrintWithoutUserConfirmation(selctedRdBtnIdPrinting == R.id.rdbtnWithConfirmation);
+            Config.setPrinterId(selctedRdBtnSelectBtnId);
             Util.showCenteredToast(getActivity(), "Settings saved");
         } else if (vid == R.id.txtCancelPrinterSetting) {
             getActivity().finish();

@@ -224,6 +224,9 @@ public class DashBordDialogs {
                     }
                     View subVariantView = addSubVariant(inflater, variantOptionsList, variantName);
                     variantContainer.addView(subVariantView);
+                    LinearLayout.LayoutParams layoutParams = ((LinearLayout.LayoutParams) subVariantView.getLayoutParams());
+                    int margin = ((int) Env.currentActivity.getResources().getDimension(R.dimen.dim_5));
+                    layoutParams.setMargins(margin, margin, margin, margin);
                 }
             }
         } catch (Exception e) {

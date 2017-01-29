@@ -206,6 +206,22 @@ public class Config {
         return preferences.getInt("printer_width", 2);
     }
 
+    public static void setPrinterId(int width) {
+        editor.putInt("printer_id", width).commit();
+    }
+
+    public static int getPrinterId() {
+        return preferences.getInt("printer_id", -1);
+    }
+
+    public static void setAemPrinterName(String printerName) {
+        editor.putString("aem_printer_name", printerName);
+    }
+
+    public static String getAemPrinterName() {
+        return preferences.getString("aem_printer_name", "BTprinter0314");
+    }
+
     public static void setPrintWithoutUserConfirmation(boolean printWithoutUserConfirmation) {
         editor.putBoolean("printing_confirmation", printWithoutUserConfirmation).commit();
     }

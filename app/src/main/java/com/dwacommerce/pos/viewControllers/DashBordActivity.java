@@ -1,16 +1,14 @@
 package com.dwacommerce.pos.viewControllers;
 
-import android.content.ContentProviderOperation;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,8 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.aem.api.AEMPrinter;
+import com.aem.api.AEMScrybeDevice;
+import com.aem.api.CardReader;
+import com.aem.api.IAemCardScanner;
+import com.aem.api.IAemScrybe;
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.dao.AddToCartData;
 import com.dwacommerce.pos.dao.CartItemsData;
@@ -67,6 +69,7 @@ import org.byteclues.lib.model.BasicModel;
 import org.byteclues.lib.utils.Util;
 import org.byteclues.lib.view.AbstractFragmentActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -76,7 +79,7 @@ import retrofit.RetrofitError;
  * Created by admin on 11-08-2016.
  */
 
-public class DashBordActivity extends AbstractFragmentActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, ReceiveListener, TextView.OnEditorActionListener {
+public class DashBordActivity extends AbstractFragmentActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, ReceiveListener, TextView.OnEditorActionListener, IAemScrybe, IAemCardScanner {
     private DashboardModel dashboardModel = new DashboardModel();
     private int TWO_INCH_CHAR = 35;
     private int THREE_INCH_CHAR = 48;
@@ -113,6 +116,10 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     private Printer mPrinter;
     private BarcodeScanner mBarCodeScanner;
     private EditText etxtBarcode;
+    private AEMScrybeDevice m_AemScrybeDevice;
+    private CardReader m_cardReader = null;
+    private AEMPrinter m_AemPrinter = null;
+    private ArrayList<String> printerList;
 
     @Override
     protected void onCreatePost(Bundle savedInstanceState) {
@@ -163,6 +170,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         imgAddToCartDashboard.setOnClickListener(this);
         txtCustomerNameDashboard.setOnClickListener(this);
         etxtBarcode.setOnEditorActionListener(this);
+        registerForContextMenu(imgPrintInvoiceDashboard);
         if (TextUtils.isEmpty(Config.getCountryList())) {
             dashboardModel.getCountryList();
         }
@@ -431,15 +439,88 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
     }
 
+    public boolean pairAemPrinter(View v) {
+        try {
+            m_AemScrybeDevice = new AEMScrybeDevice(DashBordActivity.this);
+            m_AemScrybeDevice.pairPrinter("BTprinter0314");
+            printerList = m_AemScrybeDevice.getPairedPrinters();
+            if (printerList.size() > 0) {
+                openContextMenu(v);
+                return true;
+            } else {
+                Util.showAlertDialog(null, "No Paired Printers found");
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Select Printer to connect");
+        for (int i = 0; i < printerList.size(); i++) {
+            menu.add(0, v.getId(), 0, printerList.get(i));
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
+        String receiptText = ((String) imgPrintInvoiceDashboard.getTag());
+        String printerName = item.getTitle().toString();
+        try {
+            m_AemScrybeDevice.connectToPrinter(printerName);
+            m_cardReader = m_AemScrybeDevice.getCardReader(DashBordActivity.this);
+            m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
+            m_AemPrinter.print(receiptText);
+            m_AemPrinter.setCarriageReturn();
+            m_AemPrinter.setCarriageReturn();
+            m_AemPrinter.setCarriageReturn();
+            m_AemPrinter.setCarriageReturn();
+            updateButtonState(true);
+
+        } catch (IOException e) {
+            if (e.getMessage().contains("Service discovery failed")) {
+                Util.showAlertDialog(null, "Not Connected\n"
+                        + printerName
+                        + " is unreachable or off otherwise it is connected with other device");
+            } else if (e.getMessage().contains("Device or resource busy")) {
+                Util.showAlertDialog(null, "the device is already connected");
+            } else {
+                Util.showAlertDialog(null, "Unable to connect");
+            }
+
+        }
+        if (Config.getReceiptSharing()) {
+            shareWithWhatsApp(receiptText);
+        }
+        return true;
+    }
+
     private void printReceipt(ReceiptData receiptData) {
         String receiptText = getReceiptText(receiptData);
         updateButtonState(false);
-        if (!runPrintReceiptSequence(receiptData)) {
+        if (Config.getPrinterId() == R.id.rdbtnAemPrinter) {
+            imgPrintInvoiceDashboard.setTag(receiptText);
+            if (!pairAemPrinter(imgPrintInvoiceDashboard)) {
+                updateButtonState(true);
+            }else{
+                return;
+            }
+        } else if (!runPrintReceiptSequence(receiptData)) {
             updateButtonState(true);
         }
         if (Config.getReceiptSharing()) {
-            openWhatsappContact(receiptText);
+            shareWithWhatsApp(receiptText);
         }
+    }
+
+    private void shareWithWhatsApp(String text) {
+        openWhatsappContact(text);
     }
 
     private void openWhatsappContact(String text) {
@@ -1315,5 +1396,41 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         }
 
         return false;
+    }
+
+    @Override
+    public void onDiscoveryComplete(ArrayList<String> arrayList) {
+    }
+
+    @Override
+    public void onScanMSR(String s, CardReader.CARD_TRACK card_track) {
+
+    }
+
+    @Override
+    public void onScanDLCard(String s) {
+
+    }
+
+    @Override
+    public void onScanRCCard(String s) {
+
+    }
+
+    @Override
+    public void onScanRFD(String s) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        if (m_AemScrybeDevice != null) {
+            try {
+                m_AemScrybeDevice.disConnectPrinter();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onDestroy();
     }
 }

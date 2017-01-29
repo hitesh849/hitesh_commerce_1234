@@ -29,6 +29,30 @@
                     android:text="@string/select_printer"
                     android:textColor="@color/dark_pink"
                     android:textSize="@dimen/text_dim_12" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioGroup
+                        android:id="@+id/rdgroupSelectPrinter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                       <RadioButton
+                           android:id="@+id/rdbtnAemPrinter"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Aem Printer"/>
+
+                        <RadioButton
+                            android:id="@+id/rdbtnEpsonPrinter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Epson printer" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
