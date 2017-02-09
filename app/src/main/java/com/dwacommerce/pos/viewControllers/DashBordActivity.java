@@ -126,7 +126,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     private void init() {
-        m_AemScrybeDevice=new AEMScrybeDevice(DashBordActivity.this);
+        m_AemScrybeDevice = new AEMScrybeDevice(DashBordActivity.this);
         imgAddToCartDashboard = (ImageView) findViewById(R.id.imgAddToCartDashboard);
         txtCustomerNameDashboard = (TextView) findViewById(R.id.txtCustomerNameDashboard);
         txtSubTotalDashboard = (TextView) findViewById(R.id.txtSubTotalDashboard);
@@ -651,7 +651,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
                 }
 
-                sharedMessageText.append(str + "  " + (int) receiptItemsData.quantity + "  " + (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice) + "\n");
+                sharedMessageText.append(str + "  " + (int) receiptItemsData.quantity + "  " + String.format("%.2f", (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice)) + "\n");
             }
             for (int i = 0; i < TWO_INCH_CHAR; i++) {
                 sharedMessageText.append("-");
@@ -677,7 +677,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                     }
                 }
             }
-            sharedMessageText.append("Items SubTotal : " + receiptData.order_details.orderSubTotal + "\n");
+            sharedMessageText.append("Items SubTotal : " + String.format("%.2f", receiptData.order_details.orderSubTotal) + "\n");
             if (receiptData.order_details.VAT_TAX > 0)
                 sharedMessageText.append("       VAT Tax : " + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
             if (receiptData.order_details.SALES_TAX > 0)
@@ -728,7 +728,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                 }
 
 
-                sharedMessageText.append(str + "  " + (int) receiptItemsData.quantity + "  " + (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice) + "\n");
+                sharedMessageText.append(str + "  " + (int) receiptItemsData.quantity + "  " + String.format("%.2f", (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice)) + "\n");
             }
             for (int i = 0; i < AEM_CHAR; i++) {
                 sharedMessageText.append("-");
@@ -754,16 +754,16 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                     }
                 }
             }
-            sharedMessageText.append("Items SubTotal : " + receiptData.order_details.orderSubTotal + "\n");
+            sharedMessageText.append("Items SubTotal : " + String.format("%.2f", receiptData.order_details.orderSubTotal) + "\n");
             if (receiptData.order_details.VAT_TAX > 0)
-                sharedMessageText.append("       VAT Tax : " + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
+                sharedMessageText.append("VAT Tax        : " + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
             if (receiptData.order_details.SALES_TAX > 0)
-                sharedMessageText.append("     SALES Tax : " + String.format("%.2f", receiptData.order_details.SALES_TAX) + "\n");
+                sharedMessageText.append("SALES Tax      : " + String.format("%.2f", receiptData.order_details.SALES_TAX) + "\n");
             if (receiptData.order_details.PROMOTION_AMOUNT != 0)
-                sharedMessageText.append(" Promotion Amt : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
+                sharedMessageText.append("Promotion Amt  : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
             if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
-                sharedMessageText.append(" Loyalty Point : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
-            sharedMessageText.append("TOTAL " + receiptData.order_details.orderHeader.grandTotal + "\n");
+                sharedMessageText.append("Loyalty Point  : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
+            sharedMessageText.append("TOTAL          :" + receiptData.order_details.orderHeader.grandTotal + "\n");
             sharedMessageText.append("Thanks for shopping with us\n");
             sharedMessageText.append("Powered by : DWA Commerce");
             return sharedMessageText.toString();
@@ -772,6 +772,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         }
         return null;
     }
+
     private boolean createReceiptData(ReceiptData receiptData) {
         StringBuilder sharedMessageText = new StringBuilder();
         String method = "Default";
@@ -835,7 +836,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                     }
                 }
 
-                textData.append(str + "  " + (int) receiptItemsData.quantity + "  " + (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice) + "\n");
+                textData.append(str + "  " + (int) receiptItemsData.quantity + "  " + String.format("%.2f", (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice)) + "\n");
             }
             for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
                 textData.append("-");
@@ -868,7 +869,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                     }
                 }
             }
-            textData.append("Items SubTotal : " + receiptData.order_details.orderSubTotal + "\n");
+            textData.append("Items SubTotal : " + String.format("%.2f", receiptData.order_details.orderSubTotal) + "\n");
             if (receiptData.order_details.VAT_TAX > 0)
                 textData.append("VAT Tax        : " + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
             if (receiptData.order_details.SALES_TAX > 0)
@@ -994,10 +995,10 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
     private void setAmountData(CartItemsData cartItemsData) {
         try {
-            txtSubTotalDashboard.setText("" + cartItemsData.totalItemSubTotal);
+            txtSubTotalDashboard.setText(String.format("%.2f", cartItemsData.totalItemSubTotal));
             txtLoyaltyPointsDashboard.setText("" + cartItemsData.loyaltyPointsRedeemed);
-            txtGrandTotalDashboard.setText("" + cartItemsData.posTotal);
-            txtTotalDueDashboard.setText("" + cartItemsData.totalDue);
+            txtGrandTotalDashboard.setText( String.format("%.2f", cartItemsData.posTotal));
+            txtTotalDueDashboard.setText("" + String.format("%.2f", cartItemsData.totalDue));
             txtDiscountDashboard.setText("" + String.format("%.2f", cartItemsData.promotionAmount));
             txtCashDashBoard.setText("");
             txtCCDashboard.setText("");
