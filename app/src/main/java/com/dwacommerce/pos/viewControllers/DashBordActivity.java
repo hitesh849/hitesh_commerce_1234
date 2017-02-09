@@ -80,6 +80,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     private DashboardModel dashboardModel = new DashboardModel();
     private int TWO_INCH_CHAR = 35;
     private int THREE_INCH_CHAR = 48;
+    private int AEM_CHAR = 32;
     private ImageView imgAddToCartDashboard;
     private TextView txtCustomerNameDashboard;
     private TextView txtSubTotalDashboard;
@@ -125,6 +126,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     private void init() {
+        m_AemScrybeDevice=new AEMScrybeDevice(DashBordActivity.this);
         imgAddToCartDashboard = (ImageView) findViewById(R.id.imgAddToCartDashboard);
         txtCustomerNameDashboard = (TextView) findViewById(R.id.txtCustomerNameDashboard);
         txtSubTotalDashboard = (TextView) findViewById(R.id.txtSubTotalDashboard);
@@ -200,7 +202,6 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         } else {
             Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
         }
-
     }
 
     @Override
@@ -468,6 +469,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         String receiptText = getReceiptText(receiptData);
         updateButtonState(false);
         if (Config.getPrinterId() == R.id.rdbtnAemPrinter) {
+            receiptText = getAemReceiptText(receiptData);
             if (!printByAemPrinter(receiptText)) {
                 updateButtonState(true);
             } else {
@@ -604,7 +606,6 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             }
             return false;
         }
-
         return true;
     }
 
@@ -695,6 +696,82 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         return null;
     }
 
+
+    private String getAemReceiptText(ReceiptData receiptData) {
+        StringBuilder sharedMessageText = new StringBuilder();
+        try {
+            sharedMessageText.append(Config.getStoreName() + "\n");
+            sharedMessageText.append(Config.getStoreAddress() + "\n");
+            sharedMessageText.append("\n");
+            sharedMessageText.append("Order No - " + receiptData.order_details.orderHeader.orderId + "\n");
+            sharedMessageText.append(receiptData.order_details.orderHeader.orderDate + "\n");
+            sharedMessageText.append("Customer Name - " + receiptData.order_details.customerName + "\n");
+            sharedMessageText.append("Order Details\n");
+            for (int i = 0; i < AEM_CHAR; i++) {
+                sharedMessageText.append("-");
+            }
+            sharedMessageText.append("\n");
+            sharedMessageText.append("      Item Name        Qty  Amt   \n");
+            for (int i = 0; i < AEM_CHAR; i++) {
+                sharedMessageText.append("-");
+            }
+            sharedMessageText.append("\n");
+            for (ReceiptItemsData receiptItemsData : receiptData.order_details.orderItems) {
+                String str = "";
+                if (receiptItemsData.itemDescription.length() > 17) {
+                    str = receiptItemsData.itemDescription.substring(0, 17) + "..";
+                } else {
+                    str = receiptItemsData.itemDescription;
+                    for (int i = 0; i <= 20 - receiptItemsData.itemDescription.length(); i++) {
+                        str += " ";
+                    }
+                }
+
+
+                sharedMessageText.append(str + "  " + (int) receiptItemsData.quantity + "  " + (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice) + "\n");
+            }
+            for (int i = 0; i < AEM_CHAR; i++) {
+                sharedMessageText.append("-");
+            }
+            sharedMessageText.append("\n");
+            for (OrderAdjustmentsData orderAdjustmentsData : receiptData.order_details.orderAdjustments) {
+                switch (orderAdjustmentsData.orderAdjustmentTypeId) {
+                    case "VAT_TAX": {
+                        receiptData.order_details.VAT_TAX += orderAdjustmentsData.amountAlreadyIncluded;
+                        break;
+                    }
+                    case "SALES_TAX": {
+                        receiptData.order_details.SALES_TAX += orderAdjustmentsData.amount;
+                        break;
+                    }
+                    case "PROMOTION_ADJUSTMENT": {
+                        receiptData.order_details.PROMOTION_AMOUNT += orderAdjustmentsData.amount;
+                        break;
+                    }
+                    case "LOYALITY_POINTS": {
+                        receiptData.order_details.LOYALTY_POINTS_AMOUNT += orderAdjustmentsData.amount;
+                        break;
+                    }
+                }
+            }
+            sharedMessageText.append("Items SubTotal : " + receiptData.order_details.orderSubTotal + "\n");
+            if (receiptData.order_details.VAT_TAX > 0)
+                sharedMessageText.append("       VAT Tax : " + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
+            if (receiptData.order_details.SALES_TAX > 0)
+                sharedMessageText.append("     SALES Tax : " + String.format("%.2f", receiptData.order_details.SALES_TAX) + "\n");
+            if (receiptData.order_details.PROMOTION_AMOUNT != 0)
+                sharedMessageText.append(" Promotion Amt : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
+            if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
+                sharedMessageText.append(" Loyalty Point : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
+            sharedMessageText.append("TOTAL " + receiptData.order_details.orderHeader.grandTotal + "\n");
+            sharedMessageText.append("Thanks for shopping with us\n");
+            sharedMessageText.append("Powered by : DWA Commerce");
+            return sharedMessageText.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     private boolean createReceiptData(ReceiptData receiptData) {
         StringBuilder sharedMessageText = new StringBuilder();
         String method = "Default";
@@ -728,9 +805,9 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             sharedMessageText.append(textData.toString());
             textData.delete(0, textData.length());
             if (Config.getPrinterWidth() == 2) {
-                textData.append("      Item Name        Qty  Amt   \n");
+                textData.append("      Item Name         Qty  Amt   \n");
             } else {
-                textData.append("            Item Name               Qty   Amt \n");
+                textData.append("            Item Name                Qty  Amt   \n");
             }
             for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
                 textData.append("-");
@@ -743,7 +820,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                         str = receiptItemsData.itemDescription.substring(0, 20) + "..";
                     } else {
                         str = receiptItemsData.itemDescription;
-                        for (int i = 0; i <= 22 - receiptItemsData.itemDescription.length(); i++) {
+                        for (int i = 0; i <= (22 - receiptItemsData.itemDescription.length()); i++) {
                             str += " ";
                         }
                     }
@@ -752,11 +829,10 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                         str = receiptItemsData.itemDescription.substring(0, 33) + "..";
                     } else {
                         str = receiptItemsData.itemDescription;
-                        for (int i = 0; i <= 35 - receiptItemsData.itemDescription.length(); i++) {
+                        for (int i = 0; i <= (35 - receiptItemsData.itemDescription.length()); i++) {
                             str += " ";
                         }
                     }
-
                 }
 
                 textData.append(str + "  " + (int) receiptItemsData.quantity + "  " + (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice) + "\n");
@@ -794,13 +870,13 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             }
             textData.append("Items SubTotal : " + receiptData.order_details.orderSubTotal + "\n");
             if (receiptData.order_details.VAT_TAX > 0)
-                textData.append("       VAT Tax : " + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
+                textData.append("VAT Tax        : " + String.format("%.2f", receiptData.order_details.VAT_TAX) + "\n");
             if (receiptData.order_details.SALES_TAX > 0)
-                textData.append("     SALES Tax : " + String.format("%.2f", receiptData.order_details.SALES_TAX) + "\n");
+                textData.append("SALES Tax      : " + String.format("%.2f", receiptData.order_details.SALES_TAX) + "\n");
             if (receiptData.order_details.PROMOTION_AMOUNT != 0)
-                textData.append(" Promotion Amt : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
+                textData.append("Promotion Amt  : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
             if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
-                textData.append(" Loyalty Point : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
+                textData.append("Loyalty Point  : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
             mPrinter.addFeedLine(1);
             method = "addText";
             mPrinter.addText(textData.toString());

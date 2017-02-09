@@ -128,6 +128,12 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
             rdbtnWithoutConfirmation.setChecked(true);
         }
 
+        if (Config.getPrinterId() == R.id.rdbtnAemPrinter) {
+            rdbtnAemPrinter.setChecked(true);
+        } else if (Config.getPrinterId() == R.id.rdbtnEpsonPrinter) {
+            rdbtnEpsonPrinter.setChecked(true);
+        }
+
         rdbtngrpPrinterWidth = ((RadioGroup) view.findViewById(R.id.rdbtngrpPrinterWidth));
         txtSavePrinterSetting = ((TextView) view.findViewById(R.id.txtSavePrinterSetting));
         txtCancelPrinterSetting = ((TextView) view.findViewById(R.id.txtCancelPrinterSetting));
@@ -231,6 +237,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
 
     private boolean connectPrinter() {
         try {
+            disconnectAemPrinter();
             mPrinter.connect(etxtPrinterIpPort.getText().toString(), Printer.PARAM_DEFAULT);
         } catch (Exception e) {
             ShowMsg.showException(e, "connect", getActivity());

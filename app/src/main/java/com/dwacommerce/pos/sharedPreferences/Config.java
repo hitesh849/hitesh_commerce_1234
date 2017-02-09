@@ -208,6 +208,7 @@ public class Config {
 
     public static void setPrinterId(int width) {
         editor.putInt("printer_id", width).commit();
+        savePreferences();
     }
 
     public static int getPrinterId() {
