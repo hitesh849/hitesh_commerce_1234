@@ -82,6 +82,8 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         super.onContextItemSelected(item);
         String printerName = item.getTitle().toString();
         try {
+            //disconnectAemPrinter();
+            m_AemScrybeDevice=m_AemScrybeDevice==null?new AEMScrybeDevice(this):m_AemScrybeDevice;
             m_AemScrybeDevice.connectToPrinter(printerName);
             Util.showCenteredToast(getActivity(), "Printer connected Successfully");
             txtTestConnection.setTag(printerName);
@@ -116,7 +118,6 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         rdgroupSelectPrinter = ((RadioGroup) view.findViewById(R.id.rdgroupSelectPrinter));
         rdbtnAemPrinter = ((RadioButton) view.findViewById(R.id.rdbtnAemPrinter));
         rdbtnEpsonPrinter = ((RadioButton) view.findViewById(R.id.rdbtnEpsonPrinter));
-        m_AemScrybeDevice = new AEMScrybeDevice(this);
         if (Config.getPrinterWidth() == 2) {
             rdbtnTwoInchPrinter.setChecked(true);
         } else {
@@ -153,6 +154,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         if (m_AemScrybeDevice != null) {
             try {
                 m_AemScrybeDevice.disConnectPrinter();
+                m_AemScrybeDevice=null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -237,7 +239,6 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
 
     private boolean connectPrinter() {
         try {
-            disconnectAemPrinter();
             mPrinter.connect(etxtPrinterIpPort.getText().toString(), Printer.PARAM_DEFAULT);
         } catch (Exception e) {
             ShowMsg.showException(e, "connect", getActivity());
@@ -307,6 +308,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
 
     public boolean pairAemPrinter(View v) {
         try {
+            m_AemScrybeDevice =m_AemScrybeDevice==null? new AEMScrybeDevice(this):m_AemScrybeDevice;
             m_AemScrybeDevice.pairPrinter("BTprinter0314");
             printerList = m_AemScrybeDevice.getPairedPrinters();
             if (printerList.size() > 0) {

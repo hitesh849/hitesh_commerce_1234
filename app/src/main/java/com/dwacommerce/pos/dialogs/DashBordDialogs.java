@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -115,6 +117,134 @@ public class DashBordDialogs {
             }
         });
         alertDialog.show();
+    }
+
+    public void paymentWithAllCategoriesDialog(final String paymentMode, String headerText, String grandTotalAmount, String currency) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = ((DashBordActivity) context).getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.debit_credit_card_payment, null);
+        dialogBuilder.setView(dialogView);
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+
+        TextView txtConfirmCatPayment = (TextView) dialogView.findViewById(R.id.txtConfirmCatPayment);
+        TextView txtCancelCreditCard = (TextView) dialogView.findViewById(R.id.txtCancelCreditCard);
+        final LinearLayout llAllPaymentMain = (LinearLayout) dialogView.findViewById(R.id.llAllPaymentMain);
+        final CheckBox chkByCash = (CheckBox) dialogView.findViewById(R.id.chkByCash);
+        final CheckBox chkByDebitCredit = (CheckBox) dialogView.findViewById(R.id.chkByDebitCredit);
+        final CheckBox chkByCheque = (CheckBox) dialogView.findViewById(R.id.chkByCheque);
+        final CheckBox chkByCredit = (CheckBox) dialogView.findViewById(R.id.chkByCredit);
+
+        final EditText etxtAmountCash = (EditText) dialogView.findViewById(R.id.etxtAmountCash);
+        final EditText etxtDebitCreditCardAmount = (EditText) dialogView.findViewById(R.id.etxtDebitCreditCardAmount);
+        final EditText etxtByDebitCreditRefNo = (EditText) dialogView.findViewById(R.id.etxtByDebitCreditRefNo);
+        final EditText etxtBankName = (EditText) dialogView.findViewById(R.id.etxtBankName);
+        final EditText etxtBankAmount = (EditText) dialogView.findViewById(R.id.etxtBankAmount);
+        final EditText etxtBankRefNo = (EditText) dialogView.findViewById(R.id.etxtBankRefNo);
+        final EditText etxtCreditAmount = (EditText) dialogView.findViewById(R.id.etxtCreditAmount);
+        final EditText etxtCreditRefNo = (EditText) dialogView.findViewById(R.id.etxtCreditRefNo);
+        final TextView txtPaymentError = (TextView) dialogView.findViewById(R.id.txtPaymentError);
+        txtCancelCreditCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        chkByCash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtPaymentError.setVisibility(View.GONE);
+                if (!chkByCash.isChecked()) {
+                    etxtAmountCash.setError(null);
+                }
+            }
+        });
+        chkByDebitCredit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtPaymentError.setVisibility(View.GONE);
+                if (!chkByDebitCredit.isChecked()) {
+                    etxtDebitCreditCardAmount.setError(null);
+                    etxtByDebitCreditRefNo.setError(null);
+                }
+            }
+        });
+        chkByCheque.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtPaymentError.setVisibility(View.GONE);
+                if (!chkByCheque.isChecked()) {
+                    etxtBankName.setError(null);
+                    etxtBankAmount.setError(null);
+                    etxtBankRefNo.setError(null);
+                }
+            }
+        });
+
+        chkByCredit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txtPaymentError.setVisibility(View.GONE);
+                if (!chkByCredit.isChecked()) {
+                    etxtCreditAmount.setError(null);
+                    etxtCreditRefNo.setError(null);
+                }
+            }
+        });
+
+
+
+        txtConfirmCatPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (!chkByCash.isChecked() && !chkByDebitCredit.isChecked() && !chkByCheque.isChecked() && !chkByCredit.isChecked()) {
+                    txtPaymentError.setVisibility(View.VISIBLE);
+                }
+
+                if (chkByCash.isChecked()) {
+                    if (TextUtils.isEmpty(etxtAmountCash.getText().toString())) {
+                        etxtAmountCash.setError("Can't be empty");
+                        return;
+                    }
+                }
+
+                if (chkByDebitCredit.isChecked()) {
+                    if (TextUtils.isEmpty(etxtDebitCreditCardAmount.getText().toString())) {
+                        etxtDebitCreditCardAmount.setError("Can't be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(etxtByDebitCreditRefNo.getText().toString())) {
+                        etxtByDebitCreditRefNo.setError("Can't be empty");
+                        return;
+                    }
+                }
+                if (chkByCheque.isChecked()) {
+                    if (TextUtils.isEmpty(etxtBankAmount.getText().toString())) {
+                        etxtBankAmount.setError("Can't be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(etxtBankRefNo.getText().toString())) {
+                        etxtBankRefNo.setError("Can't be empty");
+                        return;
+                    }
+                }
+                if (chkByCredit.isChecked()) {
+                    if (TextUtils.isEmpty(etxtCreditAmount.getText().toString())) {
+                        etxtCreditAmount.setError("Can't be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(etxtCreditRefNo.getText().toString())) {
+                        etxtCreditRefNo.setError("Can't be empty");
+                        return;
+                    }
+                }
+            }
+        });;
+
     }
 
     public void promotion() {

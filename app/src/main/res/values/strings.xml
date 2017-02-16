@@ -18,6 +18,7 @@
     <string name="cc">CC</string>
     <string name="promotion">Promotion</string>
     <string name="clear_reset">Clear/Reset</string>
+    <string name="credit_amount">Credit(Amount)</string>
     <string name="complete">Complete</string>
     <string name="print_invoice">Print Invoice</string>
     <string name="cancel">Cancel</string>
@@ -128,6 +129,10 @@
     <string name="qty">Qty</string>
     <string name="rate">Rate</string>
     <string name="amount">Amount</string>
+    <string name="bank_amount">Bank(Amount)</string>
+    <string name="by_cash">By Cash(Amount)</string>
+    <string name="by_debit_credit">By Debit/Credit(Amount)</string>
+    <string name="bank">Bank</string>
 
     <string name="add_new_product">Add New Product</string>
     <string name="product_name">Product Name</string>
