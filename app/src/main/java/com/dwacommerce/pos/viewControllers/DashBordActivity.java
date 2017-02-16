@@ -274,7 +274,8 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         } else if (vid == R.id.imgPromotionDashboard) {
             dashBordDialogs.promotion();
         } else if (vid == R.id.imgCashDashboard) {
-            dashBordDialogs.cashPaymentDialog(txtTotalDueDashboard.getText().toString(), currency);
+//            dashBordDialogs.cashPaymentDialog(txtTotalDueDashboard.getText().toString(), currency);
+            dashBordDialogs.paymentWithAllCategoriesDialog(null, "Payment", txtTotalDueDashboard.getText().toString(), currency);
         } else if (vid == R.id.imgChequeDashboard) {
             dashBordDialogs.paymentDialog("PayCheque", "Cheque Payment", txtTotalDueDashboard.getText().toString(), currency);
         } else if (vid == R.id.imgCCDashboard) {
@@ -437,7 +438,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
     public boolean printByAemPrinter(String receiptText) {
         try {
-            m_AemScrybeDevice =m_AemScrybeDevice==null? new AEMScrybeDevice(DashBordActivity.this):m_AemScrybeDevice;
+            m_AemScrybeDevice = m_AemScrybeDevice == null ? new AEMScrybeDevice(DashBordActivity.this) : m_AemScrybeDevice;
             disconnectAemPrinter();
             m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
             m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
@@ -471,7 +472,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
         try {
             m_AemScrybeDevice.disConnectPrinter();
-            m_AemScrybeDevice=null;
+            m_AemScrybeDevice = null;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -1083,6 +1084,15 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         if (Util.isDeviceOnline()) {
             Util.showProDialog(DashBordActivity.this);
             dashboardModel.cartPayment(paymentMode, refNo, amountToBePaid);
+        } else {
+            Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
+        }
+    }
+
+    public void cartPaymentForAllCategories(String cashAmt, String ccAmt, String ccRefNum, String bankName, String checkAmt, String checkRefNum, String billAccId, String billAccAmt) {
+        if (Util.isDeviceOnline()) {
+            Util.showProDialog(DashBordActivity.this);
+            dashboardModel.cartPaymentForAllCategories(cashAmt, ccAmt, ccRefNum, bankName, checkAmt, checkRefNum, billAccId, billAccAmt);
         } else {
             Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
         }

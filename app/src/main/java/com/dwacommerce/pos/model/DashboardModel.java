@@ -176,6 +176,20 @@ public class DashboardModel extends BasicModel {
         });
     }
 
+    public void cartPaymentForAllCategories(String cashAmt, String ccAmt, String ccRefNum, String bankName, String checkAmt, String checkRefNum, String billAccId, String billAccAmt) {
+        restInterface.cartPaymentRequestForAllMode(new HashMap<String, Object>(), "JSESSIONID=" + Config.getSessionId(), cashAmt, ccAmt, ccRefNum, bankName, checkAmt, checkRefNum, billAccId, billAccAmt, Config.getSessionId(), Config.getPosTerminalId(), Config.getCustomerId(), new Callback<CartPaymentData>() {
+            @Override
+            public void success(CartPaymentData responseData, Response response) {
+                notifyObservers(responseData);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                notifyObservers(error);
+            }
+        });
+    }
+
     public void checkout() {
         restInterface.checkoutRequest(new HashMap<String, Object>(), "JSESSIONID=" + Config.getSessionId(), Config.getPosTerminalId(), Config.getSessionId(), Config.getCustomerId(), new Callback<CheckOutData>() {
             @Override

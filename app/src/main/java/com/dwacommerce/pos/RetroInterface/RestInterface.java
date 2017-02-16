@@ -144,6 +144,10 @@ public interface RestInterface {
     void cartPaymentRequest(@Body HashMap<String, Object> map, @Header("Cookie") String header, @Query("paymentMode") String paymentMode, @Query("refNum") String refNum, @Query("amount") String amount, @Query("jsessionid") String jsessionid, @Query(Constants.KEY_POS_TERMINAL_ID) String posTerminalId, @Query("tenantId") String tenantId, Callback<CartPaymentData> callback);
 
     @Headers({"Content-Type:application/json"})
+    @POST("/cartPayment")
+    void cartPaymentRequestForAllMode(@Body HashMap<String, Object> map, @Header("Cookie") String header, @Query("cashAmt") String cashAmt, @Query("ccAmt") String ccAmt, @Query("ccRefNum") String ccRefNum,@Query("bankName") String bankName,@Query("checkAmt") String checkAmt,@Query("checkRefNum") String checkRefNum,@Query("billAccId") String billAccId,@Query("billAccAmt") String billAccAmt, @Query("jsessionid") String jsessionid, @Query(Constants.KEY_POS_TERMINAL_ID) String posTerminalId, @Query("tenantId") String tenantId, Callback<CartPaymentData> callback);
+
+    @Headers({"Content-Type:application/json"})
     @POST("/getOrderDetails")
     void getOrderDetailsRequest(@Body HashMap<String, Object> map, @Query("orderId") String orderId, @Query("tenantId") String tenantId, Callback<ReceiptData> callback);
 

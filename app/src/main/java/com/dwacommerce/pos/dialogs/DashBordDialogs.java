@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -195,56 +194,66 @@ public class DashBordDialogs {
         });
 
 
-
         txtConfirmCatPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String cashAmt = etxtAmountCash.getText().toString();
+                String ccAmt = etxtDebitCreditCardAmount.getText().toString();
+                String ccRefNum = etxtByDebitCreditRefNo.getText().toString();
+                String bankName = etxtBankName.getText().toString();
+                String checkAmt = etxtBankAmount.getText().toString();
+                String checkRefNum = etxtBankRefNo.getText().toString();
+                String billAccAmt = etxtCreditAmount.getText().toString();
+                String billAccId = etxtCreditRefNo.getText().toString();
 
                 if (!chkByCash.isChecked() && !chkByDebitCredit.isChecked() && !chkByCheque.isChecked() && !chkByCredit.isChecked()) {
                     txtPaymentError.setVisibility(View.VISIBLE);
                 }
 
                 if (chkByCash.isChecked()) {
-                    if (TextUtils.isEmpty(etxtAmountCash.getText().toString())) {
+                    if (TextUtils.isEmpty(cashAmt)) {
                         etxtAmountCash.setError("Can't be empty");
                         return;
                     }
                 }
 
                 if (chkByDebitCredit.isChecked()) {
-                    if (TextUtils.isEmpty(etxtDebitCreditCardAmount.getText().toString())) {
+                    if (TextUtils.isEmpty(ccAmt)) {
                         etxtDebitCreditCardAmount.setError("Can't be empty");
                         return;
                     }
-                    if (TextUtils.isEmpty(etxtByDebitCreditRefNo.getText().toString())) {
+                    if (TextUtils.isEmpty(ccRefNum)) {
                         etxtByDebitCreditRefNo.setError("Can't be empty");
                         return;
                     }
                 }
                 if (chkByCheque.isChecked()) {
-                    if (TextUtils.isEmpty(etxtBankAmount.getText().toString())) {
+                    if (TextUtils.isEmpty(bankName)) {
+                        etxtBankName.setError("Can't be empty");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(checkAmt)) {
                         etxtBankAmount.setError("Can't be empty");
                         return;
                     }
-                    if (TextUtils.isEmpty(etxtBankRefNo.getText().toString())) {
+                    if (TextUtils.isEmpty(checkRefNum)) {
                         etxtBankRefNo.setError("Can't be empty");
                         return;
                     }
                 }
                 if (chkByCredit.isChecked()) {
-                    if (TextUtils.isEmpty(etxtCreditAmount.getText().toString())) {
+                    if (TextUtils.isEmpty(billAccAmt)) {
                         etxtCreditAmount.setError("Can't be empty");
                         return;
                     }
-                    if (TextUtils.isEmpty(etxtCreditRefNo.getText().toString())) {
+                    if (TextUtils.isEmpty(billAccId)) {
                         etxtCreditRefNo.setError("Can't be empty");
                         return;
                     }
                 }
+                ((DashBordActivity) context).cartPaymentForAllCategories(cashAmt, ccAmt, ccRefNum, bankName, checkAmt, checkRefNum, billAccId, billAccAmt);
             }
-        });;
-
+        });
     }
 
     public void promotion() {

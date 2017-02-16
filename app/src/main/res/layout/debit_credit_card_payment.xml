@@ -154,7 +154,6 @@
             android:layout_marginRight="@dimen/dim_4"
             android:layout_marginTop="@dimen/dim_10"
             android:layout_weight="1"
-            android:visibility="gone"
             android:gravity="center">
 
             <EditText
