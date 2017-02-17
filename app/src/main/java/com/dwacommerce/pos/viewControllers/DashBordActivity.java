@@ -731,7 +731,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                 sharedMessageText.append("-");
             }
             sharedMessageText.append("\n");
-            sharedMessageText.append("      Item Name        Qty  Amt   \n");
+            sharedMessageText.append("      Item Name      Qty   Amt  \n");
             for (int i = 0; i < AEM_CHAR; i++) {
                 sharedMessageText.append("-");
             }
@@ -742,7 +742,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                     str = receiptItemsData.itemDescription.substring(0, 17) + "..";
                 } else {
                     str = receiptItemsData.itemDescription;
-                    for (int i = 0; i <= 20 - receiptItemsData.itemDescription.length(); i++) {
+                    for (int i = 0; i < 20 - receiptItemsData.itemDescription.length(); i++) {
                         str += " ";
                     }
                 }
@@ -781,7 +781,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                 sharedMessageText.append("Promotion Amt  : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
             if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
                 sharedMessageText.append("Loyalty Point  : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
-            sharedMessageText.append("TOTAL          :" + receiptData.order_details.orderHeader.grandTotal + "\n");
+            sharedMessageText.append("TOTAL          : " + receiptData.order_details.orderHeader.grandTotal + "\n");
             sharedMessageText.append("Thanks for shopping with us\n");
             sharedMessageText.append("Powered by : DWA Commerce");
             return sharedMessageText.toString();
