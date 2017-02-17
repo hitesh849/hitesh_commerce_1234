@@ -637,9 +637,12 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             sharedMessageText.append(Config.getStoreAddress() + "\n");
             sharedMessageText.append("\n");
             sharedMessageText.append("Order No - " + receiptData.order_details.orderHeader.orderId + "\n");
-            sharedMessageText.append(receiptData.order_details.orderHeader.orderDate + "\n");
+            sharedMessageText.append("Date - "+receiptData.order_details.orderHeader.orderDate + "\n");
             sharedMessageText.append("Customer Name - " + receiptData.order_details.customerName + "\n");
-            sharedMessageText.append("Order Details\n");
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+                sharedMessageText.append("-");
+            }
+            sharedMessageText.append("         Order Details\n");
             for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
                 sharedMessageText.append("-");
             }
@@ -724,14 +727,17 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             sharedMessageText.append(Config.getStoreAddress() + "\n");
             sharedMessageText.append("\n");
             sharedMessageText.append("Order No - " + receiptData.order_details.orderHeader.orderId + "\n");
-            sharedMessageText.append(receiptData.order_details.orderHeader.orderDate + "\n");
+            sharedMessageText.append("Date - "+receiptData.order_details.orderHeader.orderDate + "\n");
             sharedMessageText.append("Customer Name - " + receiptData.order_details.customerName + "\n");
-            sharedMessageText.append("Order Details\n");
+            for (int i = 0; i < AEM_CHAR; i++) {
+                sharedMessageText.append("-");
+            }
+            sharedMessageText.append("         Order Details\n");
             for (int i = 0; i < AEM_CHAR; i++) {
                 sharedMessageText.append("-");
             }
             sharedMessageText.append("\n");
-            sharedMessageText.append("      Item Name      Qty   Amt  \n");
+            sharedMessageText.append("     Item Name      Qty   Amt\n");
             for (int i = 0; i < AEM_CHAR; i++) {
                 sharedMessageText.append("-");
             }
@@ -782,8 +788,11 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
                 sharedMessageText.append("Loyalty Point  : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
             sharedMessageText.append("TOTAL          : " + receiptData.order_details.orderHeader.grandTotal + "\n");
-            sharedMessageText.append("Thanks for shopping with us\n");
-            sharedMessageText.append("Powered by : DWA Commerce");
+            for (int i = 0; i < AEM_CHAR; i++) {
+                sharedMessageText.append("-");
+            }
+            sharedMessageText.append(" Thanks for shopping with us\n");
+            sharedMessageText.append("  Powered by : DWA Commerce");
             return sharedMessageText.toString();
         } catch (Exception e) {
             e.printStackTrace();
