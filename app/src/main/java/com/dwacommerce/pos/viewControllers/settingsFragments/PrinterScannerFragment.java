@@ -84,11 +84,11 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         try {
             //disconnectAemPrinter();
             m_AemScrybeDevice=m_AemScrybeDevice==null?new AEMScrybeDevice(this):m_AemScrybeDevice;
-            m_AemScrybeDevice.connectToPrinter(printerName);
+           // m_AemScrybeDevice.connectToPrinter(printerName);
             Util.showCenteredToast(getActivity(), "Printer connected Successfully");
             txtTestConnection.setTag(printerName);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (e.getMessage().contains("Service discovery failed")) {
                 Util.showAlertDialog(null, "Not Connected\n"
                         + printerName
@@ -308,7 +308,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
 
     public boolean pairAemPrinter(View v) {
         try {
-            m_AemScrybeDevice =m_AemScrybeDevice==null? new AEMScrybeDevice(this):m_AemScrybeDevice;
+            m_AemScrybeDevice =(m_AemScrybeDevice==null)? new AEMScrybeDevice(this):m_AemScrybeDevice;
             m_AemScrybeDevice.pairPrinter("BTprinter0314");
             printerList = m_AemScrybeDevice.getPairedPrinters();
             if (printerList.size() > 0) {

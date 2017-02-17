@@ -126,6 +126,8 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     private void init() {
+
+
         imgAddToCartDashboard = (ImageView) findViewById(R.id.imgAddToCartDashboard);
         txtCustomerNameDashboard = (TextView) findViewById(R.id.txtCustomerNameDashboard);
         txtSubTotalDashboard = (TextView) findViewById(R.id.txtSubTotalDashboard);
@@ -267,7 +269,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             startActivityForResult(intent, Constants.REQEST_CODE_FIND_CUSTOMER);
         } else if (vid == R.id.imgLoyaltyPointsDashboard) {
             if (customerData != null) {
-                dashBordDialogs.loyaltyPoint(customerData.availableLoyaltyPoints);
+                dashBordDialogs.loyaltyPoint(customerData.partyInfo.availableLoyaltyPoints);
             } else {
                 Util.showAlertDialog(null, Constants.NO_PARTY_FOUND_ALERT);
             }
@@ -275,7 +277,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             dashBordDialogs.promotion();
         } else if (vid == R.id.imgCashDashboard) {
 //            dashBordDialogs.cashPaymentDialog(txtTotalDueDashboard.getText().toString(), currency);
-            dashBordDialogs.paymentWithAllCategoriesDialog(null, "Payment", txtTotalDueDashboard.getText().toString(), currency);
+            dashBordDialogs.paymentWithAllCategoriesDialog("Payment", txtTotalDueDashboard.getText().toString(), currency, customerData);
         } else if (vid == R.id.imgChequeDashboard) {
             dashBordDialogs.paymentDialog("PayCheque", "Cheque Payment", txtTotalDueDashboard.getText().toString(), currency);
         } else if (vid == R.id.imgCCDashboard) {
@@ -438,10 +440,16 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
     public boolean printByAemPrinter(String receiptText) {
         try {
-            m_AemScrybeDevice = m_AemScrybeDevice == null ? new AEMScrybeDevice(DashBordActivity.this) : m_AemScrybeDevice;
-            disconnectAemPrinter();
-            m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
-            m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
+
+
+            //  disconnectAemPrinter();
+
+            if (m_AemPrinter == null) {
+
+                m_AemScrybeDevice = (m_AemScrybeDevice == null) ? new AEMScrybeDevice(DashBordActivity.this) : m_AemScrybeDevice;
+                m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
+                m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
+            }
             m_AemPrinter.print(receiptText);
             m_AemPrinter.setCarriageReturn();
             m_AemPrinter.setCarriageReturn();
@@ -464,7 +472,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         if (Config.getReceiptSharing()) {
             shareWithWhatsApp(receiptText);
         }
-        disconnectAemPrinter();
+        //  disconnectAemPrinter();
         return false;
     }
 
@@ -472,7 +480,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
         try {
             m_AemScrybeDevice.disConnectPrinter();
-            m_AemScrybeDevice = null;
+            // m_AemScrybeDevice = null;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -944,8 +952,8 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     private void setPartyToCart(CustomerData customerData) {
         try {
             if (!TextUtils.isEmpty(customerData.partyInfo.partyName)) {
-                this.customerData = customerData.partyInfo;
-                txtCustomerNameDashboard.setText(this.customerData.partyName);
+                this.customerData = customerData;
+                txtCustomerNameDashboard.setText(this.customerData.partyInfo.partyName);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1007,10 +1015,10 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
     private void setAmountData(CartItemsData cartItemsData) {
         try {
-            txtSubTotalDashboard.setText("" + cartItemsData.totalItemSubTotal);
+            txtSubTotalDashboard.setText("" + String.format("%.2f", cartItemsData.totalItemSubTotal));
             txtLoyaltyPointsDashboard.setText("" + cartItemsData.loyaltyPointsRedeemed);
-            txtGrandTotalDashboard.setText("" + cartItemsData.posTotal);
-            txtTotalDueDashboard.setText("" + cartItemsData.totalDue);
+            txtGrandTotalDashboard.setText("" + String.format("%.2f", cartItemsData.posTotal));
+            txtTotalDueDashboard.setText("" + String.format("%.2f", cartItemsData.totalDue));
             txtDiscountDashboard.setText("" + String.format("%.2f", cartItemsData.promotionAmount));
             txtCashDashBoard.setText("");
             txtCCDashboard.setText("");
@@ -1030,13 +1038,13 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             for (PaymentInfoData paymentInfo : cartItemsData.shoppingCart.paymentInfo) {
                 switch (paymentInfo.paymentMethodTypeId) {
                     case "CASH":
-                        txtCashDashBoard.setText(paymentInfo.amount + "");
+                        txtCashDashBoard.setText(String.format("%.2f", paymentInfo.amount) + "");
                         break;
                     case "CREDIT_CARD":
-                        txtCCDashboard.setText(paymentInfo.amount + "");
+                        txtCCDashboard.setText(String.format("%.2f", paymentInfo.amount) + "");
                         break;
                     case "PERSONAL_CHECK":
-                        txtChequeDashboard.setText(paymentInfo.amount + "");
+                        txtChequeDashboard.setText(String.format("%.2f", paymentInfo.amount) + "");
                         break;
                 }
             }
@@ -1057,8 +1065,8 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             txtProductNameDashboard.setText(cartLineData.productName);
             txtQuantityDahsboard.setText("" + cartLineData.quantity);
             txtRateDashboard.setText("" + cartLineData.basePrice);
-            String amount = "" + (cartLineData.basePrice * cartLineData.quantity);
-            txtAmountDashboard.setText(amount);
+            double amount = (cartLineData.basePrice * cartLineData.quantity);
+            txtAmountDashboard.setText(String.format("%.2f", amount));
             cartLineData.cartLineIndex = cartLineIndex;
             imgDeleteItemDashboard.setTag(cartLineData);
             itemRowDashboard.setTag(cartLineData);

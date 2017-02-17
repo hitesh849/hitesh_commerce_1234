@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llAllPaymentMain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@mipmap/add_cash_background"
-    android:id="@+id/llAllPaymentMain"
     android:orientation="vertical">
 
     <TextView
@@ -48,11 +48,12 @@
         android:layout_marginLeft="@dimen/dim_16"
         android:layout_marginRight="@dimen/dim_16"
         android:layout_marginTop="@dimen/dim_8"
+        android:text="Select At least one payment option"
         android:textColor="@color/dark_pink"
         android:textSize="@dimen/text_dim_15"
-        android:visibility="gone"
-        android:text="Select At least one payment option"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -154,6 +155,7 @@
             android:layout_marginRight="@dimen/dim_4"
             android:layout_marginTop="@dimen/dim_10"
             android:layout_weight="1"
+            android:visibility="gone"
             android:gravity="center">
 
             <EditText
@@ -181,7 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/bank_amount"
-                android:inputType="text"
+                android:inputType="number"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
@@ -204,7 +206,9 @@
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
-<LinearLayout
+
+    <LinearLayout
+        android:id="@+id/llCreditMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"
@@ -231,10 +235,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/credit_amount"
-                android:inputType="text"
+                android:inputType="number"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
-
 
 
         <android.support.design.widget.TextInputLayout

@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dwacommerce.pos.R;
+import com.dwacommerce.pos.dao.CustomerData;
 import com.dwacommerce.pos.dao.PaidInOutData;
 import com.dwacommerce.pos.dao.ProductAttributesData;
 import com.dwacommerce.pos.dao.SaleData;
@@ -118,7 +119,7 @@ public class DashBordDialogs {
         alertDialog.show();
     }
 
-    public void paymentWithAllCategoriesDialog(final String paymentMode, String headerText, String grandTotalAmount, String currency) {
+    public void paymentWithAllCategoriesDialog(String headerText, String grandTotalAmount, String currency, CustomerData customerData) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = ((DashBordActivity) context).getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.debit_credit_card_payment, null);
@@ -129,6 +130,8 @@ public class DashBordDialogs {
 
         TextView txtConfirmCatPayment = (TextView) dialogView.findViewById(R.id.txtConfirmCatPayment);
         TextView txtCancelCreditCard = (TextView) dialogView.findViewById(R.id.txtCancelCreditCard);
+        TextView txtAmountCreditCard = (TextView) dialogView.findViewById(R.id.txtAmountCreditCard);
+        LinearLayout llCreditMain = (LinearLayout) dialogView.findViewById(R.id.llCreditMain);
         final LinearLayout llAllPaymentMain = (LinearLayout) dialogView.findViewById(R.id.llAllPaymentMain);
         final CheckBox chkByCash = (CheckBox) dialogView.findViewById(R.id.chkByCash);
         final CheckBox chkByDebitCredit = (CheckBox) dialogView.findViewById(R.id.chkByDebitCredit);
@@ -144,6 +147,11 @@ public class DashBordDialogs {
         final EditText etxtCreditAmount = (EditText) dialogView.findViewById(R.id.etxtCreditAmount);
         final EditText etxtCreditRefNo = (EditText) dialogView.findViewById(R.id.etxtCreditRefNo);
         final TextView txtPaymentError = (TextView) dialogView.findViewById(R.id.txtPaymentError);
+        txtAmountCreditCard.setText(grandTotalAmount);
+        if (customerData != null && customerData.billingAccountInfo != null)
+            llCreditMain.setVisibility(View.VISIBLE);
+        else
+            llCreditMain.setVisibility(View.GONE);
         txtCancelCreditCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,7 +183,7 @@ public class DashBordDialogs {
             public void onClick(View v) {
                 txtPaymentError.setVisibility(View.GONE);
                 if (!chkByCheque.isChecked()) {
-                    etxtBankName.setError(null);
+                  //  etxtBankName.setError(null);
                     etxtBankAmount.setError(null);
                     etxtBankRefNo.setError(null);
                 }
@@ -208,6 +216,7 @@ public class DashBordDialogs {
 
                 if (!chkByCash.isChecked() && !chkByDebitCredit.isChecked() && !chkByCheque.isChecked() && !chkByCredit.isChecked()) {
                     txtPaymentError.setVisibility(View.VISIBLE);
+                    return;
                 }
 
                 if (chkByCash.isChecked()) {
@@ -228,10 +237,10 @@ public class DashBordDialogs {
                     }
                 }
                 if (chkByCheque.isChecked()) {
-                    if (TextUtils.isEmpty(bankName)) {
+                    /*if (TextUtils.isEmpty(bankName)) {
                         etxtBankName.setError("Can't be empty");
                         return;
-                    }
+                    }*/
                     if (TextUtils.isEmpty(checkAmt)) {
                         etxtBankAmount.setError("Can't be empty");
                         return;
@@ -252,6 +261,7 @@ public class DashBordDialogs {
                     }
                 }
                 ((DashBordActivity) context).cartPaymentForAllCategories(cashAmt, ccAmt, ccRefNum, bankName, checkAmt, checkRefNum, billAccId, billAccAmt);
+                 alertDialog.dismiss();
             }
         });
     }

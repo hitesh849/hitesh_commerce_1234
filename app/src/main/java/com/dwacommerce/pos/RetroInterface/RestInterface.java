@@ -42,6 +42,7 @@ import retrofit.http.Query;
  * Created by admin on 5/12/2016.
  */
 public interface RestInterface {
+
     @Headers({"Content-Type:application/json"})
     @POST("/posConfig")
     void settingRest(@Body HashMap<String, Object> map, @Query("USERNAME") String userName, @Query("PASSWORD") String password, @Query("tenantId") String tenantId, Callback<UserData> cb);

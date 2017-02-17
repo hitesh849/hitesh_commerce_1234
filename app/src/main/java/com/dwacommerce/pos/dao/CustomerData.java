@@ -13,4 +13,8 @@ public class CustomerData {
     public String partyAddress;
     public long loyaltyPointsRedeemed;
     public double promotionAmount;
+    public CustomerData billingAccountInfo;
+    public double accountLimit;
+    public double billingAccountId;
+    public double accountBalance;
 }
