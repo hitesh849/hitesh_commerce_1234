@@ -637,7 +637,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             sharedMessageText.append(Config.getStoreAddress() + "\n");
             sharedMessageText.append("\n");
             sharedMessageText.append("Order No - " + receiptData.order_details.orderHeader.orderId + "\n");
-            sharedMessageText.append("Date - "+receiptData.order_details.orderHeader.orderDate + "\n");
+            sharedMessageText.append("Date - " + receiptData.order_details.orderHeader.orderDate + "\n");
             sharedMessageText.append("Customer Name - " + receiptData.order_details.customerName + "\n");
             for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
                 sharedMessageText.append("-");
@@ -727,7 +727,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             sharedMessageText.append(Config.getStoreAddress() + "\n");
             sharedMessageText.append("\n");
             sharedMessageText.append("Order No - " + receiptData.order_details.orderHeader.orderId + "\n");
-            sharedMessageText.append("Date - "+receiptData.order_details.orderHeader.orderDate + "\n");
+            sharedMessageText.append("Date - " + receiptData.order_details.orderHeader.orderDate + "\n");
             sharedMessageText.append("Customer Name - " + receiptData.order_details.customerName + "\n");
             for (int i = 0; i < AEM_CHAR; i++) {
                 sharedMessageText.append("-");
@@ -1168,6 +1168,9 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             dashBordDialogs.openTerminal();
         } else if (itemId == R.id.menuCloseTerminalDashboard) {
             dashBordDialogs.closeTerminal();
+        } else if (itemId == R.id.menuCreditAmount) {
+            Intent intent = new Intent(Env.currentActivity, CreditAmountCustomer.class);
+            startActivity(intent);
         }
         return false;
     }

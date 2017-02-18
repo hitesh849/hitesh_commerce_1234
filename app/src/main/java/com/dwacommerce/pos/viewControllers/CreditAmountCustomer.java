@@ -4,6 +4,7 @@ import android.content.ContentProviderOperation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.TextInputEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.dao.PartyData;
+import com.dwacommerce.pos.model.CreditAmountCustomerModel;
 import com.dwacommerce.pos.model.FindCustomerModel;
 import com.dwacommerce.pos.utility.Constants;
 
@@ -35,8 +37,8 @@ import retrofit.RetrofitError;
  * Created by admin on 21-08-2016.
  */
 
-public class FindCustomerActivity extends AbstractFragmentActivity implements View.OnClickListener, TextWatcher, CompoundButton.OnCheckedChangeListener {
-    private FindCustomerModel findCustomerModel = new FindCustomerModel();
+public class CreditAmountCustomer extends AbstractFragmentActivity implements View.OnClickListener, TextWatcher, CompoundButton.OnCheckedChangeListener {
+    private CreditAmountCustomerModel creditAmountCustomerModel = new CreditAmountCustomerModel();
     private AutoCompleteTextView txtSearchParty;
     private ImageView imgBackFindCustomer;
     private LinearLayout llCustomerListContainer;
@@ -44,19 +46,24 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
     private TextView txtAddNewCustomer;
     private RadioButton seletedButton;
     private PartyData selectedPartyData;
+    private TextInputEditText etxtDepositAmount;
+    private TextView txtSubmit;
 
     @Override
     protected void onCreatePost(Bundle savedInstanceState) {
-        setContentView(R.layout.find_customer_activity);
+        setContentView(R.layout.credit_amount_customer);
         init();
     }
 
     private void init() {
         txtSearchParty = (AutoCompleteTextView) findViewById(R.id.txtSearchParty);
+        etxtDepositAmount = (TextInputEditText) findViewById(R.id.etxtDepositAmount);
         imgBackFindCustomer = (ImageView) findViewById(R.id.imgBackFindCustomer);
         llCustomerListContainer = (LinearLayout) findViewById(R.id.llCustomerListContainer);
         rdgrpFilterFindCustomer = (RadioGroup) findViewById(R.id.rdgrpFilterFindCustomer);
         txtAddNewCustomer = (TextView) findViewById(R.id.txtAddNewCustomer);
+        txtSubmit = (TextView) findViewById(R.id.txtSubmit);
+        txtSubmit.addTextChangedListener(this);
         txtSearchParty.addTextChangedListener(this);
         txtAddNewCustomer.setOnClickListener(this);
         imgBackFindCustomer.setOnClickListener(this);
@@ -65,7 +72,7 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
 
     @Override
     protected BasicModel getModel() {
-        return findCustomerModel;
+        return creditAmountCustomerModel;
     }
 
     @Override
@@ -130,17 +137,22 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
         if (vid == R.id.imgBackFindCustomer) {
             super.onBackPressed();
         } else if (vid == R.id.txtAddNewCustomer) {
-            Intent intent = new Intent(FindCustomerActivity.this, AddNewCustomerActivity.class);
+            Intent intent = new Intent(CreditAmountCustomer.this, AddNewCustomerActivity.class);
             startActivityForResult(intent, Constants.REQUEST_CODE_FOR_ADD_NEW_CUSTOMER);
+        }else if (vid == R.id.txtSubmit) {
+            if(selectedPartyData!=null){
+                String amount=etxtDepositAmount.getText().toString();
+                creditAmountCustomerModel.setBillingAccountPayment(selectedPartyData.partyId,amount);
+            }
         } else if (vid == R.id.customerDataContainer) {
             try {
                 selectedPartyData = ((PartyData) v.getTag());
-                if (Util.isDeviceOnline()) {
-                    Util.showProDialog(FindCustomerActivity.this);
-                    findCustomerModel.setPartyToCart(selectedPartyData.partyId, selectedPartyData.contactMechPurposeTypeId, selectedPartyData.contactMechId);
-                } else {
-                    Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
-                }
+//                if (Util.isDeviceOnline()) {
+//                    Util.showProDialog(CreditAmountCustomer.this);
+//                    findCustomerModel.setPartyToCart(selectedPartyData.partyId, selectedPartyData.contactMechPurposeTypeId, selectedPartyData.contactMechId);
+//                } else {
+//                    Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -176,7 +188,7 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
                         searchType = "email";
                         break;
                 }
-                findCustomerModel.searchParty(searchType, searchText);
+                creditAmountCustomerModel.searchParty(searchType, searchText);
             }
         }
     }
@@ -190,12 +202,12 @@ public class FindCustomerActivity extends AbstractFragmentActivity implements Vi
             }
             seletedButton = ((RadioButton) buttonView);
             selectedPartyData = ((PartyData) seletedButton.getTag());
-            if (Util.isDeviceOnline()) {
-                Util.showProDialog(FindCustomerActivity.this);
-                findCustomerModel.setPartyToCart(selectedPartyData.partyId, selectedPartyData.contactMechPurposeTypeId, selectedPartyData.contactMechId);
-            } else {
-                Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
-            }
+//            if (Util.isDeviceOnline()) {
+//                Util.showProDialog(CreditAmountCustomer.this);
+//                findCustomerModel.setPartyToCart(selectedPartyData.partyId, selectedPartyData.contactMechPurposeTypeId, selectedPartyData.contactMechId);
+//            } else {
+//                Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

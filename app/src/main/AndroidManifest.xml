@@ -71,6 +71,10 @@
             android:name=".viewControllers.DiscoverActivity"
             android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".viewControllers.CreditAmountCustomer"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"

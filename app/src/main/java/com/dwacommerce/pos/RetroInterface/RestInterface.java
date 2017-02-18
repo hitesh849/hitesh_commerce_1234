@@ -76,6 +76,10 @@ public interface RestInterface {
     void findParty(@Body HashMap<String, Object> map, @Query("searchType") String searchType, @Query("searchText") String searchText, @Query("tenantId") String tenantId, Callback<PartyData> callback);
 
     @Headers({"Content-Type:application/json"})
+    @POST("/billingAccountPayment")
+    void billingAccountPayment(@Body HashMap<String, Object> map, @Header("Cookie") String header, @Query("partyId") String partyId, @Query("amount") String amount,@Query(Constants.KEY_SESSION_ID) String jsessionId, @Query(Constants.KEY_POS_TERMINAL_ID) String posTerminalId, @Query("tenantId") String tenantId, Callback<JsonElement> callback);
+
+    @Headers({"Content-Type:application/json"})
     @POST("/addCartItem")
     void addCartItemRequest(@Body HashMap<String, Object> map, @Header("Cookie") String header, @Query(Constants.KEY_PRODUCT_STORE_ID) String productStoreId, @Query("add_product_id") String add_product_id, @Query("quantity") String quantity, @Query(Constants.KEY_SESSION_ID) String jsessionId, @Query(Constants.KEY_POS_TERMINAL_ID) String posTerminalId, @Query("tenantId") String tenantId, Callback<CommonResponseData> callback);
 

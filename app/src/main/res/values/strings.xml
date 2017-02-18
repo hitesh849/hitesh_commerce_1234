@@ -196,4 +196,6 @@
     <string name="credit_card_payment">Credit Card Payment</string>
     <string name="cheque_payment">Cheque Payment</string>
 
+    <string name="print_statement">Print Statement</string>
+    <string name="deposit_amount">Deposit Amount</string>
 </resources>
