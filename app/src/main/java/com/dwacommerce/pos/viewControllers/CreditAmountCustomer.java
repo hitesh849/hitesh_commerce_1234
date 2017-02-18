@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.TextInputEditText;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -24,6 +25,7 @@ import com.dwacommerce.pos.model.CreditAmountCustomerModel;
 import com.dwacommerce.pos.model.FindCustomerModel;
 import com.dwacommerce.pos.utility.Constants;
 
+import org.byteclues.lib.init.Env;
 import org.byteclues.lib.model.BasicModel;
 import org.byteclues.lib.utils.Util;
 import org.byteclues.lib.view.AbstractFragmentActivity;
@@ -79,15 +81,14 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
     public void update(Observable observable, Object data) {
         Util.dimissProDialog();
         if (data instanceof PartyData) {
+            selectedPartyData=null;
             PartyData partyData = ((PartyData) data);
             llCustomerListContainer.removeAllViews();
             setSuggestionList(partyData);
         } else if (data instanceof CommonResponseData) {
             CommonResponseData responseData = ((CommonResponseData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(responseData.response)) {
-                addNewContact(selectedPartyData);
-                setResult(RESULT_OK);
-                this.finish();
+                Util.showCenteredToast(Env.currentActivity,responseData.responseMessage);
             } else {
                 Util.showAlertDialog(null, responseData.response);
             }
@@ -142,7 +143,19 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
         }else if (vid == R.id.txtSubmit) {
             if(selectedPartyData!=null){
                 String amount=etxtDepositAmount.getText().toString();
-                creditAmountCustomerModel.setBillingAccountPayment(selectedPartyData.partyId,amount);
+                if (TextUtils.isEmpty(amount)) {
+                    etxtDepositAmount.setError("Can't be empty");
+                    return;
+                }
+                if (Util.isDeviceOnline()) {
+                    Util.showProDialog(Env.currentActivity);
+                    creditAmountCustomerModel.setBillingAccountPayment(selectedPartyData.partyId,amount);
+                }else{
+                    Util.showCenteredToast(CreditAmountCustomer.this, Constants.INTERNET_ERROR_MSG);
+                }
+
+            }else{
+                Util.showCenteredToast(Env.currentActivity,"No Customer selected!");
             }
         } else if (vid == R.id.customerDataContainer) {
             try {

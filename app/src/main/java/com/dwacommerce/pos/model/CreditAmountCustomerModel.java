@@ -1,6 +1,7 @@
 package com.dwacommerce.pos.model;
 
 import com.dwacommerce.pos.RetroInterface.RestInterface;
+import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.dao.PartyData;
 import com.dwacommerce.pos.sharedPreferences.Config;
 import com.google.gson.JsonElement;
@@ -36,9 +37,9 @@ public class CreditAmountCustomerModel extends BasicModel {
     }
 
     public void setBillingAccountPayment(String partyId, String amount) {
-        restInterface.billingAccountPayment(new HashMap<String, Object>(), "JSESSIONID=" + Config.getSessionId(), partyId, amount, Config.getSessionId(), Config.getPosTerminalId(), Config.getCustomerId(), new Callback<JsonElement>() {
+        restInterface.billingAccountPayment(new HashMap<String, Object>(), "JSESSIONID=" + Config.getSessionId(), partyId, amount, Config.getSessionId(), Config.getPosTerminalId(), Config.getCustomerId(), new Callback<CommonResponseData>() {
             @Override
-            public void success(JsonElement commonResponseData, Response response) {
+            public void success(CommonResponseData commonResponseData, Response response) {
                 notifyObservers(commonResponseData);
             }
 
