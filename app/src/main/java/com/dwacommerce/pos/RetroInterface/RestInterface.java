@@ -10,6 +10,7 @@ import com.dwacommerce.pos.dao.CloseTerminalData;
 import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.dao.ConfigurationsData;
 import com.dwacommerce.pos.dao.CountryData;
+import com.dwacommerce.pos.dao.CustomerBillingAccountInfoData;
 import com.dwacommerce.pos.dao.CustomerData;
 import com.dwacommerce.pos.dao.LoginData;
 import com.dwacommerce.pos.dao.LoyaltyPointsData;
@@ -78,6 +79,10 @@ public interface RestInterface {
     @Headers({"Content-Type:application/json"})
     @POST("/billingAccountPayment")
     void billingAccountPayment(@Body HashMap<String, Object> map, @Header("Cookie") String header, @Query("partyId") String partyId, @Query("amount") String amount,@Query(Constants.KEY_SESSION_ID) String jsessionId, @Query(Constants.KEY_POS_TERMINAL_ID) String posTerminalId, @Query("tenantId") String tenantId, Callback<CommonResponseData> callback);
+
+    @Headers({"Content-Type:application/json"})
+    @POST("/getBillingAccountPayments")
+    void getBillingAccountPayments(@Body HashMap<String, Object> map, @Header("Cookie") String header, @Query("partyId") String partyId,@Query(Constants.KEY_SESSION_ID) String jsessionId, @Query(Constants.KEY_POS_TERMINAL_ID) String posTerminalId, @Query("tenantId") String tenantId, Callback<CustomerBillingAccountInfoData> callback);
 
     @Headers({"Content-Type:application/json"})
     @POST("/addCartItem")

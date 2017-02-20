@@ -20,9 +20,9 @@ import android.widget.TextView;
 
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.dao.CommonResponseData;
+import com.dwacommerce.pos.dao.CustomerBillingAccountInfoData;
 import com.dwacommerce.pos.dao.PartyData;
 import com.dwacommerce.pos.model.CreditAmountCustomerModel;
-import com.dwacommerce.pos.model.FindCustomerModel;
 import com.dwacommerce.pos.utility.Constants;
 
 import org.byteclues.lib.init.Env;
@@ -50,6 +50,7 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
     private PartyData selectedPartyData;
     private TextInputEditText etxtDepositAmount;
     private TextView txtSubmit;
+    private TextView txtPrintStatement;
 
     @Override
     protected void onCreatePost(Bundle savedInstanceState) {
@@ -64,8 +65,10 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
         llCustomerListContainer = (LinearLayout) findViewById(R.id.llCustomerListContainer);
         rdgrpFilterFindCustomer = (RadioGroup) findViewById(R.id.rdgrpFilterFindCustomer);
         txtAddNewCustomer = (TextView) findViewById(R.id.txtAddNewCustomer);
+        txtPrintStatement = (TextView) findViewById(R.id.txtPrintStatement);
         txtSubmit = (TextView) findViewById(R.id.txtSubmit);
-        txtSubmit.addTextChangedListener(this);
+        txtPrintStatement.setOnClickListener(this);
+        txtSubmit.setOnClickListener(this);
         txtSearchParty.addTextChangedListener(this);
         txtAddNewCustomer.setOnClickListener(this);
         imgBackFindCustomer.setOnClickListener(this);
@@ -81,16 +84,22 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
     public void update(Observable observable, Object data) {
         Util.dimissProDialog();
         if (data instanceof PartyData) {
-            selectedPartyData=null;
+            selectedPartyData = null;
             PartyData partyData = ((PartyData) data);
             llCustomerListContainer.removeAllViews();
             setSuggestionList(partyData);
         } else if (data instanceof CommonResponseData) {
             CommonResponseData responseData = ((CommonResponseData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(responseData.response)) {
-                Util.showCenteredToast(Env.currentActivity,responseData.responseMessage);
+                Util.showCenteredToast(Env.currentActivity, responseData.responseMessage);
             } else {
                 Util.showAlertDialog(null, responseData.response);
+            }
+        } else if (data instanceof CustomerBillingAccountInfoData) {
+            CustomerBillingAccountInfoData customerBillingAccountInfoData = ((CustomerBillingAccountInfoData) data);
+            if (Constants.RESPONSE_SUCCESS_MSG.equals(customerBillingAccountInfoData.response)) {
+
+            } else {
             }
         } else if (data instanceof RetrofitError) {
             Util.showAlertDialog(null, Constants.DEFAULT_SERVER_ERROR);
@@ -122,6 +131,7 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
             txtCustomerAddress.setText(customerData.address1);
             txtCustomerEmail.setText(customerData.email);
             tableRow.setTag(customerData);
+            tableRow.setTag(tableRow.getId(), rdbtnSelectedCustomer);
             tableRow.setOnClickListener(this);
             rdbtnSelectedCustomer.setTag(customerData);
             rdbtnSelectedCustomer.setOnCheckedChangeListener(this);
@@ -140,32 +150,39 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
         } else if (vid == R.id.txtAddNewCustomer) {
             Intent intent = new Intent(CreditAmountCustomer.this, AddNewCustomerActivity.class);
             startActivityForResult(intent, Constants.REQUEST_CODE_FOR_ADD_NEW_CUSTOMER);
-        }else if (vid == R.id.txtSubmit) {
-            if(selectedPartyData!=null){
-                String amount=etxtDepositAmount.getText().toString();
+        } else if (vid == R.id.txtSubmit) {
+            if (selectedPartyData != null) {
+                String amount = etxtDepositAmount.getText().toString();
                 if (TextUtils.isEmpty(amount)) {
                     etxtDepositAmount.setError("Can't be empty");
                     return;
                 }
                 if (Util.isDeviceOnline()) {
                     Util.showProDialog(Env.currentActivity);
-                    creditAmountCustomerModel.setBillingAccountPayment(selectedPartyData.partyId,amount);
-                }else{
+                    creditAmountCustomerModel.setBillingAccountPayment(selectedPartyData.partyId, amount);
+                } else {
                     Util.showCenteredToast(CreditAmountCustomer.this, Constants.INTERNET_ERROR_MSG);
                 }
 
-            }else{
-                Util.showCenteredToast(Env.currentActivity,"No Customer selected!");
+            } else {
+                Util.showCenteredToast(Env.currentActivity, "No Customer selected!");
+            }
+        } else if (vid == R.id.txtPrintStatement) {
+            if (selectedPartyData != null) {
+                if (Util.isDeviceOnline()) {
+                    Util.showProDialog(Env.currentActivity);
+                    creditAmountCustomerModel.getBillingAccountPayments(selectedPartyData.partyId);
+                } else {
+                    Util.showCenteredToast(CreditAmountCustomer.this, Constants.INTERNET_ERROR_MSG);
+                }
+
+            } else {
+                Util.showCenteredToast(Env.currentActivity, "No Customer selected!");
             }
         } else if (vid == R.id.customerDataContainer) {
             try {
-                selectedPartyData = ((PartyData) v.getTag());
-//                if (Util.isDeviceOnline()) {
-//                    Util.showProDialog(CreditAmountCustomer.this);
-//                    findCustomerModel.setPartyToCart(selectedPartyData.partyId, selectedPartyData.contactMechPurposeTypeId, selectedPartyData.contactMechId);
-//                } else {
-//                    Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
-//                }
+                RadioButton selectedButton = ((RadioButton) v.getTag(vid));
+                selectedButton.setChecked(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -215,12 +232,6 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
             }
             seletedButton = ((RadioButton) buttonView);
             selectedPartyData = ((PartyData) seletedButton.getTag());
-//            if (Util.isDeviceOnline()) {
-//                Util.showProDialog(CreditAmountCustomer.this);
-//                findCustomerModel.setPartyToCart(selectedPartyData.partyId, selectedPartyData.contactMechPurposeTypeId, selectedPartyData.contactMechId);
-//            } else {
-//                Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

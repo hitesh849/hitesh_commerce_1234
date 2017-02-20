@@ -22,6 +22,7 @@ import org.byteclues.lib.model.BasicModel;
 import org.byteclues.lib.utils.Util;
 import org.byteclues.lib.view.AbstractFragmentActivity;
 
+import java.io.File;
 import java.util.Observable;
 
 import retrofit.RetrofitError;
@@ -68,7 +69,7 @@ public class SettingsActivity extends AbstractFragmentActivity implements View.O
         if (data instanceof UserData) {
             UserData userData = ((UserData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(userData.response.responseMessage)) {
-                Config.setServerUrl(etxtUrlSettings.getText().toString().trim());
+                Config.setServerUrl(etxtUrlSettings.getText().toString().trim()+ "/webpos/rest");
                 if (userData.productStores != null && !userData.productStores.isEmpty()) {
                     ProductStores[] productStores = new ProductStores[userData.productStores.size()];
                     productStores = userData.productStores.toArray(productStores);

@@ -86,7 +86,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
         if (data instanceof UserData) {
             UserData userData = ((UserData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(userData.response.responseMessage)) {
-                Config.setServerUrl(etxtUrlStoreSetting.getText().toString().trim());
+                Config.setServerUrl(etxtUrlStoreSetting.getText().toString().trim()+"/webpos/rest");
                 Config.setCustomerId(etxtCustomerIdStoreSettigs.getText().toString().trim());
                 if (userData.productStores != null && !userData.productStores.isEmpty()) {
                     ProductStores[] productStores = new ProductStores[userData.productStores.size()];
@@ -125,7 +125,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
     public void onClick(View v) {
         int vid = v.getId();
         if (vid == R.id.txtSaveStoreSetting) {
-            String url = etxtUrlStoreSetting.getText().toString();
+            String url = etxtUrlStoreSetting.getText().toString().trim()+"/webpos/rest";
             String userName = etxtUserNameStoreSettings.getText().toString();
             String password = etxtPasswordStoreSettigs.getText().toString();
             String customerId = etxtCustomerIdStoreSettigs.getText().toString();

@@ -2,9 +2,9 @@ package com.dwacommerce.pos.model;
 
 import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.CommonResponseData;
+import com.dwacommerce.pos.dao.CustomerBillingAccountInfoData;
 import com.dwacommerce.pos.dao.PartyData;
 import com.dwacommerce.pos.sharedPreferences.Config;
-import com.google.gson.JsonElement;
 
 import org.byteclues.lib.model.BasicModel;
 
@@ -41,6 +41,20 @@ public class CreditAmountCustomerModel extends BasicModel {
             @Override
             public void success(CommonResponseData commonResponseData, Response response) {
                 notifyObservers(commonResponseData);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                notifyObservers(error);
+            }
+        });
+    }
+
+    public void getBillingAccountPayments(String partyId) {
+        restInterface.getBillingAccountPayments(new HashMap<String, Object>(), "JSESSIONID=" + Config.getSessionId(), partyId, Config.getSessionId(), Config.getPosTerminalId(), Config.getCustomerId(), new Callback<CustomerBillingAccountInfoData>() {
+            @Override
+            public void success(CustomerBillingAccountInfoData responseData, Response response) {
+                notifyObservers(responseData);
             }
 
             @Override
