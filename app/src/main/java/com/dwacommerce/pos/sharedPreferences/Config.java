@@ -246,4 +246,12 @@ public class Config {
     public static String getLanguageSelected() {
         return preferences.getString("language", Env.appContext.getResources().getString(R.string.english));
     }
+
+    public static void setProductQtySelection(int productQty) {
+        editor.putInt("productQty", productQty).commit();
+    }
+
+    public static int getProductQtySelection() {
+        return preferences.getInt("productQty",R.id.rdbtnProductQtyOne);
+    }
 }

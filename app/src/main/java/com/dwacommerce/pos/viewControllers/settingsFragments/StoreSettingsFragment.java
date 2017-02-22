@@ -97,7 +97,13 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
                 }
                 setBaseUrl();
             } else {
-                Util.showAlertDialog(null, "Oops! something went wrong!");
+                String msg="Oops! something went wrong!";
+                if(userData.response!=null && userData.response.errorMessage!=null)
+                {
+                    msg=userData.response.errorMessage;
+                }
+                else
+                Util.showAlertDialog(null, msg);
             }
 
         } else if (data instanceof RetrofitError) {
@@ -125,7 +131,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
     public void onClick(View v) {
         int vid = v.getId();
         if (vid == R.id.txtSaveStoreSetting) {
-            String url = etxtUrlStoreSetting.getText().toString().trim()+"/webpos/rest";
+            String url = etxtUrlStoreSetting.getText().toString()+"/webpos/rest";
             String userName = etxtUserNameStoreSettings.getText().toString();
             String password = etxtPasswordStoreSettigs.getText().toString();
             String customerId = etxtCustomerIdStoreSettigs.getText().toString();

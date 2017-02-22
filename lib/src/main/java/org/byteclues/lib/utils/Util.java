@@ -44,14 +44,19 @@ public class Util {
 
 
     public static void showProDialog(Context context) {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Wait...");
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setProgress(0);
-            progressDialog.show();
+        try {
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialog(context);
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Wait...");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setProgress(0);
+                progressDialog.show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     public static void dimissProDialog() {

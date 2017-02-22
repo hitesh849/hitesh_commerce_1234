@@ -34,12 +34,15 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
     private RadioGroup rdbtngrpLangugeSetting;
     private RadioGroup rdbtngrpLayoutSetting;
     private RadioGroup rdbtngrpScannerSetting;
+    private RadioGroup rdbtngrpProductQuantity;
     private RadioButton rdbtnInternalScanner;
     private RadioButton rdbtnHindiLanguage;
     private RadioButton rdbtnEnglishLanguage;
     private RadioButton rdbtnExternalScanner;
     private RadioButton rdbtnWithCategory;
     private RadioButton rdbtnWithoutCategory;
+    private RadioButton rdbtnProductQtyOne;
+    private RadioButton rdbtnProductQtyAsk;
     private CheckBox chkbxShareWithWhatsApp;
 
     @Override
@@ -60,8 +63,12 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
         rdbtngrpLayoutSetting = (RadioGroup) view.findViewById(R.id.rdbtngrpLayoutSetting);
         rdbtnWithCategory = (RadioButton) view.findViewById(R.id.rdbtnWithCategory);
         rdbtnWithoutCategory = (RadioButton) view.findViewById(R.id.rdbtnWithoutCategory);
+        rdbtnProductQtyOne = (RadioButton) view.findViewById(R.id.rdbtnProductQtyOne);
+        rdbtnProductQtyAsk = (RadioButton) view.findViewById(R.id.rdbtnProductQtyAsk);
         rdbtngrpScannerSetting = ((RadioGroup) view.findViewById(R.id.rdbtngrpScannerSetting));
+        rdbtngrpProductQuantity = ((RadioGroup) view.findViewById(R.id.rdbtngrpProductQuantity));
         chkbxShareWithWhatsApp = ((CheckBox) view.findViewById(R.id.chkbxShareWithWhatsApp));
+        rdbtngrpProductQuantity.check(Config.getProductQtySelection());
         if (Config.getInternalScannerUse()) {
             rdbtnInternalScanner.setChecked(true);
         } else {
@@ -103,6 +110,7 @@ public class DisplaySettingsFragment extends AbstractFragment implements View.On
             int scannerSelected = rdbtngrpScannerSetting.getCheckedRadioButtonId();
             Config.setInternalScannerUse(scannerSelected == R.id.rdbtnInternalScanner);
             Config.setReceiptSharing(chkbxShareWithWhatsApp.isChecked());
+            Config.setProductQtySelection(rdbtngrpProductQuantity.getCheckedRadioButtonId());
             String language = (selectedLanguageRdbtnId == R.id.rdbtnEnglishLanguage) ? "en" : "hi";
             Config.setLanguageSelected(selectedLanguageRdbtnId == R.id.rdbtnEnglishLanguage ? getResources().getString(R.string.english) : getResources().getString(R.string.hindi));
             ((DwaCommerceApp) Env.appContext).setLanguage(language);

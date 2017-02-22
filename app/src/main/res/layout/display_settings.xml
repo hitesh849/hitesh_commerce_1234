@@ -129,6 +129,7 @@
                     android:checked="true"
                     android:padding="@dimen/dim_2"
                     android:text="@string/hindi"
+                    android:visibility="gone"
                     android:textColor="@android:color/darker_gray" />
 
                 <RadioButton
@@ -143,6 +144,51 @@
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dim_5"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="@dimen/dim_5"
+            android:text="Default Item QTY"
+            android:textColor="@color/dark_pink"
+            android:textSize="@dimen/text_dim_12" />
+
+        <RadioGroup
+            android:id="@+id/rdbtngrpProductQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rdbtnProductQtyOne"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_5"
+                android:background="@null"
+                android:checked="true"
+                android:padding="@dimen/dim_2"
+                android:text="One"
+                android:textColor="@android:color/darker_gray" />
+
+            <RadioButton
+                android:id="@+id/rdbtnProductQtyAsk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_5"
+                android:background="@null"
+                android:padding="@dimen/dim_2"
+                android:text="Ask"
+                android:textColor="@android:color/darker_gray" />
+        </RadioGroup>
+    </LinearLayout>
+
 
     <CheckBox
         android:id="@+id/chkbxShareWithWhatsApp"

@@ -506,6 +506,7 @@
                 android:contentDescription="Cheque"
                 android:padding="@dimen/dim_5"
                 android:src="@mipmap/cheque"
+                android:visibility="gone"
                 android:tint="@color/black" />
 
             <ImageView
@@ -517,6 +518,7 @@
                 android:contentDescription="@string/cc"
                 android:padding="@dimen/dim_8"
                 android:src="@mipmap/credit_debit_card"
+                android:visibility="gone"
                 android:tint="@color/black" />
 
             <ImageView

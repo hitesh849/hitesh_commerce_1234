@@ -74,7 +74,7 @@ public interface RestInterface {
 
     @Headers({"Content-Type:application/json"})
     @POST("/findParties")
-    void findParty(@Body HashMap<String, Object> map, @Query("searchType") String searchType, @Query("searchText") String searchText, @Query("tenantId") String tenantId, Callback<PartyData> callback);
+    void findParty(@Body HashMap<String, Object> map,@Query(Constants.KEY_SESSION_ID) String jsessionId, @Query(Constants.KEY_POS_TERMINAL_ID) String posTerminalId, @Query("searchType") String searchType, @Query("searchText") String searchText, @Query("tenantId") String tenantId, Callback<PartyData> callback);
 
     @Headers({"Content-Type:application/json"})
     @POST("/billingAccountPayment")

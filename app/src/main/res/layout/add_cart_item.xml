@@ -53,17 +53,25 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_dim_15" />
 
-            <TextView
-                android:id="@+id/txtQuantityAddNew"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dim_10"
-                android:layout_marginRight="@dimen/dim_10"
+            <EditText
+                android:id="@+id/etQuantityAddNew"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_3"
+                android:layout_marginRight="@dimen/dim_3"
+                android:layout_weight="1"
+                android:background="@drawable/background_border"
                 android:gravity="center"
+                android:inputType="number"
+                android:paddingBottom="@dimen/dim_4"
+                android:paddingTop="@dimen/dim_4"
                 android:text="1"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/text_dim_15"
-                android:textStyle="bold" />
+                android:textStyle="bold">
+
+                <requestFocus />
+            </EditText>
 
             <Button
                 android:id="@+id/btnPlusQuantityAddNew"

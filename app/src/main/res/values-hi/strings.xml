@@ -193,5 +193,11 @@
     <string name="language">Language</string>
     <string name="hindi">Hindi</string>
     <string name="english">English</string>
-
+    <string name="credit_amount">Credit(Amount)</string>
+    <string name="bank_amount">Bank(Amount)</string>
+    <string name="by_cash">By Cash(Amount)</string>
+    <string name="by_debit_credit">By Debit/Credit(Amount)</string>
+    <string name="bank">Bank</string>
+    <string name="print_statement">Print Statement</string>
+    <string name="deposit_amount">Deposit Amount</string>
 </resources>

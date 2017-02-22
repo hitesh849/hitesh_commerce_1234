@@ -72,6 +72,7 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
         txtSearchParty.addTextChangedListener(this);
         txtAddNewCustomer.setOnClickListener(this);
         imgBackFindCustomer.setOnClickListener(this);
+        txtSubmit.setOnClickListener(this);
         rdgrpFilterFindCustomer.check(R.id.rdByName);
     }
 

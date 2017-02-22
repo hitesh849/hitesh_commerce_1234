@@ -23,7 +23,7 @@ public class CreditAmountCustomerModel extends BasicModel {
     RestInterface restInterface = restAdapter.create(RestInterface.class);
 
     public void searchParty(String searchType, String searchString) {
-        restInterface.findParty(new HashMap<String, Object>(), searchType, searchString, Config.getCustomerId(), new Callback<PartyData>() {
+        restInterface.findParty(new HashMap<String, Object>(),Config.getSessionId(),Config.getPosTerminalId(), searchType, searchString, Config.getCustomerId(), new Callback<PartyData>() {
             @Override
             public void success(PartyData partyData, Response response) {
                 notifyObservers(partyData);

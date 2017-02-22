@@ -244,6 +244,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             }
         } else if (vid == R.id.imgAddToCartDashboard) {
             AddNewItem addNewItem = new AddNewItem();
+            addNewItem.quantityDisable(false);
             addNewItem.show(getSupportFragmentManager(), null);
         } else if (vid == R.id.imgDeleteItemDashboard) {
             CartLineData cartLineData = ((CartLineData) v.getTag());

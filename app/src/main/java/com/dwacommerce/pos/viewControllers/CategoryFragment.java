@@ -20,7 +20,9 @@ import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.dao.ProductAttributesData;
 import com.dwacommerce.pos.dao.ProductData;
 import com.dwacommerce.pos.database.DatabaseMgr;
+import com.dwacommerce.pos.dialogs.AddNewItem;
 import com.dwacommerce.pos.model.CategoryFragmentModel;
+import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
 
 import org.byteclues.lib.init.Env;
@@ -180,11 +182,20 @@ public class CategoryFragment extends AbstractFragment implements TabLayout.OnTa
                 if (lastProductSelected != null) {
                     lastProductSelected.setSelected(false);
                 }
-                if (Util.isDeviceOnline()) {
-                    Util.showProDialog(Env.currentActivity);
-                    categoryFragmentModel.getProductType(productData.productId);
-                    // categoryFragmentModel.getProductType("DWA122116");
+
+                if (Config.getProductQtySelection() == R.id.rdbtnProductQtyAsk) {
+                    AddNewItem addNewItem = new AddNewItem();
+                    addNewItem.quantityDisable(true);
+                    addNewItem.setProductData(productData);
+                    addNewItem.show(getActivity().getSupportFragmentManager(), null);
+                } else {
+                    if (Util.isDeviceOnline()) {
+                        Util.showProDialog(Env.currentActivity);
+                        categoryFragmentModel.getProductType(productData.productId);
+                        // categoryFragmentModel.getProductType("DWA122116");
+                    }
                 }
+
                 lastProductSelected = ((RelativeLayout) view.getTag(vid));
                 lastProductSelected.setSelected(true);
             }

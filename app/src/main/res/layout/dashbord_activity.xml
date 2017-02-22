@@ -511,6 +511,7 @@
             android:layout_weight="7"
             android:orientation="horizontal">
 
+
             <ImageView
                 android:id="@+id/imgScanDashboard"
                 android:layout_width="0dp"
@@ -549,6 +550,7 @@
                 android:background="@drawable/dashboard_btn_border"
                 android:contentDescription="Cheque"
                 android:padding="@dimen/dim_5"
+                android:visibility="gone"
                 android:src="@mipmap/cheque" />
 
             <ImageView
@@ -559,6 +561,7 @@
                 android:background="@drawable/dashboard_btn_border"
                 android:contentDescription="@string/cc"
                 android:padding="@dimen/dim_8"
+                android:visibility="gone"
                 android:src="@mipmap/credit_debit_card" />
 
             <ImageView

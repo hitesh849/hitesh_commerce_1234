@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,11 +45,13 @@ public class AddNewItem extends AbstractDialogFragment implements View.OnClickLi
     private Dialog dialog;
     private Button btnMinusQuantityAddNew;
     private Button btnPlusQuantityAddNew;
-    private TextView txtQuantityAddNew;
+    private EditText etQuantityAddNew;
     private TextView txtAddToCartAddNew;
     private TextView txtDismissAddNew;
     private AutoCompleteTextView txtItemSearchAddNew;
     private ProductData selectedProductData;
+    private boolean quantityDisable;
+    private String productName;
 
     @Override
     protected Dialog onCreateDialogPost(Bundle savedInstanceState) {
@@ -65,19 +68,36 @@ public class AddNewItem extends AbstractDialogFragment implements View.OnClickLi
         return dialog;
     }
 
+    public void quantityDisable(boolean flag) {
+        quantityDisable = flag;
+    }
+
+    public void setProductData(ProductData productData) {
+        selectedProductData = productData;
+    }
+
     private void init() {
         btnMinusQuantityAddNew = (Button) dialog.findViewById(R.id.btnMinusQuantityAddNew);
         btnPlusQuantityAddNew = (Button) dialog.findViewById(R.id.btnPlusQuantityAddNew);
-        txtQuantityAddNew = (TextView) dialog.findViewById(R.id.txtQuantityAddNew);
+        etQuantityAddNew = (EditText) dialog.findViewById(R.id.etQuantityAddNew);
         txtAddToCartAddNew = (TextView) dialog.findViewById(R.id.txtAddToCartAddNew);
         txtDismissAddNew = (TextView) dialog.findViewById(R.id.txtDismissAddNew);
         txtItemSearchAddNew = (AutoCompleteTextView) dialog.findViewById(R.id.txtItemSearchAddNew);
-        txtItemSearchAddNew.setOnItemClickListener(this);
         btnMinusQuantityAddNew.setOnClickListener(this);
         btnPlusQuantityAddNew.setOnClickListener(this);
         txtAddToCartAddNew.setOnClickListener(this);
         txtDismissAddNew.setOnClickListener(this);
-        txtItemSearchAddNew.addTextChangedListener(this);
+
+        etQuantityAddNew.setFocusableInTouchMode(quantityDisable);
+        etQuantityAddNew.setFocusable(quantityDisable);
+        if (selectedProductData != null) {
+            txtItemSearchAddNew.setText(selectedProductData.productName);
+        } else {
+            txtItemSearchAddNew.addTextChangedListener(this);
+            txtItemSearchAddNew.setOnItemClickListener(this);
+        }
+
+
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(Constants.BARCODE_VALUE)) {
             String barcode = arguments.getString(Constants.BARCODE_VALUE);
@@ -131,23 +151,23 @@ public class AddNewItem extends AbstractDialogFragment implements View.OnClickLi
         int vid = v.getId();
         try {
             if (vid == R.id.btnPlusQuantityAddNew) {
-                int quantity = Integer.parseInt(txtQuantityAddNew.getText().toString());
+                int quantity = Integer.parseInt(etQuantityAddNew.getText().toString());
                 quantity++;
-                txtQuantityAddNew.setText("" + quantity);
+                etQuantityAddNew.setText("" + quantity);
 
             } else if (vid == R.id.btnMinusQuantityAddNew) {
-                int quantity = Integer.parseInt(txtQuantityAddNew.getText().toString());
+                int quantity = Integer.parseInt(etQuantityAddNew.getText().toString());
                 quantity--;
                 if (quantity < 1) {
                     quantity = 1;
                 }
-                txtQuantityAddNew.setText("" + quantity);
+                etQuantityAddNew.setText("" + quantity);
             } else if (vid == R.id.txtAddToCartAddNew) {
                 String productName = txtItemSearchAddNew.getText().toString();
                 if (!TextUtils.isEmpty(productName)) {
                     if (Util.isDeviceOnline() && selectedProductData != null) {
                         Util.showProDialog(Env.currentActivity);
-                        addNewItemModel.addItemToCart(selectedProductData.productId, txtQuantityAddNew.getText().toString().trim());
+                        addNewItemModel.addItemToCart(selectedProductData.productId, etQuantityAddNew.getText().toString().trim());
 
                     }
                 } else {

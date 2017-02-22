@@ -232,6 +232,7 @@
                 android:padding="@dimen/dim_5"
                 android:text="@string/print_statement"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:textStyle="bold" />
 
             <TextView
