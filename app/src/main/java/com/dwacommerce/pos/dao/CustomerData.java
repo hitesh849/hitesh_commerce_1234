@@ -15,6 +15,6 @@ public class CustomerData {
     public double promotionAmount;
     public CustomerData billingAccountInfo;
     public double accountLimit;
-    public double billingAccountId;
+    public String billingAccountId;
     public double accountBalance;
 }

@@ -1,5 +1,6 @@
 package com.dwacommerce.pos.model;
 
+import com.dwacommerce.pos.RetroInterface.RestClient;
 import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.UserData;
 import com.dwacommerce.pos.sharedPreferences.Config;
@@ -19,10 +20,11 @@ import retrofit.client.Response;
  */
 
 public class SettingsModel extends BasicModel {
-    public void fetchSettings(String baseUrl, String userName, String password) {
-        try {  RestAdapter adapter = new RestAdapter.Builder().setEndpoint(baseUrl).build();
-            RestInterface restInterface = adapter.create(RestInterface.class);
 
+    RestInterface restInterface = RestClient.getRestInterface();
+
+    public void fetchSettings(String baseUrl, String userName, String password) {
+        try {
 
             restInterface.settingRest(new HashMap<String, Object>(), userName, password, Config.getCustomerId(), new Callback<UserData>() {
                 @Override

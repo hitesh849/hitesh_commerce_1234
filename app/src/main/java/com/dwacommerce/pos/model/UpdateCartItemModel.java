@@ -1,5 +1,6 @@
 package com.dwacommerce.pos.model;
 
+import com.dwacommerce.pos.RetroInterface.RestClient;
 import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.sharedPreferences.Config;
@@ -18,8 +19,7 @@ import retrofit.client.Response;
  */
 
 public class UpdateCartItemModel extends BasicModel {
-    RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Config.getServerUrl()).build();
-    RestInterface restInterface = restAdapter.create(RestInterface.class);
+    RestInterface restInterface = RestClient.getRestInterface();
 
     public void updateCartItem(String quantity, String cartLineIndex, String price) {
         restInterface.updateCartItem(new HashMap<String, Object>(), "JSESSIONID=" + Config.getSessionId(), cartLineIndex, quantity, price, Config.getSessionId(), Config.getPosTerminalId(), Config.getCustomerId(), new Callback<CommonResponseData>() {

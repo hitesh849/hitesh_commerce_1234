@@ -1,5 +1,6 @@
 package com.dwacommerce.pos.model;
 
+import com.dwacommerce.pos.RetroInterface.RestClient;
 import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.AddToCartData;
 import com.dwacommerce.pos.dao.CartItemsData;
@@ -40,8 +41,8 @@ import retrofit.client.Response;
  */
 
 public class DashboardModel extends BasicModel {
-    RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Config.getServerUrl()).build();
-    RestInterface restInterface = restAdapter.create(RestInterface.class);
+
+    RestInterface restInterface = RestClient.getRestInterface();
 
     public void showCart(String jsessionId, String posTerminalId) {
         restInterface.showCartRequest(new HashMap<String, Object>(), "JSESSIONID=" + Config.getSessionId(), jsessionId, posTerminalId, Config.getCustomerId(), new Callback<CartItemsData>() {

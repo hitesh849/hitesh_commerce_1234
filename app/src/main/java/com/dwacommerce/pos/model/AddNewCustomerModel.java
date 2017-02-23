@@ -1,5 +1,6 @@
 package com.dwacommerce.pos.model;
 
+import com.dwacommerce.pos.RetroInterface.RestClient;
 import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.dao.CountryData;
@@ -21,8 +22,7 @@ import retrofit.client.Response;
  * Created by admin on 8/24/2016.
  */
 public class AddNewCustomerModel extends BasicModel {
-    RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Config.getServerUrl()).build();
-    RestInterface restInterface = restAdapter.create(RestInterface.class);
+    RestInterface restInterface = RestClient.getRestInterface();
 
     public void getCountryList() {
         restInterface.getCountryList(new HashMap<String, Object>(), Config.getCustomerId(),new Callback<CountryData>() {

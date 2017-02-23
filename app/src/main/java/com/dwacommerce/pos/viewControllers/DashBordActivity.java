@@ -50,6 +50,7 @@ import com.dwacommerce.pos.dialogs.AddNewItem;
 import com.dwacommerce.pos.dialogs.DashBordDialogs;
 import com.dwacommerce.pos.dialogs.UpdateCartItem;
 import com.dwacommerce.pos.model.DashboardModel;
+import com.dwacommerce.pos.printers.AemPrinter;
 import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
 import com.dwacommerce.pos.utility.ShowMsg;
@@ -116,7 +117,6 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     private EditText etxtBarcode;
     private AEMScrybeDevice m_AemScrybeDevice;
     private AEMPrinter m_AemPrinter = null;
-    private ArrayList<String> printerList;
 
     @Override
     protected void onCreatePost(Bundle savedInstanceState) {
@@ -126,8 +126,6 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     private void init() {
-
-
         imgAddToCartDashboard = (ImageView) findViewById(R.id.imgAddToCartDashboard);
         txtCustomerNameDashboard = (TextView) findViewById(R.id.txtCustomerNameDashboard);
         txtSubTotalDashboard = (TextView) findViewById(R.id.txtSubTotalDashboard);
@@ -440,40 +438,38 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     public boolean printByAemPrinter(String receiptText) {
-        try {
-
-
-            //  disconnectAemPrinter();
-
-            if (m_AemPrinter == null) {
-
-                m_AemScrybeDevice = (m_AemScrybeDevice == null) ? new AEMScrybeDevice(DashBordActivity.this) : m_AemScrybeDevice;
-                m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
-                m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
-            }
-            m_AemPrinter.print(receiptText);
-            m_AemPrinter.setCarriageReturn();
-            m_AemPrinter.setCarriageReturn();
-            m_AemPrinter.setCarriageReturn();
-            m_AemPrinter.setCarriageReturn();
-            updateButtonState(true);
-
-        } catch (IOException e) {
-            if (e.getMessage().contains("Service discovery failed")) {
-                Util.showAlertDialog(null, "Not Connected\n"
-                        + Config.getAemPrinterName()
-                        + " is unreachable or off otherwise it is connected with other device");
-            } else if (e.getMessage().contains("Device or resource busy")) {
-                Util.showAlertDialog(null, "the device is already connected");
-            } else {
-                Util.showAlertDialog(null, "Unable to connect");
-            }
-
-        }
+//        try {
+//
+//            if (m_AemPrinter == null) {
+//
+//                m_AemScrybeDevice = (m_AemScrybeDevice == null) ? new AEMScrybeDevice(DashBordActivity.this) : m_AemScrybeDevice;
+//                m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
+//                m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
+//            }
+//            m_AemPrinter.print(receiptText);
+//            m_AemPrinter.setCarriageReturn();
+//            m_AemPrinter.setCarriageReturn();
+//            m_AemPrinter.setCarriageReturn();
+//            m_AemPrinter.setCarriageReturn();
+//            updateButtonState(true);
+//
+//        } catch (IOException e) {
+//            if (e.getMessage().contains("Service discovery failed")) {
+//                Util.showAlertDialog(null, "Not Connected\n"
+//                        + Config.getAemPrinterName()
+//                        + " is unreachable or off otherwise it is connected with other device");
+//            } else if (e.getMessage().contains("Device or resource busy")) {
+//                Util.showAlertDialog(null, "the device is already connected");
+//            } else {
+//                Util.showAlertDialog(null, "Unable to connect");
+//            }
+//
+//        }
+        AemPrinter aemPrinter = AemPrinter.getInstance();
+        aemPrinter.print(Config.getAemPrinterName(), receiptText);
         if (Config.getReceiptSharing()) {
             shareWithWhatsApp(receiptText);
         }
-        //  disconnectAemPrinter();
         return false;
     }
 

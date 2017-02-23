@@ -1,5 +1,6 @@
 package com.dwacommerce.pos.model;
 
+import com.dwacommerce.pos.RetroInterface.RestClient;
 import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.CategoryData;
 import com.dwacommerce.pos.dao.CommonResponseData;
@@ -23,8 +24,7 @@ import retrofit.client.Response;
  * Created by admin on 14/09/16.
  */
 public class CategoryFragmentModel extends BasicModel {
-    RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Config.getServerUrl()).build();
-    RestInterface restInterface = restAdapter.create(RestInterface.class);
+    RestInterface restInterface = RestClient.getRestInterface();
 
     public void getTabsCategoryData() {
         if (DatabaseMgr.getInstance(Env.currentActivity).getNoOfRecords(CategoryData.TABLE_NAME) == 0) {

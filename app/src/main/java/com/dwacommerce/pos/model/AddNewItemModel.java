@@ -1,5 +1,6 @@
 package com.dwacommerce.pos.model;
 
+import com.dwacommerce.pos.RetroInterface.RestClient;
 import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.dao.ProductData;
@@ -21,8 +22,7 @@ import retrofit.client.Response;
  */
 
 public class AddNewItemModel extends BasicModel {
-    RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Config.getServerUrl()).build();
-    RestInterface restInterface = restAdapter.create(RestInterface.class);
+    RestInterface restInterface = RestClient.getRestInterface();
 
     public void findProducts(String searchText) {
         restInterface.findProductRequest(new HashMap<String, Object>(), searchText, Config.getCustomerId(),new Callback<ProductData>() {

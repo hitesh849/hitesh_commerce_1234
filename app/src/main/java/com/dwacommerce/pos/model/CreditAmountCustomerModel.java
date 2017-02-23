@@ -1,5 +1,6 @@
 package com.dwacommerce.pos.model;
 
+import com.dwacommerce.pos.RetroInterface.RestClient;
 import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.dao.CustomerBillingAccountInfoData;
@@ -19,8 +20,7 @@ import retrofit.client.Response;
  * Created by admin on 8/23/2016.
  */
 public class CreditAmountCustomerModel extends BasicModel {
-    RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(Config.getServerUrl()).build();
-    RestInterface restInterface = restAdapter.create(RestInterface.class);
+    RestInterface restInterface = RestClient.getRestInterface();
 
     public void searchParty(String searchType, String searchString) {
         restInterface.findParty(new HashMap<String, Object>(),Config.getSessionId(),Config.getPosTerminalId(), searchType, searchString, Config.getCustomerId(), new Callback<PartyData>() {

@@ -23,6 +23,8 @@ import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.dao.CustomerBillingAccountInfoData;
 import com.dwacommerce.pos.dao.PartyData;
 import com.dwacommerce.pos.model.CreditAmountCustomerModel;
+import com.dwacommerce.pos.printers.AemPrinter;
+import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
 
 import org.byteclues.lib.init.Env;
@@ -93,6 +95,8 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
             CommonResponseData responseData = ((CommonResponseData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(responseData.response)) {
                 Util.showCenteredToast(Env.currentActivity, responseData.responseMessage);
+                AemPrinter aemPrinter=AemPrinter.getInstance();
+                aemPrinter.print(Config.getAemPrinterName(),responseData.responseMessage);
             } else {
                 Util.showAlertDialog(null, responseData.response);
             }
