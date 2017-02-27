@@ -207,7 +207,7 @@ public class CategoryFragment extends AbstractFragment implements TabLayout.OnTa
     private void getProductsByCategoryRequest(CategoryData categoryData) {
         if (Util.isDeviceOnline()) {
             Util.showProDialog(Env.currentActivity);
-            categoryFragmentModel.getProductsByCategoryRequest(categoryData.id + "");
+            categoryFragmentModel.getProductsByCategoryRequest(categoryData.id);
         } else {
             Util.showAlertDialog(null, Constants.INTERNET_ERROR_MSG);
         }

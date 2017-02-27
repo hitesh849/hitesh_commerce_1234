@@ -156,17 +156,23 @@ public class DatabaseMgr {
         return contentValues;
     }
 
-    public ArrayList<CategoryData> getCategoryById(long parentCategoryId) {
+    public ArrayList<CategoryData> getCategoryById(String parentCategoryId) {
         ArrayList<CategoryData> categorylist = new ArrayList<CategoryData>();
         try {
-            Cursor cursor = sqLiteDb.query(CategoryData.TABLE_NAME, null, CategoryData.PARENT_CATEGORY_ID + " = ?", new String[]{"" + parentCategoryId}, null, null, null, null);
+            Cursor cursor = null;
+            if (parentCategoryId != null) {
+                cursor = sqLiteDb.query(CategoryData.TABLE_NAME, null, CategoryData.PARENT_CATEGORY_ID + " = ?", new String[]{parentCategoryId}, null, null, null, null);
+            } else {
+                cursor = sqLiteDb.query(CategoryData.TABLE_NAME, null, CategoryData.PARENT_CATEGORY_ID + " IS NULL", null, null, null, null, null);
+            }
+
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
                     CategoryData categoryData = new CategoryData();
-                    categoryData.id = cursor.getLong(cursor.getColumnIndex(CategoryData.FLD_CATEGORY_ID));
+                    categoryData.id = cursor.getString(cursor.getColumnIndex(CategoryData.FLD_CATEGORY_ID));
                     categoryData.name = cursor.getString(cursor.getColumnIndex(CategoryData.FLD_CATEGORY_NAME));
-                    categoryData.parentCategoryId = cursor.getLong(cursor.getColumnIndex(CategoryData.PARENT_CATEGORY_ID));
+                    categoryData.parentCategoryId = cursor.getString(cursor.getColumnIndex(CategoryData.PARENT_CATEGORY_ID));
                     categoryData.imageUrl = cursor.getString(cursor.getColumnIndex(CategoryData.FLD_CATEGORY_IMAGE_URL));
                     categorylist.add(categoryData);
                     cursor.moveToNext();

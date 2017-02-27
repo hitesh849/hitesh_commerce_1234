@@ -111,7 +111,7 @@ public interface RestInterface {
 
     @Headers({"Content-Type:application/json"})
     @POST("/getAllCategoryTree")
-    void getCategoriesRequest(@Body HashMap<String, Object> map, @Query("tenantId") String tenantId, Callback<JsonElement> callback);
+    void getCategoriesRequest(@Body HashMap<String, Object> map, @Query("tenantId") String tenantId, Callback<CategoryData> callback);
 
     @Headers({"Content-Type:application/json"})
     @POST("/getProductsByCategory")

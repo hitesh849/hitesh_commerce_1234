@@ -24,9 +24,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void createCategoryTable(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS "
                 + CategoryData.TABLE_NAME + "("
-                + CategoryData.FLD_CATEGORY_ID + " LONG UNIQUE ON CONFLICT REPLACE,"
+                    + CategoryData.FLD_CATEGORY_ID + " TEXT UNIQUE ON CONFLICT REPLACE,"
                 + CategoryData.FLD_CATEGORY_NAME + " TEXT,"
-                + CategoryData.PARENT_CATEGORY_ID + " LONG,"
+                + CategoryData.PARENT_CATEGORY_ID + " TEXT,"
                 + CategoryData.FLD_CATEGORY_IMAGE_URL + " TEXT);");
         sqLiteDatabase.execSQL("CREATE INDEX IF NOT EXISTS category_id_index on " + CategoryData.TABLE_NAME + "(" + CategoryData.FLD_CATEGORY_ID + ");");
     }

@@ -29,21 +29,20 @@ public class CategoryFragmentModel extends BasicModel {
 
     public void getTabsCategoryData() {
         if (DatabaseMgr.getInstance(Env.currentActivity).getNoOfRecords(CategoryData.TABLE_NAME) == 0) {
-            getAllCategories(0);
+            getAllCategories(null);
         } else {
-            notifyObservers(DatabaseMgr.getInstance(Env.currentActivity).getCategoryById(0));
+            notifyObservers(DatabaseMgr.getInstance(Env.currentActivity).getCategoryById(null));
         }
     }
 
-    private void getAllCategories(final long parentCategoryId) {
-        restInterface.getCategoriesRequest(new HashMap<String, Object>(), Config.getCustomerId(),new Callback<JsonElement>() {
+    private void getAllCategories(final String parentCategoryId) {
+        restInterface.getCategoriesRequest(new HashMap<String, Object>(), Config.getCustomerId(),new Callback<CategoryData>() {
             @Override
-            public void success(JsonElement categoryData, Response response) {
-                System.out.print(categoryData);
-//                if (categoryData != null && Constants.RESPONSE_SUCCESS_MSG.equals(categoryData.response)) {
-//                    DatabaseMgr.getInstance(Env.currentActivity).insertDataToCategoryTable(categoryData.categories);
-//                    notifyObservers(DatabaseMgr.getInstance(Env.currentActivity).getCategoryById(parentCategoryId));
-//                }
+            public void success(CategoryData categoryData, Response response) {
+                if (categoryData != null && Constants.RESPONSE_SUCCESS_MSG.equals(categoryData.response)) {
+                    DatabaseMgr.getInstance(Env.currentActivity).insertDataToCategoryTable(categoryData.categories);
+                    notifyObservers(DatabaseMgr.getInstance(Env.currentActivity).getCategoryById(parentCategoryId));
+                }
             }
 
             @Override

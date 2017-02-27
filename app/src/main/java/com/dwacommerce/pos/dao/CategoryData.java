@@ -21,7 +21,7 @@ public class CategoryData {
     public ArrayList<CategoryData> categories;
     public ArrayList<CategoryData> subCategories;
     public String name;
-    public long id;
-    public long parentCategoryId;
+    public String id;
+    public String parentCategoryId;
     public String imageUrl;
 }
