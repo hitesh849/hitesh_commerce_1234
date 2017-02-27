@@ -21,10 +21,10 @@ import retrofit.client.Response;
 
 public class LogInModel extends BasicModel {
 
-    RestInterface restInterface = RestClient.getRestInterface();
+
     public void doLogin(String userName, String password, String posTerminalId, String productStoreId) {
         try {
-
+            RestInterface restInterface = RestClient.getRestInterfaceObject(Config.getServerUrl());
             restInterface.loginRequest(new HashMap<String, Object>(), userName, password, posTerminalId, productStoreId, Config.getCustomerId(), new Callback<LoginData>() {
                 @Override
                 public void success(LoginData obj, Response response) {
@@ -43,6 +43,7 @@ public class LogInModel extends BasicModel {
 
     public void saveSettings(String productStoreId) {
         try {
+            RestInterface restInterface = RestClient.getRestInterfaceObject(Config.getServerUrl());
             restInterface.saveConfigRequest(new HashMap<String, Object>(), productStoreId, Config.getCustomerId(), new Callback<ConfigurationsData>() {
                 @Override
                 public void success(ConfigurationsData obj, Response response) {

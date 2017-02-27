@@ -54,192 +54,233 @@
         android:textStyle="bold"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/chkbxCreditAmount"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dim_16"
-        android:gravity="bottom"
-        android:orientation="horizontal">
+        android:layout_marginTop="@dimen/dim_5"
+        android:text="@string/credit_amount_text" />
 
-        <CheckBox
-            android:id="@+id/chkByCash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/llBankAccountContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_8"
-            android:layout_marginRight="@dimen/dim_16"
-            android:layout_marginTop="@dimen/dim_8"
-            android:gravity="center">
+            android:layout_marginLeft="@dimen/dim_16"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/etxtAmountCash"
-                style="@style/et_new_customer"
+            <CheckBox
+                android:id="@+id/chkByCash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/by_cash"
-                android:inputType="numberDecimal"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
+                android:layout_marginLeft="@dimen/dim_8"
+                android:layout_marginRight="@dimen/dim_16"
+                android:layout_marginTop="@dimen/dim_8"
+                android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dim_16"
-        android:gravity="bottom"
-        android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/etxtAmountCash"
+                    style="@style/et_new_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/by_cash"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/chkByDebitCredit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_8"
-            android:layout_marginRight="@dimen/dim_4"
-            android:layout_marginTop="@dimen/dim_10"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:layout_marginLeft="@dimen/dim_16"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/etxtDebitCreditCardAmount"
-                style="@style/et_new_customer"
-                android:layout_width="match_parent"
+            <CheckBox
+                android:id="@+id/chkByDebitCredit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/by_debit_credit"
-                android:inputType="text"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginLeft="@dimen/dim_8"
+                android:layout_marginRight="@dimen/dim_4"
+                android:layout_marginTop="@dimen/dim_10"
+                android:layout_weight="1"
+                android:gravity="center">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_4"
-            android:layout_marginRight="@dimen/dim_16"
-            android:layout_marginTop="@dimen/dim_10"
-            android:layout_weight="1"
-            android:gravity="center">
+                <EditText
+                    android:id="@+id/etxtDebitCreditCardAmount"
+                    style="@style/et_new_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/by_debit_credit"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etxtByDebitCreditRefNo"
-                style="@style/et_new_customer"
-                android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/reference_no"
-                android:inputType="text"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
+                android:layout_marginLeft="@dimen/dim_4"
+                android:layout_marginRight="@dimen/dim_16"
+                android:layout_marginTop="@dimen/dim_10"
+                android:layout_weight="1"
+                android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/etxtByDebitCreditRefNo"
+                    style="@style/et_new_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/reference_no"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/chkByCheque"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_16" />
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_8"
-            android:layout_marginRight="@dimen/dim_4"
-            android:layout_marginTop="@dimen/dim_10"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <EditText
-                android:id="@+id/etxtBankName"
-                style="@style/et_new_customer"
-                android:layout_width="match_parent"
+            <CheckBox
+                android:id="@+id/chkByCheque"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/bank"
-                android:inputType="text"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginLeft="@dimen/dim_16" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_4"
-            android:layout_marginRight="@dimen/dim_4"
-            android:layout_marginTop="@dimen/dim_10"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <EditText
-                android:id="@+id/etxtBankAmount"
-                style="@style/et_new_customer"
-                android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/bank_amount"
-                android:inputType="number"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginLeft="@dimen/dim_8"
+                android:layout_marginRight="@dimen/dim_4"
+                android:layout_marginTop="@dimen/dim_10"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_4"
-            android:layout_marginRight="@dimen/dim_16"
-            android:layout_marginTop="@dimen/dim_10"
-            android:layout_weight="1"
-            android:gravity="center">
+                <EditText
+                    android:id="@+id/etxtBankName"
+                    style="@style/et_new_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/bank"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etxtBankRefNo"
-                style="@style/et_new_customer"
-                android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/reference_no"
-                android:inputType="text"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginLeft="@dimen/dim_4"
+                android:layout_marginRight="@dimen/dim_4"
+                android:layout_marginTop="@dimen/dim_10"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/etxtBankAmount"
+                    style="@style/et_new_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/bank_amount"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_4"
+                android:layout_marginRight="@dimen/dim_16"
+                android:layout_marginTop="@dimen/dim_10"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/etxtBankRefNo"
+                    style="@style/et_new_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/reference_no"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llCreditMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <CheckBox
-            android:id="@+id/chkByCredit"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_16" />
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_8"
-            android:layout_marginRight="@dimen/dim_4"
-            android:layout_marginTop="@dimen/dim_10"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <EditText
-                android:id="@+id/etxtCreditAmount"
-                style="@style/et_new_customer"
-                android:layout_width="match_parent"
+            <CheckBox
+                android:id="@+id/chkByCredit"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/credit_amount"
-                android:inputType="number"
-                android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
+                android:layout_marginLeft="@dimen/dim_16" />
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_8"
+                android:layout_marginRight="@dimen/dim_4"
+                android:layout_marginTop="@dimen/dim_10"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/etxtCreditAmount"
+                    style="@style/et_new_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/credit_amount"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_16"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/txtAvlCreditAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_8"
+                android:layout_marginRight="@dimen/dim_4" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

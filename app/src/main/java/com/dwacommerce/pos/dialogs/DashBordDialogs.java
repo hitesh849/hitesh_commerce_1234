@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -131,7 +132,7 @@ public class DashBordDialogs {
         TextView txtConfirmCatPayment = (TextView) dialogView.findViewById(R.id.txtConfirmCatPayment);
         TextView txtCancelCreditCard = (TextView) dialogView.findViewById(R.id.txtCancelCreditCard);
         TextView txtAmountCreditCard = (TextView) dialogView.findViewById(R.id.txtAmountCreditCard);
-        LinearLayout llCreditMain = (LinearLayout) dialogView.findViewById(R.id.llCreditMain);
+        final LinearLayout llCreditMain = (LinearLayout) dialogView.findViewById(R.id.llCreditMain);
         final LinearLayout llAllPaymentMain = (LinearLayout) dialogView.findViewById(R.id.llAllPaymentMain);
         final CheckBox chkByCash = (CheckBox) dialogView.findViewById(R.id.chkByCash);
         final CheckBox chkByDebitCredit = (CheckBox) dialogView.findViewById(R.id.chkByDebitCredit);
@@ -139,22 +140,48 @@ public class DashBordDialogs {
         final CheckBox chkByCredit = (CheckBox) dialogView.findViewById(R.id.chkByCredit);
 
         final EditText etxtAmountCash = (EditText) dialogView.findViewById(R.id.etxtAmountCash);
+        setEditTextMode(etxtAmountCash, false);
         final EditText etxtDebitCreditCardAmount = (EditText) dialogView.findViewById(R.id.etxtDebitCreditCardAmount);
+        setEditTextMode(etxtDebitCreditCardAmount, false);
         final EditText etxtByDebitCreditRefNo = (EditText) dialogView.findViewById(R.id.etxtByDebitCreditRefNo);
+        setEditTextMode(etxtByDebitCreditRefNo, false);
         final EditText etxtBankName = (EditText) dialogView.findViewById(R.id.etxtBankName);
+        setEditTextMode(etxtBankName, false);
         final EditText etxtBankAmount = (EditText) dialogView.findViewById(R.id.etxtBankAmount);
+        setEditTextMode(etxtBankAmount, false);
         final EditText etxtBankRefNo = (EditText) dialogView.findViewById(R.id.etxtBankRefNo);
+        setEditTextMode(etxtBankRefNo, false);
         final EditText etxtCreditAmount = (EditText) dialogView.findViewById(R.id.etxtCreditAmount);
-//        final EditText etxtCreditRefNo = (EditText) dialogView.findViewById(R.id.etxtCreditRefNo);
+        setEditTextMode(etxtCreditAmount, false);
+        final TextView txtAvlCreditAmount = (TextView) dialogView.findViewById(R.id.txtAvlCreditAmount);
         final TextView txtPaymentError = (TextView) dialogView.findViewById(R.id.txtPaymentError);
+        final CheckBox chkbxCreditAmount = ((CheckBox) dialogView.findViewById(R.id.chkbxCreditAmount));
+        ;
+        final LinearLayout llBankAccountContainer = ((LinearLayout) dialogView.findViewById(R.id.llBankAccountContainer));
         txtAmountCreditCard.setText(grandTotalAmount);
-        if (customerData != null && customerData.billingAccountInfo != null)
-            llCreditMain.setVisibility(View.VISIBLE);
-        else
-            llCreditMain.setVisibility(View.GONE);
+
+        if (customerData != null && customerData.billingAccountInfo != null) {
+            chkbxCreditAmount.setVisibility(View.VISIBLE);
+            txtAvlCreditAmount.setText("Available Credit amount: " + customerData.billingAccountInfo.accountBalance);
+        } else {
+            chkbxCreditAmount.setVisibility(View.GONE);
+        }
+        chkbxCreditAmount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    llCreditMain.setVisibility(View.VISIBLE);
+                    llBankAccountContainer.setVisibility(View.GONE);
+                } else {
+                    llCreditMain.setVisibility(View.GONE);
+                    llBankAccountContainer.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         txtCancelCreditCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Util.hideKeyboard(dialogView.findFocus());
                 alertDialog.dismiss();
             }
         });
@@ -163,6 +190,7 @@ public class DashBordDialogs {
             @Override
             public void onClick(View v) {
                 txtPaymentError.setVisibility(View.GONE);
+                setEditTextMode(etxtAmountCash, chkByCash.isChecked());
                 if (!chkByCash.isChecked()) {
                     etxtAmountCash.setError(null);
                 }
@@ -172,6 +200,8 @@ public class DashBordDialogs {
             @Override
             public void onClick(View v) {
                 txtPaymentError.setVisibility(View.GONE);
+                setEditTextMode(etxtDebitCreditCardAmount, chkByDebitCredit.isChecked());
+                setEditTextMode(etxtByDebitCreditRefNo, chkByDebitCredit.isChecked());
                 if (!chkByDebitCredit.isChecked()) {
                     etxtDebitCreditCardAmount.setError(null);
                     etxtByDebitCreditRefNo.setError(null);
@@ -182,10 +212,12 @@ public class DashBordDialogs {
             @Override
             public void onClick(View v) {
                 txtPaymentError.setVisibility(View.GONE);
+                setEditTextMode(etxtBankAmount, chkByCheque.isChecked());
+                setEditTextMode(etxtBankRefNo, chkByCheque.isChecked());
                 if (!chkByCheque.isChecked()) {
-                  //  etxtBankName.setError(null);
                     etxtBankAmount.setError(null);
                     etxtBankRefNo.setError(null);
+
                 }
             }
         });
@@ -194,9 +226,9 @@ public class DashBordDialogs {
             @Override
             public void onClick(View v) {
                 txtPaymentError.setVisibility(View.GONE);
+                setEditTextMode(etxtCreditAmount, chkByCredit.isChecked());
                 if (!chkByCredit.isChecked()) {
                     etxtCreditAmount.setError(null);
-//                    etxtCreditRefNo.setError(null);
                 }
             }
         });
@@ -212,59 +244,63 @@ public class DashBordDialogs {
                 String checkAmt = etxtBankAmount.getText().toString();
                 String checkRefNum = etxtBankRefNo.getText().toString();
                 String billAccAmt = etxtCreditAmount.getText().toString();
-//                String billAccId = etxtCreditRefNo.getText().toString();
-                String billAccId = customerData.billingAccountInfo.billingAccountId;
+
+                String billAccId = null;
+                if (customerData != null && customerData.billingAccountInfo != null && customerData.billingAccountInfo.billingAccountId != null)
+                    billAccId = customerData.billingAccountInfo.billingAccountId;
 
                 if (!chkByCash.isChecked() && !chkByDebitCredit.isChecked() && !chkByCheque.isChecked() && !chkByCredit.isChecked()) {
                     txtPaymentError.setVisibility(View.VISIBLE);
                     return;
                 }
 
-                if (chkByCash.isChecked()) {
-                    if (TextUtils.isEmpty(cashAmt)) {
-                        etxtAmountCash.setError("Can't be empty");
-                        return;
+                if (!chkbxCreditAmount.isChecked()) {
+                    if (chkByCash.isChecked()) {
+                        if (TextUtils.isEmpty(cashAmt)) {
+                            etxtAmountCash.setError("Can't be empty");
+                            return;
+                        }
                     }
-                }
 
-                if (chkByDebitCredit.isChecked()) {
-                    if (TextUtils.isEmpty(ccAmt)) {
-                        etxtDebitCreditCardAmount.setError("Can't be empty");
-                        return;
+                    if (chkByDebitCredit.isChecked()) {
+                        if (TextUtils.isEmpty(ccAmt)) {
+                            etxtDebitCreditCardAmount.setError("Can't be empty");
+                            return;
+                        }
+                        if (TextUtils.isEmpty(ccRefNum)) {
+                            etxtByDebitCreditRefNo.setError("Can't be empty");
+                            return;
+                        }
                     }
-                    if (TextUtils.isEmpty(ccRefNum)) {
-                        etxtByDebitCreditRefNo.setError("Can't be empty");
-                        return;
+                    if (chkByCheque.isChecked()) {
+                        if (TextUtils.isEmpty(checkAmt)) {
+                            etxtBankAmount.setError("Can't be empty");
+                            return;
+                        }
+                        if (TextUtils.isEmpty(checkRefNum)) {
+                            etxtBankRefNo.setError("Can't be empty");
+                            return;
+                        }
                     }
+                    ((DashBordActivity) context).cartPaymentForAllCategories(cashAmt, ccAmt, ccRefNum, bankName, checkAmt, checkRefNum, billAccId, "");
+                } else {
+                    if (chkByCredit.isChecked()) {
+                        if (TextUtils.isEmpty(billAccAmt)) {
+                            etxtCreditAmount.setError("Can't be empty");
+                            return;
+                        }
+                    }
+                    ((DashBordActivity) context).cartPaymentForAllCategories("", "", "", "", "", "", "", billAccAmt);
                 }
-                if (chkByCheque.isChecked()) {
-                    /*if (TextUtils.isEmpty(bankName)) {
-                        etxtBankName.setError("Can't be empty");
-                        return;
-                    }*/
-                    if (TextUtils.isEmpty(checkAmt)) {
-                        etxtBankAmount.setError("Can't be empty");
-                        return;
-                    }
-                    if (TextUtils.isEmpty(checkRefNum)) {
-                        etxtBankRefNo.setError("Can't be empty");
-                        return;
-                    }
-                }
-                if (chkByCredit.isChecked()) {
-                    if (TextUtils.isEmpty(billAccAmt)) {
-                        etxtCreditAmount.setError("Can't be empty");
-                        return;
-                    }
-//                    if (TextUtils.isEmpty(billAccId)) {
-//                        etxtCreditRefNo.setError("Can't be empty");
-//                        return;
-//                    }
-                }
-                ((DashBordActivity) context).cartPaymentForAllCategories(cashAmt, ccAmt, ccRefNum, bankName, checkAmt, checkRefNum, billAccId, billAccAmt);
-                 alertDialog.dismiss();
+                Util.hideKeyboard(dialogView.findFocus());
+                alertDialog.dismiss();
             }
         });
+    }
+
+    private void setEditTextMode(EditText editText, boolean unableOrDisable) {
+        editText.setFocusableInTouchMode(unableOrDisable);
+        editText.setFocusable(unableOrDisable);
     }
 
     public void promotion() {

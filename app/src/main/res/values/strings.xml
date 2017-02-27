@@ -119,7 +119,7 @@
     <string name="handlingmsg_err_battery_real_end">Please connect AC adapter or change the battery.\nBattery of printer is almost empty.\n</string>
     <string name="handlingmsg_err_offline">Printer is offline.\n</string>
     <string name="printing_confirmation">Receipt Printing</string>
-    <string name="quantity">Quantity  :</string>
+    <string name="quantity">Quantity   :</string>
     <string name="item_name">Item Name :</string>
     <string name="price">Price(INR) :</string>
     <string name="per_unit">Per unit</string>
@@ -198,4 +198,6 @@
 
     <string name="print_statement">Print Statement</string>
     <string name="deposit_amount">Deposit Amount</string>
+    <string name="add_new_item">Add New Product</string>
+    <string name="credit_amount_text">Credit Amount</string>
 </resources>

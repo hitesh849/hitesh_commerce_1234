@@ -61,6 +61,7 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
     }
 
     private void init() {
+
         txtSearchParty = (AutoCompleteTextView) findViewById(R.id.txtSearchParty);
         etxtDepositAmount = (TextInputEditText) findViewById(R.id.etxtDepositAmount);
         imgBackFindCustomer = (ImageView) findViewById(R.id.imgBackFindCustomer);
@@ -94,9 +95,10 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
         } else if (data instanceof CommonResponseData) {
             CommonResponseData responseData = ((CommonResponseData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(responseData.response)) {
+                etxtDepositAmount.setText("");
                 Util.showCenteredToast(Env.currentActivity, responseData.responseMessage);
-                AemPrinter aemPrinter=AemPrinter.getInstance();
-                aemPrinter.print(Config.getAemPrinterName(),responseData.responseMessage);
+               /* AemPrinter aemPrinter=AemPrinter.getInstance();
+                aemPrinter.print(Config.getAemPrinterName(),responseData.responseMessage);*/
             } else {
                 Util.showAlertDialog(null, responseData.response);
             }

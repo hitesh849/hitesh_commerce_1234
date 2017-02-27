@@ -5,14 +5,17 @@ import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.UserData;
 import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
+import com.squareup.okhttp.OkHttpClient;
 
 import org.byteclues.lib.model.BasicModel;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 /**
@@ -21,11 +24,10 @@ import retrofit.client.Response;
 
 public class SettingsModel extends BasicModel {
 
-    RestInterface restInterface = RestClient.getRestInterface();
 
     public void fetchSettings(String baseUrl, String userName, String password) {
         try {
-
+            RestInterface restInterface = RestClient.getRestInterfaceObject(baseUrl);
             restInterface.settingRest(new HashMap<String, Object>(), userName, password, Config.getCustomerId(), new Callback<UserData>() {
                 @Override
                 public void success(UserData obj, Response response) {
@@ -41,5 +43,6 @@ public class SettingsModel extends BasicModel {
             ex.printStackTrace();
         }
     }
+
 }
 

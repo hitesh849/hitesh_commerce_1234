@@ -52,7 +52,6 @@ public class SettingsActivity extends AbstractFragmentActivity implements View.O
         etxtPasswordSettigs = (EditText) findViewById(R.id.etxtPasswordSettigs);
         btnSubmitSettings = (Button) findViewById(R.id.btnSubmitSettings);
         btnSubmitSettings.setOnClickListener(this);
-
         etxtUrlSettings.setText("http://leisureapparel.dwacommerce.com/webpos/rest");
         etxtUserNameSettings.setText("dwaadmin");
         etxtPasswordSettigs.setText("changeit");

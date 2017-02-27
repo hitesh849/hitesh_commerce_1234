@@ -32,7 +32,7 @@
     <item
         android:id="@+id/menuCreditAmount"
         android:showAsAction="ifRoom"
-        android:title="Credit Amount" />
+        android:title="Credit Account" />
     <item
         android:id="@+id/menuSignOutDashboard"
         android:showAsAction="ifRoom"

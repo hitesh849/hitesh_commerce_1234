@@ -28,4 +28,18 @@ public class RestClient {
         }
         return restInterface;
     }
+
+    public static RestInterface getRestInterfaceObject(String baseUrl) {
+
+        OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(120000, TimeUnit.SECONDS);
+        client.setReadTimeout(120000, TimeUnit.SECONDS);
+        RestAdapter adapter = new RestAdapter.Builder()
+                .setEndpoint(baseUrl)
+                .setClient(new OkClient(client))
+                .build();
+        RestInterface   restInterface = adapter.create(RestInterface.class);
+
+        return restInterface;
+    }
 }

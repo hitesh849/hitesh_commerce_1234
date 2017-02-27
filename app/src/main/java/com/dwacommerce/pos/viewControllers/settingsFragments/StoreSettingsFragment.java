@@ -157,7 +157,9 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
         } else if (vid == R.id.txtDemoStoreSetting) {
             Config.setProductStoreId("retailStore2");
             Config.setPosTerminalId(null);
-            Config.setBaseUrl(getDomainUrl(Config.getServerUrl()));
+            //Config.setBaseUrl(getDomainUrl(Config.getServerUrl()));
+            Config.setBaseUrl(getDomainUrl("http://leisureapparel.dwacommerce.com/webpos/rest"));
+            Config.setServerUrl("http://leisureapparel.dwacommerce.com/webpos/rest");
             ((SettingActivity) getActivity()).setResult = true;
             Intent intent = new Intent(getActivity(), LogInActivity.class);
             Config.setDemo(true);

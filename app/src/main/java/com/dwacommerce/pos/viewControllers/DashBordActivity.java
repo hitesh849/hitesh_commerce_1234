@@ -438,35 +438,35 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     public boolean printByAemPrinter(String receiptText) {
-//        try {
-//
-//            if (m_AemPrinter == null) {
-//
-//                m_AemScrybeDevice = (m_AemScrybeDevice == null) ? new AEMScrybeDevice(DashBordActivity.this) : m_AemScrybeDevice;
-//                m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
-//                m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
-//            }
-//            m_AemPrinter.print(receiptText);
-//            m_AemPrinter.setCarriageReturn();
-//            m_AemPrinter.setCarriageReturn();
-//            m_AemPrinter.setCarriageReturn();
-//            m_AemPrinter.setCarriageReturn();
-//            updateButtonState(true);
-//
-//        } catch (IOException e) {
-//            if (e.getMessage().contains("Service discovery failed")) {
-//                Util.showAlertDialog(null, "Not Connected\n"
-//                        + Config.getAemPrinterName()
-//                        + " is unreachable or off otherwise it is connected with other device");
-//            } else if (e.getMessage().contains("Device or resource busy")) {
-//                Util.showAlertDialog(null, "the device is already connected");
-//            } else {
-//                Util.showAlertDialog(null, "Unable to connect");
-//            }
-//
-//        }
-        AemPrinter aemPrinter = AemPrinter.getInstance();
-        aemPrinter.print(Config.getAemPrinterName(), receiptText);
+        try {
+
+            if (m_AemPrinter == null) {
+
+                m_AemScrybeDevice = (m_AemScrybeDevice == null) ? new AEMScrybeDevice(DashBordActivity.this) : m_AemScrybeDevice;
+                m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
+                m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
+            }
+            m_AemPrinter.print(receiptText);
+            m_AemPrinter.setCarriageReturn();
+            m_AemPrinter.setCarriageReturn();
+            m_AemPrinter.setCarriageReturn();
+            m_AemPrinter.setCarriageReturn();
+            updateButtonState(true);
+
+        } catch (IOException e) {
+            if (e.getMessage().contains("Service discovery failed")) {
+                Util.showAlertDialog(null, "Not Connected\n"
+                        + Config.getAemPrinterName()
+                        + " is unreachable or off otherwise it is connected with other device");
+            } else if (e.getMessage().contains("Device or resource busy")) {
+                Util.showAlertDialog(null, "the device is already connected");
+            } else {
+                Util.showAlertDialog(null, "Unable to connect");
+            }
+
+        }
+       /* AemPrinter aemPrinter = AemPrinter.getInstance();
+        aemPrinter.print(Config.getAemPrinterName(), receiptText);*/
         if (Config.getReceiptSharing()) {
             shareWithWhatsApp(receiptText);
         }
@@ -484,10 +484,13 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     private void printReceipt(ReceiptData receiptData) {
-        String receiptText = getReceiptText(receiptData);
-        updateButtonState(false);
+        String receiptText=null;
+        if (Config.getPrinterId() != R.id.rdbtnAemPrinter) {
+             receiptText = getReceiptText(receiptData);
+            updateButtonState(false);
+        }
         if (Config.getPrinterId() == R.id.rdbtnAemPrinter) {
-            receiptText = getAemReceiptText(receiptData);
+             receiptText = getAemReceiptText(receiptData);
             if (!printByAemPrinter(receiptText)) {
                 updateButtonState(true);
             } else {
@@ -496,7 +499,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         } else if (!runPrintReceiptSequence(receiptData)) {
             updateButtonState(true);
         }
-        if (Config.getReceiptSharing()) {
+        if (Config.getReceiptSharing() && receiptText!=null) {
             shareWithWhatsApp(receiptText);
         }
     }

@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add New Product"
+        android:text="@string/add_new_item"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_dim_15"
         android:textStyle="bold" />
@@ -19,69 +19,96 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dim_5"
-        android:layout_weight="10"
         android:gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="@dimen/dim_1">
 
-
-        <AutoCompleteTextView
-            android:id="@+id/txtItemSearchAddNew"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dim_5"
-            android:layout_weight="7"
-            android:hint="@string/product_name"
-            android:imeOptions="flagNoExtractUi"
-            android:padding="@dimen/dim_5"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_dim_15" />
+            android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btnMinusQuantityAddNew"
-                android:layout_width="@dimen/dim_20"
-                android:layout_height="@dimen/dim_20"
-                android:background="@drawable/rouneded_blue_bg"
-                android:gravity="center"
-                android:text="-"
-                android:textColor="@android:color/white"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dim_5"
+                android:text="@string/item_name"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/text_dim_15" />
 
-            <EditText
-                android:id="@+id/etQuantityAddNew"
+            <AutoCompleteTextView
+                android:id="@+id/txtItemSearchAddNew"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dim_3"
-                android:layout_marginRight="@dimen/dim_3"
-                android:layout_weight="1"
-                android:background="@drawable/background_border"
-                android:gravity="center"
-                android:inputType="number"
-                android:paddingBottom="@dimen/dim_4"
-                android:paddingTop="@dimen/dim_4"
-                android:text="1"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/text_dim_15"
-                android:textStyle="bold">
-
-                <requestFocus />
-            </EditText>
-
-            <Button
-                android:id="@+id/btnPlusQuantityAddNew"
-                android:layout_width="@dimen/dim_20"
-                android:layout_height="@dimen/dim_20"
-                android:background="@drawable/rouneded_blue_bg"
-                android:gravity="center"
-                android:text="+"
-                android:textColor="@android:color/white"
+                android:layout_marginLeft="@dimen/dim_5"
+                android:layout_weight="7"
+                android:hint="@string/product_name"
+                android:imeOptions="flagNoExtractUi"
+                android:padding="@dimen/dim_5"
+                android:textColor="@android:color/black"
                 android:textSize="@dimen/text_dim_15" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dim_5"
+            android:layout_marginTop="@dimen/dim_5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dim_5"
+                android:text="@string/quantity"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_dim_15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dim_5">
+
+                <Button
+                    android:id="@+id/btnMinusQuantityAddNew"
+                    android:layout_width="@dimen/dim_20"
+                    android:layout_height="@dimen/dim_20"
+                    android:background="@drawable/rouneded_blue_bg"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_dim_15" />
+
+                <EditText
+                    android:id="@+id/etQuantityAddNew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dim_5"
+                    android:layout_marginRight="@dimen/dim_5"
+                    android:background="@drawable/background_border"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/dim_10"
+                    android:paddingRight="@dimen/dim_10"
+                    android:text="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dim_16" >
+                    <requestFocus />
+                </EditText>
+
+                <Button
+                    android:id="@+id/btnPlusQuantityAddNew"
+                    android:layout_width="@dimen/dim_20"
+                    android:layout_height="@dimen/dim_20"
+                    android:background="@drawable/rouneded_blue_bg"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_dim_15" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

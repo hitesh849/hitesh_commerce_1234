@@ -9,6 +9,7 @@ import com.dwacommerce.pos.dao.ProductData;
 import com.dwacommerce.pos.database.DatabaseMgr;
 import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
+import com.google.gson.JsonElement;
 
 import org.byteclues.lib.init.Env;
 import org.byteclues.lib.model.BasicModel;
@@ -35,13 +36,14 @@ public class CategoryFragmentModel extends BasicModel {
     }
 
     private void getAllCategories(final long parentCategoryId) {
-        restInterface.getCategoriesRequest(new HashMap<String, Object>(), Config.getCustomerId(),new Callback<CategoryData>() {
+        restInterface.getCategoriesRequest(new HashMap<String, Object>(), Config.getCustomerId(),new Callback<JsonElement>() {
             @Override
-            public void success(CategoryData categoryData, Response response) {
-                if (categoryData != null && Constants.RESPONSE_SUCCESS_MSG.equals(categoryData.response)) {
-                    DatabaseMgr.getInstance(Env.currentActivity).insertDataToCategoryTable(categoryData.categories);
-                    notifyObservers(DatabaseMgr.getInstance(Env.currentActivity).getCategoryById(parentCategoryId));
-                }
+            public void success(JsonElement categoryData, Response response) {
+                System.out.print(categoryData);
+//                if (categoryData != null && Constants.RESPONSE_SUCCESS_MSG.equals(categoryData.response)) {
+//                    DatabaseMgr.getInstance(Env.currentActivity).insertDataToCategoryTable(categoryData.categories);
+//                    notifyObservers(DatabaseMgr.getInstance(Env.currentActivity).getCategoryById(parentCategoryId));
+//                }
             }
 
             @Override
