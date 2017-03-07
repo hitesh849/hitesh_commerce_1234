@@ -50,7 +50,6 @@ import com.dwacommerce.pos.dialogs.AddNewItem;
 import com.dwacommerce.pos.dialogs.DashBordDialogs;
 import com.dwacommerce.pos.dialogs.UpdateCartItem;
 import com.dwacommerce.pos.model.DashboardModel;
-import com.dwacommerce.pos.printers.AemPrinter;
 import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
 import com.dwacommerce.pos.utility.ShowMsg;
@@ -372,7 +371,8 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                     Util.showCenteredToast(this, responseData.responseMessage);
                 }
             } else if (Constants.RESPONSE_ERROR_MSG.equals(responseData.response)) {
-                Util.showAlertDialog(null, responseData.responseMessage);
+                Util.showCenteredToast(DashBordActivity.this, responseData.responseMessage);
+                dashBordDialogs.paymentWithAllCategoriesDialog("Payment", txtTotalDueDashboard.getText().toString(), currency, customerData);
             }
         } else if (data instanceof AddToCartData) {
             AddToCartData responseData = ((AddToCartData) data);
@@ -484,13 +484,13 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     private void printReceipt(ReceiptData receiptData) {
-        String receiptText=null;
+        String receiptText = null;
         if (Config.getPrinterId() != R.id.rdbtnAemPrinter) {
-             receiptText = getReceiptText(receiptData);
+            receiptText = getReceiptText(receiptData);
             updateButtonState(false);
         }
         if (Config.getPrinterId() == R.id.rdbtnAemPrinter) {
-             receiptText = getAemReceiptText(receiptData);
+            receiptText = getAemReceiptText(receiptData);
             if (!printByAemPrinter(receiptText)) {
                 updateButtonState(true);
             } else {
@@ -499,7 +499,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
         } else if (!runPrintReceiptSequence(receiptData)) {
             updateButtonState(true);
         }
-        if (Config.getReceiptSharing() && receiptText!=null) {
+        if (Config.getReceiptSharing() && receiptText != null) {
             shareWithWhatsApp(receiptText);
         }
     }
@@ -1043,19 +1043,28 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                 tblSalesTaxRow.setVisibility(View.VISIBLE);
             } else
                 tblSalesTaxRow.setVisibility(View.GONE);
-
+            double cashAmount = 0;
+            double creditCardAmount = 0;
+            double chequeAmount = 0;
             for (PaymentInfoData paymentInfo : cartItemsData.shoppingCart.paymentInfo) {
                 switch (paymentInfo.paymentMethodTypeId) {
                     case "CASH":
-                        txtCashDashBoard.setText(String.format("%.2f", paymentInfo.amount) + "");
+                        cashAmount += paymentInfo.amount;
                         break;
                     case "CREDIT_CARD":
-                        txtCCDashboard.setText(String.format("%.2f", paymentInfo.amount) + "");
+                        creditCardAmount += paymentInfo.amount;
+
                         break;
                     case "PERSONAL_CHECK":
-                        txtChequeDashboard.setText(String.format("%.2f", paymentInfo.amount) + "");
+                        chequeAmount += paymentInfo.amount;
                         break;
                 }
+            }
+            txtCashDashBoard.setText(String.format("%.2f", cashAmount));
+            txtCCDashboard.setText(String.format("%.2f", creditCardAmount));
+            txtChequeDashboard.setText(String.format("%.2f", chequeAmount) + "");
+            if(cartItemsData.totalDue<0){
+                Util.showAlertDialog(null,"amount return to customer: "+(-cartItemsData.totalDue)+" "+cartItemsData.shoppingCart.currencyUom);
             }
         } catch (Exception e) {
             e.printStackTrace();

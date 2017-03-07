@@ -120,7 +120,7 @@ public class DashBordDialogs {
         alertDialog.show();
     }
 
-    public void paymentWithAllCategoriesDialog(String headerText, String grandTotalAmount, String currency, final CustomerData customerData) {
+    public void paymentWithAllCategoriesDialog(String headerText, final String grandTotalAmount, String currency, final CustomerData customerData) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = ((DashBordActivity) context).getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.debit_credit_card_payment, null);
@@ -193,6 +193,9 @@ public class DashBordDialogs {
                 setEditTextMode(etxtAmountCash, chkByCash.isChecked());
                 if (!chkByCash.isChecked()) {
                     etxtAmountCash.setError(null);
+                    etxtAmountCash.setText(null);
+                } else {
+                    etxtAmountCash.setText(grandTotalAmount);
                 }
             }
         });

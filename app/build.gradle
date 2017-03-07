@@ -12,7 +12,9 @@ android {
         versionName "1.9"
         multiDexEnabled true
     }
+
     buildTypes {
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

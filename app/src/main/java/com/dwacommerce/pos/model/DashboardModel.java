@@ -1,5 +1,7 @@
 package com.dwacommerce.pos.model;
 
+import android.text.TextUtils;
+
 import com.dwacommerce.pos.RetroInterface.RestClient;
 import com.dwacommerce.pos.RetroInterface.RestInterface;
 import com.dwacommerce.pos.dao.AddToCartData;
@@ -32,7 +34,6 @@ import org.byteclues.lib.utils.Util;
 import java.util.HashMap;
 
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -254,9 +255,8 @@ public class DashboardModel extends BasicModel {
                 if (Constants.RESPONSE_SUCCESS_MSG.equals(responseData.response)) {
                     ((DashBordActivity) Env.currentActivity).fetchCartData();
                 } else {
-                    Util.showCenteredToast(Env.currentActivity, "Oops! something went wrong");
+                    Util.showCenteredToast(Env.currentActivity, TextUtils.isEmpty(responseData.responseMessage) ? "Product out of stock or something went wrong!" : responseData.responseMessage);
                 }
-
             }
 
             @Override

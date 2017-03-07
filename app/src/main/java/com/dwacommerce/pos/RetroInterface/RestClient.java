@@ -18,8 +18,8 @@ public class RestClient {
     public static RestInterface getRestInterface() {
         if (restInterface == null) {
             OkHttpClient client = new OkHttpClient();
-            client.setConnectTimeout(120000, TimeUnit.SECONDS);
-            client.setReadTimeout(120000, TimeUnit.SECONDS);
+            client.setConnectTimeout(120000, TimeUnit.MILLISECONDS);
+            client.setReadTimeout(120000, TimeUnit.MILLISECONDS);
             RestAdapter adapter = new RestAdapter.Builder()
                     .setEndpoint(Config.getServerUrl())
                     .setClient(new OkClient(client))
@@ -32,8 +32,8 @@ public class RestClient {
     public static RestInterface getRestInterfaceObject(String baseUrl) {
 
         OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(120000, TimeUnit.SECONDS);
-        client.setReadTimeout(120000, TimeUnit.SECONDS);
+        client.setConnectTimeout(120000, TimeUnit.MILLISECONDS);
+        client.setReadTimeout(120000, TimeUnit.MILLISECONDS);
         RestAdapter adapter = new RestAdapter.Builder()
                 .setEndpoint(baseUrl)
                 .setClient(new OkClient(client))
