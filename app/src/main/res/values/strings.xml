@@ -200,4 +200,5 @@
     <string name="deposit_amount">Deposit Amount</string>
     <string name="add_new_item">Add New Product</string>
     <string name="credit_amount_text">Credit Amount</string>
+    <string name="printing_error">Error while printing</string>
 </resources>

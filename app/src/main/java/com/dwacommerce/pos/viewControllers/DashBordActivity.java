@@ -50,6 +50,8 @@ import com.dwacommerce.pos.dialogs.AddNewItem;
 import com.dwacommerce.pos.dialogs.DashBordDialogs;
 import com.dwacommerce.pos.dialogs.UpdateCartItem;
 import com.dwacommerce.pos.model.DashboardModel;
+import com.dwacommerce.pos.printers.AemPrinter;
+import com.dwacommerce.pos.printers.EpsonPrinter;
 import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
 import com.dwacommerce.pos.utility.ShowMsg;
@@ -78,8 +80,6 @@ import retrofit.RetrofitError;
 
 public class DashBordActivity extends AbstractFragmentActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, ReceiveListener, TextView.OnEditorActionListener, IAemScrybe {
     private DashboardModel dashboardModel = new DashboardModel();
-    private int TWO_INCH_CHAR = 35;
-    private int THREE_INCH_CHAR = 48;
     private int AEM_CHAR = 32;
     private ImageView imgAddToCartDashboard;
     private TextView txtCustomerNameDashboard;
@@ -438,35 +438,33 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
     }
 
     public boolean printByAemPrinter(String receiptText) {
-        try {
-
-            if (m_AemPrinter == null) {
-
-                m_AemScrybeDevice = (m_AemScrybeDevice == null) ? new AEMScrybeDevice(DashBordActivity.this) : m_AemScrybeDevice;
-                m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
-                m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
-            }
-            m_AemPrinter.print(receiptText);
-            m_AemPrinter.setCarriageReturn();
-            m_AemPrinter.setCarriageReturn();
-            m_AemPrinter.setCarriageReturn();
-            m_AemPrinter.setCarriageReturn();
-            updateButtonState(true);
-
-        } catch (IOException e) {
-            if (e.getMessage().contains("Service discovery failed")) {
-                Util.showAlertDialog(null, "Not Connected\n"
-                        + Config.getAemPrinterName()
-                        + " is unreachable or off otherwise it is connected with other device");
-            } else if (e.getMessage().contains("Device or resource busy")) {
-                Util.showAlertDialog(null, "the device is already connected");
-            } else {
-                Util.showAlertDialog(null, "Unable to connect");
-            }
-
-        }
-       /* AemPrinter aemPrinter = AemPrinter.getInstance();
-        aemPrinter.print(Config.getAemPrinterName(), receiptText);*/
+//        try {
+//            if (m_AemPrinter == null) {
+//                m_AemScrybeDevice = (m_AemScrybeDevice == null) ? new AEMScrybeDevice(DashBordActivity.this) : m_AemScrybeDevice;
+//                m_AemScrybeDevice.connectToPrinter(Config.getAemPrinterName());
+//                m_AemPrinter = m_AemScrybeDevice.getAemPrinter();
+//            }
+//            m_AemPrinter.print(receiptText);
+//            m_AemPrinter.setCarriageReturn();
+//            m_AemPrinter.setCarriageReturn();
+//            m_AemPrinter.setCarriageReturn();
+//            m_AemPrinter.setCarriageReturn();
+//            updateButtonState(true);
+//
+//        } catch (IOException e) {
+//            if (e.getMessage().contains("Service discovery failed")) {
+//                Util.showAlertDialog(null, "Not Connected\n"
+//                        + Config.getAemPrinterName()
+//                        + " is unreachable or off otherwise it is connected with other device");
+//            } else if (e.getMessage().contains("Device or resource busy")) {
+//                Util.showAlertDialog(null, "the device is already connected");
+//            } else {
+//                Util.showAlertDialog(null, "Unable to connect");
+//            }
+//
+//        }
+        AemPrinter aemPrinter = AemPrinter.getInstance();
+        aemPrinter.print(Config.getAemPrinterName(), receiptText);
         if (Config.getReceiptSharing()) {
             shareWithWhatsApp(receiptText);
         }
@@ -496,9 +494,12 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             } else {
                 return;
             }
-        } else if (!runPrintReceiptSequence(receiptData)) {
+        } else if (!EpsonPrinter.getInstance(DashBordActivity.this).runPrintReceiptSequence(receiptData)) {
             updateButtonState(true);
         }
+//        else if (!runPrintReceiptSequence(receiptData)) {
+//            updateButtonState(true);
+//        }
         if (Config.getReceiptSharing() && receiptText != null) {
             shareWithWhatsApp(receiptText);
         }
@@ -639,16 +640,16 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             sharedMessageText.append("Order No - " + receiptData.order_details.orderHeader.orderId + "\n");
             sharedMessageText.append("Date - " + receiptData.order_details.orderHeader.orderDate + "\n");
             sharedMessageText.append("Customer Name - " + receiptData.order_details.customerName + "\n");
-            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? Constants.TWO_INCH_CHAR : Constants.THREE_INCH_CHAR); i++) {
                 sharedMessageText.append("-");
             }
             sharedMessageText.append("         Order Details\n");
-            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? Constants.TWO_INCH_CHAR : Constants.THREE_INCH_CHAR); i++) {
                 sharedMessageText.append("-");
             }
             sharedMessageText.append("\n");
             sharedMessageText.append("      Item Name        Qty  Amt   \n");
-            for (int i = 0; i < TWO_INCH_CHAR; i++) {
+            for (int i = 0; i < Constants.TWO_INCH_CHAR; i++) {
                 sharedMessageText.append("-");
             }
             sharedMessageText.append("\n");
@@ -677,7 +678,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
                 sharedMessageText.append(str + "  " + (int) receiptItemsData.quantity + "  " + String.format("%.2f", (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice)) + "\n");
             }
-            for (int i = 0; i < TWO_INCH_CHAR; i++) {
+            for (int i = 0; i < Constants.TWO_INCH_CHAR; i++) {
                 sharedMessageText.append("-");
             }
             sharedMessageText.append("\n");
@@ -825,7 +826,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             textData.append(receiptData.order_details.orderHeader.orderDate + "\n");
             textData.append("Customer Name - " + receiptData.order_details.customerName + "\n");
             textData.append("Order Details\n");
-            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? Constants.TWO_INCH_CHAR : Constants.THREE_INCH_CHAR); i++) {
                 textData.append("-");
             }
             textData.append("\n");
@@ -838,7 +839,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             } else {
                 textData.append("            Item Name               Qty   Amt \n");
             }
-            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? Constants.TWO_INCH_CHAR : Constants.THREE_INCH_CHAR); i++) {
                 textData.append("-");
             }
             textData.append("\n");
@@ -867,7 +868,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
 
                 textData.append(str + "  " + (int) receiptItemsData.quantity + "  " + (((int) receiptItemsData.quantity) * receiptItemsData.unitPrice) + "\n");
             }
-            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? TWO_INCH_CHAR : THREE_INCH_CHAR); i++) {
+            for (int i = 0; i < (Config.getPrinterWidth() == 2 ? Constants.TWO_INCH_CHAR : Constants.THREE_INCH_CHAR); i++) {
                 textData.append("-");
             }
             textData.append("\n");
@@ -1063,8 +1064,8 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             txtCashDashBoard.setText(String.format("%.2f", cashAmount));
             txtCCDashboard.setText(String.format("%.2f", creditCardAmount));
             txtChequeDashboard.setText(String.format("%.2f", chequeAmount) + "");
-            if(cartItemsData.totalDue<0){
-                Util.showAlertDialog(null,"amount return to customer: "+(-cartItemsData.totalDue)+" "+cartItemsData.shoppingCart.currencyUom);
+            if (cartItemsData.totalDue < 0) {
+                Util.showAlertDialog(null, "amount return to customer: " + (-cartItemsData.totalDue) + " " + cartItemsData.shoppingCart.currencyUom);
             }
         } catch (Exception e) {
             e.printStackTrace();

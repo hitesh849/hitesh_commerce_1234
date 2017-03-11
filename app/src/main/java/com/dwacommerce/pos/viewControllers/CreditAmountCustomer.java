@@ -22,8 +22,10 @@ import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.dao.CommonResponseData;
 import com.dwacommerce.pos.dao.CustomerBillingAccountInfoData;
 import com.dwacommerce.pos.dao.PartyData;
+import com.dwacommerce.pos.dao.PaymentStatementData;
 import com.dwacommerce.pos.model.CreditAmountCustomerModel;
 import com.dwacommerce.pos.printers.AemPrinter;
+import com.dwacommerce.pos.printers.EpsonPrinter;
 import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
 
@@ -61,7 +63,6 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
     }
 
     private void init() {
-
         txtSearchParty = (AutoCompleteTextView) findViewById(R.id.txtSearchParty);
         etxtDepositAmount = (TextInputEditText) findViewById(R.id.etxtDepositAmount);
         imgBackFindCustomer = (ImageView) findViewById(R.id.imgBackFindCustomer);
@@ -79,6 +80,28 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
         rdgrpFilterFindCustomer.check(R.id.rdByName);
     }
 
+    private void printStatementReceipt(CustomerBillingAccountInfoData customerBillingAccountInfoData) {
+        try {
+            StringBuilder statementReceipt = new StringBuilder();
+            statementReceipt.append(Config.getStoreName() + "\n");
+            statementReceipt.append(Config.getStoreAddress() + "\n\n");
+            for (PaymentStatementData paymentStatementData : customerBillingAccountInfoData.payments) {
+                statementReceipt.append(paymentStatementData.partyIdFrom + " " + paymentStatementData.paymentTypeId + " " + paymentStatementData.amount + paymentStatementData.currencyUomId + "\n");
+            }
+            statementReceipt.append("\n Acc Bal:" + customerBillingAccountInfoData.billingAccountInfo.accountBalance);
+            statementReceipt.append("\n Bal Limit:" + customerBillingAccountInfoData.billingAccountInfo.accountLimit + "\n");
+            if (Config.getPrinterId() == R.id.rdbtnAemPrinter) {
+                AemPrinter aemPrinter = AemPrinter.getInstance();
+                aemPrinter.print(Config.getAemPrinterName(), statementReceipt.toString());
+            } else {
+                EpsonPrinter.getInstance(CreditAmountCustomer.this).printStatementData(statementReceipt.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Util.showAlertDialog(null, getResources().getString(R.string.printing_error));
+        }
+    }
+
     @Override
     protected BasicModel getModel() {
         return creditAmountCustomerModel;
@@ -92,21 +115,22 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
             PartyData partyData = ((PartyData) data);
             llCustomerListContainer.removeAllViews();
             setSuggestionList(partyData);
+        } else if (data instanceof CustomerBillingAccountInfoData) {
+            CustomerBillingAccountInfoData customerBillingAccountInfoData = ((CustomerBillingAccountInfoData) data);
+            if (Constants.RESPONSE_SUCCESS_MSG.equals(customerBillingAccountInfoData.response)) {
+                printStatementReceipt(customerBillingAccountInfoData);
+            } else {
+                Util.showAlertDialog(null, customerBillingAccountInfoData.responseMessage);
+            }
         } else if (data instanceof CommonResponseData) {
             CommonResponseData responseData = ((CommonResponseData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(responseData.response)) {
                 etxtDepositAmount.setText("");
+                Util.showProDialog(Env.currentActivity);
+                creditAmountCustomerModel.getBillingAccountPayments(selectedPartyData.partyId);
                 Util.showCenteredToast(Env.currentActivity, responseData.responseMessage);
-               /* AemPrinter aemPrinter=AemPrinter.getInstance();
-                aemPrinter.print(Config.getAemPrinterName(),responseData.responseMessage);*/
             } else {
                 Util.showAlertDialog(null, responseData.response);
-            }
-        } else if (data instanceof CustomerBillingAccountInfoData) {
-            CustomerBillingAccountInfoData customerBillingAccountInfoData = ((CustomerBillingAccountInfoData) data);
-            if (Constants.RESPONSE_SUCCESS_MSG.equals(customerBillingAccountInfoData.response)) {
-
-            } else {
             }
         } else if (data instanceof RetrofitError) {
             Util.showAlertDialog(null, Constants.DEFAULT_SERVER_ERROR);
