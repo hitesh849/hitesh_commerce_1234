@@ -17,11 +17,11 @@ public class CartLineData implements Serializable {
     public long reservLength;
     public long reservPersons;
     public double quantity;
-    public long basePrice;
-    public long displayPrice;
-    public long reserv2ndPPPerc;
-    public long reservNthPPPerc;
-    public long listPrice;
+    public double basePrice;
+    public double displayPrice;
+    public double reserv2ndPPPerc;
+    public double reservNthPPPerc;
+    public double listPrice;
     public boolean isModifiedPrice;
     public long selectedAmount;
     public String orderItemAssocTypeId;
