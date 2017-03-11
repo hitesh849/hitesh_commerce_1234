@@ -13,7 +13,7 @@ import retrofit.client.OkClient;
  * Created by Hitesh on 28-01-2017.
  */
 public class RestClient {
-    private static RestInterface restInterface;
+    public static RestInterface restInterface;
 
     public static RestInterface getRestInterface() {
         if (restInterface == null) {

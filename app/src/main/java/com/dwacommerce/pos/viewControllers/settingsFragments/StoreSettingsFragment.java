@@ -16,12 +16,14 @@ import android.widget.TextView;
 import com.dwacommerce.pos.R;
 import com.dwacommerce.pos.dao.ProductStores;
 import com.dwacommerce.pos.dao.UserData;
+import com.dwacommerce.pos.database.DatabaseMgr;
 import com.dwacommerce.pos.model.SettingsModel;
 import com.dwacommerce.pos.sharedPreferences.Config;
 import com.dwacommerce.pos.utility.Constants;
 import com.dwacommerce.pos.viewControllers.LogInActivity;
 import com.dwacommerce.pos.viewControllers.SettingActivity;
 
+import org.byteclues.lib.init.Env;
 import org.byteclues.lib.model.BasicModel;
 import org.byteclues.lib.utils.Util;
 import org.byteclues.lib.view.AbstractFragment;
@@ -86,24 +88,23 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
         if (data instanceof UserData) {
             UserData userData = ((UserData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(userData.response.responseMessage)) {
-                Config.setServerUrl(etxtUrlStoreSetting.getText().toString().trim()+"/webpos/rest");
+                Config.setServerUrl(etxtUrlStoreSetting.getText().toString().trim() + "/webpos/rest");
                 Config.setCustomerId(etxtCustomerIdStoreSettigs.getText().toString().trim());
                 if (userData.productStores != null && !userData.productStores.isEmpty()) {
                     ProductStores[] productStores = new ProductStores[userData.productStores.size()];
                     productStores = userData.productStores.toArray(productStores);
+                    DatabaseMgr.getInstance(Env.currentActivity).clearDB();
                     radioDialog(productStores);
                 } else {
                     Util.showAlertDialog(null, "No product Store found!");
                 }
                 setBaseUrl();
             } else {
-                String msg="Oops! something went wrong!";
-                if(userData.response!=null && userData.response.errorMessage!=null)
-                {
-                    msg=userData.response.errorMessage;
-                }
-                else
-                Util.showAlertDialog(null, msg);
+                String msg = "Oops! something went wrong!";
+                if (userData.response != null && userData.response.errorMessage != null) {
+                    msg = userData.response.errorMessage;
+                } else
+                    Util.showAlertDialog(null, msg);
             }
 
         } else if (data instanceof RetrofitError) {
@@ -131,7 +132,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
     public void onClick(View v) {
         int vid = v.getId();
         if (vid == R.id.txtSaveStoreSetting) {
-            String url = etxtUrlStoreSetting.getText().toString()+"/webpos/rest";
+            String url = etxtUrlStoreSetting.getText().toString() + "/webpos/rest";
             String userName = etxtUserNameStoreSettings.getText().toString();
             String password = etxtPasswordStoreSettigs.getText().toString();
             String customerId = etxtCustomerIdStoreSettigs.getText().toString();
@@ -151,6 +152,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
                 Util.showProDialog(getActivity());
                 settingsModel.fetchSettings(url, userName, password);
                 Config.setDemo(false);
+
             } else {
                 Util.showCenteredToast(getActivity(), Constants.INTERNET_ERROR_MSG);
             }
@@ -161,6 +163,7 @@ public class StoreSettingsFragment extends AbstractFragment implements View.OnCl
             Config.setBaseUrl(getDomainUrl("http://leisureapparel.dwacommerce.com/webpos/rest"));
             Config.setServerUrl("http://leisureapparel.dwacommerce.com/webpos/rest");
             ((SettingActivity) getActivity()).setResult = true;
+            DatabaseMgr.getInstance(Env.currentActivity).clearDB();
             Intent intent = new Intent(getActivity(), LogInActivity.class);
             Config.setDemo(true);
             startActivity(intent);

@@ -7,9 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dwacommerce.pos.R;
+import com.dwacommerce.pos.RetroInterface.RestClient;
 import com.dwacommerce.pos.dao.ConfigurationsData;
 import com.dwacommerce.pos.dao.LoginData;
 import com.dwacommerce.pos.dao.Terminals;
@@ -149,6 +148,7 @@ public class LogInActivity extends AbstractFragmentActivity implements View.OnCl
                 Config.setSessionId(loginData.jsessionid);
                 Config.setUserName(etxtUserNameLogin.getText().toString().trim());
                 Config.setUserPassword(etxtPasswordLogin.getText().toString().trim());
+                RestClient.restInterface = null;
                 gotoDashboard();
             } else {
                 Util.showAlertDialog(null, "User Not found!");
