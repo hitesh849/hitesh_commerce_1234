@@ -25,6 +25,7 @@ public class Constants {
     public static final String BARCODE_VALUE = "barcode_value";
     public static final String NO_PARTY_FOUND_ALERT = "No Party found for this cart. First add party to cart.";
     public static final String DEFAULT_SERVER_ERROR = "Server not responding, Please try again";
+    public static final String INDIAN_DATE_FORMAT = "dd/mm/yyyy";
     public static int TWO_INCH_CHAR = 35;
     public static int THREE_INCH_CHAR = 48;
 }

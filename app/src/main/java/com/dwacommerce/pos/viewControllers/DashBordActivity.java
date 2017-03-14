@@ -80,7 +80,7 @@ import retrofit.RetrofitError;
 
 public class DashBordActivity extends AbstractFragmentActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, ReceiveListener, TextView.OnEditorActionListener, IAemScrybe {
     private DashboardModel dashboardModel = new DashboardModel();
-    private int AEM_CHAR = 32;
+    public static final int AEM_CHAR = 32;
     private ImageView imgAddToCartDashboard;
     private TextView txtCustomerNameDashboard;
     private TextView txtSubTotalDashboard;

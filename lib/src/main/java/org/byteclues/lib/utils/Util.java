@@ -28,6 +28,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by admin on 19-07-2015.
@@ -41,6 +44,7 @@ public class Util {
     public static final String ACTION_USER_LOGOUT = "userLogout";
     public static final String KEY_USER_TOKEN = "user_token";
     public static final String KEY_LOGOUT_MESSAGE = "logout_message";
+    private static SimpleDateFormat originalFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a");
 
 
     public static void showProDialog(Context context) {
@@ -188,6 +192,18 @@ public class Util {
             e.printStackTrace();
         }
         return BitmapFactory.decodeResource(Env.currentActivity.getResources(), default_resource_id);
+    }
+
+    public static String convertToDateFormat(String sourceDate, String targetDateFormat) {
+        try {
+            DateFormat targetFormat = new SimpleDateFormat(targetDateFormat);
+            Date date = originalFormat.parse(sourceDate);
+            String formattedDate = targetFormat.format(date);
+            return formattedDate;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sourceDate;
     }
 
 }

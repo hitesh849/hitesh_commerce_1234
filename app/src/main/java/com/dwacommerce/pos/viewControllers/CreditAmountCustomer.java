@@ -82,24 +82,104 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
 
     private void printStatementReceipt(CustomerBillingAccountInfoData customerBillingAccountInfoData) {
         try {
-            StringBuilder statementReceipt = new StringBuilder();
-            statementReceipt.append(Config.getStoreName() + "\n");
-            statementReceipt.append(Config.getStoreAddress() + "\n\n");
-            for (PaymentStatementData paymentStatementData : customerBillingAccountInfoData.payments) {
-                statementReceipt.append(paymentStatementData.partyIdFrom + " " + paymentStatementData.paymentTypeId + " " + paymentStatementData.amount + paymentStatementData.currencyUomId + "\n");
-            }
-            statementReceipt.append("\n Acc Bal:" + customerBillingAccountInfoData.billingAccountInfo.accountBalance);
-            statementReceipt.append("\n Bal Limit:" + customerBillingAccountInfoData.billingAccountInfo.accountLimit + "\n");
             if (Config.getPrinterId() == R.id.rdbtnAemPrinter) {
                 AemPrinter aemPrinter = AemPrinter.getInstance();
-                aemPrinter.print(Config.getAemPrinterName(), statementReceipt.toString());
+                aemPrinter.print(Config.getAemPrinterName(), getAemPrinterReceiptText(customerBillingAccountInfoData));
             } else {
-                EpsonPrinter.getInstance(CreditAmountCustomer.this).printStatementData(statementReceipt.toString());
+                EpsonPrinter.getInstance(CreditAmountCustomer.this).printStatementData(getEpsonPrinterReceiptText(customerBillingAccountInfoData));
             }
         } catch (Exception e) {
             e.printStackTrace();
             Util.showAlertDialog(null, getResources().getString(R.string.printing_error));
         }
+    }
+
+    private String getEpsonPrinterReceiptText(CustomerBillingAccountInfoData customerBillingAccountInfoData) {
+        StringBuilder statementReceipt = new StringBuilder();
+        statementReceipt.append("Store Name - " + Config.getStoreName() + "\n");
+        statementReceipt.append("Address - " + Config.getStoreAddress() + "\n\n");
+        statementReceipt.append("Customer Name - " + selectedPartyData.firstName + "\n");
+        statementReceipt.append("Credit Account Id - " + customerBillingAccountInfoData.billingAccountInfo.billingAccountId + "\n\n");
+        for (int i = 0; i < (Config.getPrinterWidth() == 2 ? Constants.TWO_INCH_CHAR : Constants.THREE_INCH_CHAR); i++) {
+            statementReceipt.append("-");
+        }
+        statementReceipt.append("\n");
+        if (Config.getPrinterWidth() == 2) {
+            statementReceipt.append("Payment Type     Date        Amount\n");
+        } else {
+            statementReceipt.append("Payment Type        Date           Amount\n");
+        }
+        for (int i = 0; i < (Config.getPrinterWidth() == 2 ? Constants.TWO_INCH_CHAR : Constants.THREE_INCH_CHAR); i++) {
+            statementReceipt.append("-");
+        }
+        statementReceipt.append("\n");
+        for (PaymentStatementData paymentStatementData : customerBillingAccountInfoData.payments) {
+            String str = "";
+            if (Config.getPrinterWidth() == 2) {
+                if (paymentStatementData.paymentTypeId.length() > 14) {
+                    str = paymentStatementData.paymentTypeId.substring(0, 14) + "..";
+                } else {
+                    str = paymentStatementData.paymentTypeId;
+                    for (int i = 0; i <= 16 - paymentStatementData.paymentTypeId.length(); i++) {
+                        str += " ";
+                    }
+                }
+                statementReceipt.append(str + " " + Util.convertToDateFormat(paymentStatementData.effectiveDate,Constants.INDIAN_DATE_FORMAT) + "   " + paymentStatementData.amount + "\n");
+            } else {
+                if (paymentStatementData.paymentTypeId.length() > 17) {
+                    str = paymentStatementData.paymentTypeId.substring(0, 17) + "..";
+                } else {
+                    str = paymentStatementData.paymentTypeId;
+                    for (int i = 0; i <= 19 - paymentStatementData.paymentTypeId.length(); i++) {
+                        str += " ";
+                    }
+                }
+                statementReceipt.append(str + " " + Util.convertToDateFormat(paymentStatementData.effectiveDate,Constants.INDIAN_DATE_FORMAT) + "      " + paymentStatementData.amount + "\n");
+            }
+        }
+        for (int i = 0; i < (Config.getPrinterWidth() == 2 ? Constants.TWO_INCH_CHAR : Constants.THREE_INCH_CHAR); i++) {
+            statementReceipt.append("-");
+        }
+        statementReceipt.append("\n Available Balance -    " + customerBillingAccountInfoData.billingAccountInfo.accountBalance);
+        statementReceipt.append("\n Account Limit     -    " + customerBillingAccountInfoData.billingAccountInfo.accountLimit + "\n\n");
+        statementReceipt.append(" Powered by : DWA Commerce\n");
+        return statementReceipt.toString();
+    }
+
+    private String getAemPrinterReceiptText(CustomerBillingAccountInfoData customerBillingAccountInfoData) {
+        StringBuilder statementReceipt = new StringBuilder();
+        statementReceipt.append("Store Name - " + Config.getStoreName() + "\n");
+        statementReceipt.append("Address - " + Config.getStoreAddress() + "\n\n");
+        statementReceipt.append("Customer Name - " + selectedPartyData.firstName + "\n");
+        statementReceipt.append("Credit Account Id - " + customerBillingAccountInfoData.billingAccountInfo.billingAccountId + "\n\n");
+        for (int i = 0; i < DashBordActivity.AEM_CHAR; i++) {
+            statementReceipt.append("-");
+        }
+        statementReceipt.append("\n");
+        statementReceipt.append("Payment Type   Date      Amount\n");
+        for (int i = 0; i < DashBordActivity.AEM_CHAR; i++) {
+            statementReceipt.append("-");
+        }
+        statementReceipt.append("\n");
+        for (PaymentStatementData paymentStatementData : customerBillingAccountInfoData.payments) {
+            String str = "";
+            if (paymentStatementData.paymentTypeId.length() > 11) {
+                str = paymentStatementData.paymentTypeId.substring(0, 11) + "..";
+            }else{
+                str = paymentStatementData.paymentTypeId;
+                for (int i = 0; i <= 12 - paymentStatementData.paymentTypeId.length(); i++) {
+                    str += " ";
+                }
+            }
+            statementReceipt.append(str + " " + Util.convertToDateFormat(paymentStatementData.effectiveDate,Constants.INDIAN_DATE_FORMAT) + "   " + paymentStatementData.amount + "\n");
+        }
+        for (int i = 0; i < DashBordActivity.AEM_CHAR; i++) {
+            statementReceipt.append("-");
+        }
+        statementReceipt.append("\n Available Balance -    " + customerBillingAccountInfoData.billingAccountInfo.accountBalance);
+        statementReceipt.append("\n Account Limit     -    " + customerBillingAccountInfoData.billingAccountInfo.accountLimit + "\n\n");
+        statementReceipt.append(" Powered by : DWA Commerce\n");
+        return statementReceipt.toString();
     }
 
     @Override
@@ -126,8 +206,7 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
             CommonResponseData responseData = ((CommonResponseData) data);
             if (Constants.RESPONSE_SUCCESS_MSG.equals(responseData.response)) {
                 etxtDepositAmount.setText("");
-                Util.showProDialog(Env.currentActivity);
-                creditAmountCustomerModel.getBillingAccountPayments(selectedPartyData.partyId);
+                txtPrintStatement.performClick();
                 Util.showCenteredToast(Env.currentActivity, responseData.responseMessage);
             } else {
                 Util.showAlertDialog(null, responseData.response);
