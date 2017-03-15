@@ -114,6 +114,11 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
         }
         statementReceipt.append("\n");
         for (PaymentStatementData paymentStatementData : customerBillingAccountInfoData.payments) {
+            if ("CUSTOMER_DEPOSIT".equalsIgnoreCase(paymentStatementData.paymentTypeId)) {
+                paymentStatementData.paymentTypeId = "Deposit";
+            } else if ("CUSTOMER_PAYMENT".equalsIgnoreCase(paymentStatementData.paymentTypeId)) {
+                paymentStatementData.paymentTypeId = "Purchase";
+            }
             String str = "";
             if (Config.getPrinterWidth() == 2) {
                 if (paymentStatementData.paymentTypeId.length() > 14) {
@@ -124,7 +129,7 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
                         str += " ";
                     }
                 }
-                statementReceipt.append(str + " " + Util.convertToDateFormat(paymentStatementData.effectiveDate,Constants.INDIAN_DATE_FORMAT) + "   " + paymentStatementData.amount + "\n");
+                statementReceipt.append(str + " " + Util.convertToDateFormat(paymentStatementData.effectiveDate, Constants.INDIAN_DATE_FORMAT) + "   " + String.format("%.2f", paymentStatementData.amount) + "\n");
             } else {
                 if (paymentStatementData.paymentTypeId.length() > 17) {
                     str = paymentStatementData.paymentTypeId.substring(0, 17) + "..";
@@ -134,14 +139,14 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
                         str += " ";
                     }
                 }
-                statementReceipt.append(str + " " + Util.convertToDateFormat(paymentStatementData.effectiveDate,Constants.INDIAN_DATE_FORMAT) + "      " + paymentStatementData.amount + "\n");
+                statementReceipt.append(str + " " + Util.convertToDateFormat(paymentStatementData.effectiveDate, Constants.INDIAN_DATE_FORMAT) + "      " + String.format("%.2f", paymentStatementData.amount) + "\n");
             }
         }
         for (int i = 0; i < (Config.getPrinterWidth() == 2 ? Constants.TWO_INCH_CHAR : Constants.THREE_INCH_CHAR); i++) {
             statementReceipt.append("-");
         }
-        statementReceipt.append("\n Available Balance -    " + customerBillingAccountInfoData.billingAccountInfo.accountBalance);
-        statementReceipt.append("\n Account Limit     -    " + customerBillingAccountInfoData.billingAccountInfo.accountLimit + "\n\n");
+        statementReceipt.append("\n Available Balance -    " + String.format("%.2f", customerBillingAccountInfoData.billingAccountInfo.accountBalance));
+        statementReceipt.append("\n Account Limit     -    " + String.format("%.2f", customerBillingAccountInfoData.billingAccountInfo.accountLimit) + "\n\n");
         statementReceipt.append(" Powered by : DWA Commerce\n");
         return statementReceipt.toString();
     }
@@ -162,23 +167,28 @@ public class CreditAmountCustomer extends AbstractFragmentActivity implements Vi
         }
         statementReceipt.append("\n");
         for (PaymentStatementData paymentStatementData : customerBillingAccountInfoData.payments) {
+            if ("CUSTOMER_DEPOSIT".equalsIgnoreCase(paymentStatementData.paymentTypeId)) {
+                paymentStatementData.paymentTypeId = "Deposit";
+            } else if ("CUSTOMER_PAYMENT".equalsIgnoreCase(paymentStatementData.paymentTypeId)) {
+                paymentStatementData.paymentTypeId = "Purchase";
+            }
             String str = "";
-            if (paymentStatementData.paymentTypeId.length() > 11) {
-                str = paymentStatementData.paymentTypeId.substring(0, 11) + "..";
-            }else{
+            if (paymentStatementData.paymentTypeId.length() > 10) {
+                str = paymentStatementData.paymentTypeId.substring(0, 10) + "..";
+            } else {
                 str = paymentStatementData.paymentTypeId;
-                for (int i = 0; i <= 12 - paymentStatementData.paymentTypeId.length(); i++) {
+                for (int i = 0; i <= 11 - paymentStatementData.paymentTypeId.length(); i++) {
                     str += " ";
                 }
             }
-            statementReceipt.append(str + " " + Util.convertToDateFormat(paymentStatementData.effectiveDate,Constants.INDIAN_DATE_FORMAT) + "   " + paymentStatementData.amount + "\n");
+            statementReceipt.append(str + " " + Util.convertToDateFormat(paymentStatementData.effectiveDate, Constants.INDIAN_DATE_FORMAT) + "  " + String.format("%.2f",paymentStatementData.amount) + "\n");
         }
         for (int i = 0; i < DashBordActivity.AEM_CHAR; i++) {
             statementReceipt.append("-");
         }
-        statementReceipt.append("\n Available Balance -    " + customerBillingAccountInfoData.billingAccountInfo.accountBalance);
-        statementReceipt.append("\n Account Limit     -    " + customerBillingAccountInfoData.billingAccountInfo.accountLimit + "\n\n");
-        statementReceipt.append(" Powered by : DWA Commerce\n");
+        statementReceipt.append("\n Available Balance -    " + String.format("%.2f",customerBillingAccountInfoData.billingAccountInfo.accountBalance));
+        statementReceipt.append("\n Account Limit     -    " + String.format("%.2f",customerBillingAccountInfoData.billingAccountInfo.accountLimit) + "\n\n");
+        statementReceipt.append("\n Powered by : DWA Commerce\n");
         return statementReceipt.toString();
     }
 
