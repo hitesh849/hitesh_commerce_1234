@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -38,7 +39,7 @@ import java.util.Observable;
 /**
  * Created by Admin on 10/23/2016.
  */
-public class PrinterScannerFragment extends AbstractFragment implements View.OnClickListener, IAemScrybe {
+public class PrinterScannerFragment extends AbstractFragment implements View.OnClickListener, IAemScrybe, RadioGroup.OnCheckedChangeListener {
     private View view;
     private TextView txtSavePrinterSetting;
     private TextView txtCancelPrinterSetting;
@@ -60,6 +61,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
     private ArrayList<String> printerList;
     private RadioButton rdbtnAemPrinter;
     private RadioButton rdbtnEpsonPrinter;
+    private LinearLayout epsonPrinterSettingsContainer;
 
     @Override
     protected View onCreateViewPost(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,8 +85,8 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         String printerName = item.getTitle().toString();
         try {
             //disconnectAemPrinter();
-            m_AemScrybeDevice=m_AemScrybeDevice==null?new AEMScrybeDevice(this):m_AemScrybeDevice;
-           // m_AemScrybeDevice.connectToPrinter(printerName);
+            m_AemScrybeDevice = m_AemScrybeDevice == null ? new AEMScrybeDevice(this) : m_AemScrybeDevice;
+            // m_AemScrybeDevice.connectToPrinter(printerName);
             Util.showCenteredToast(getActivity(), "Printer connected Successfully");
             txtTestConnection.setTag(printerName);
 
@@ -106,6 +108,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
     }
 
     private void init() {
+        epsonPrinterSettingsContainer = ((LinearLayout) view.findViewById(R.id.epsonPrinterSettingsContainer));
         rdbtnTwoInchPrinter = ((RadioButton) view.findViewById(R.id.rdbtnTwoInchPrinter));
         rdbtnThreeInchPrinter = ((RadioButton) view.findViewById(R.id.rdbtnThreeInchPrinter));
         rdbtngrpPrintConfirmation = (RadioGroup) view.findViewById(R.id.rdbtngrpPrintConfirmation);
@@ -116,6 +119,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         etxtPrinterIpPort = ((EditText) view.findViewById(R.id.etxtPrinterIpPort));
         txtTestConnection = ((TextView) view.findViewById(R.id.txtTestConnection));
         rdgroupSelectPrinter = ((RadioGroup) view.findViewById(R.id.rdgroupSelectPrinter));
+        rdgroupSelectPrinter.setOnCheckedChangeListener(this);
         rdbtnAemPrinter = ((RadioButton) view.findViewById(R.id.rdbtnAemPrinter));
         rdbtnEpsonPrinter = ((RadioButton) view.findViewById(R.id.rdbtnEpsonPrinter));
         if (Config.getPrinterWidth() == 2) {
@@ -154,7 +158,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
         if (m_AemScrybeDevice != null) {
             try {
                 m_AemScrybeDevice.disConnectPrinter();
-                m_AemScrybeDevice=null;
+                m_AemScrybeDevice = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -308,7 +312,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
 
     public boolean pairAemPrinter(View v) {
         try {
-            m_AemScrybeDevice =(m_AemScrybeDevice==null)? new AEMScrybeDevice(this):m_AemScrybeDevice;
+            m_AemScrybeDevice = (m_AemScrybeDevice == null) ? new AEMScrybeDevice(this) : m_AemScrybeDevice;
             m_AemScrybeDevice.pairPrinter("BTprinter0314");
             printerList = m_AemScrybeDevice.getPairedPrinters();
             if (printerList.size() > 0) {
@@ -323,5 +327,10 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        epsonPrinterSettingsContainer.setVisibility(checkedId == R.id.rdbtnEpsonPrinter ? View.VISIBLE : View.GONE);
     }
 }

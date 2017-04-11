@@ -216,7 +216,7 @@ public class EpsonPrinter implements ReceiveListener {
             method = "addTextSize";
             mPrinter.addTextSize(2, 2);
             method = "addText";
-            mPrinter.addText("TOTAL " + receiptData.order_details.orderHeader.grandTotal + "\n");
+            mPrinter.addText("TOTAL " + String.format("%.2f", receiptData.order_details.orderHeader.grandTotal )+ "\n");
             mPrinter.addTextSize(1, 1);
             textData.append("Thanks for shopping with us\n");
             method = "addText";

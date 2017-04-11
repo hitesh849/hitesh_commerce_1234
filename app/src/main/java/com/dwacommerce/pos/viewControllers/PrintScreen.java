@@ -213,7 +213,7 @@ public class PrintScreen extends Activity implements View.OnClickListener, Recei
                 method = "addTextSize";
                 mPrinter.addTextSize(2, 2);
                 method = "addText";
-                mPrinter.addText("TOTAL  " + receiptData.orderHeader.grandTotal + "\n");
+                mPrinter.addText("TOTAL  " + String.format("%.2f",receiptData.orderHeader.grandTotal) + "\n");
                 mPrinter.addTextSize(1, 1);
                 textData.append("Thanks for shopping with us\n");
                 textData.append("Powered by: DWA Commerce");

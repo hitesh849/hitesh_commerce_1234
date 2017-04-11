@@ -29,6 +29,7 @@
                     android:text="@string/select_printer"
                     android:textColor="@color/dark_pink"
                     android:textSize="@dimen/text_dim_12" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -38,11 +39,12 @@
                         android:id="@+id/rdgroupSelectPrinter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                       <RadioButton
-                           android:id="@+id/rdbtnAemPrinter"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="Aem Printer"/>
+
+                        <RadioButton
+                            android:id="@+id/rdbtnAemPrinter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Aem Printer" />
 
                         <RadioButton
                             android:id="@+id/rdbtnEpsonPrinter"
@@ -55,8 +57,10 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/epsonPrinterSettingsContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:background="@drawable/background_selector"
                     android:orientation="vertical"
                     android:padding="@dimen/dim_5">
@@ -114,63 +118,65 @@
                         android:layout_marginBottom="10dp"
                         android:gravity="left" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/dim_5"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:padding="@dimen/dim_5"
-                            android:text="@string/printer_width_inch"
-                            android:textColor="@color/dark_pink"
-                            android:textSize="@dimen/text_dim_12" />
+                </LinearLayout>
 
-                        <RadioGroup
-                            android:id="@+id/rdbtngrpPrinterWidth"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/rdbtnTwoInchPrinter"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/dim_5"
-                                android:background="@null"
-                                android:checked="true"
-                                android:padding="@dimen/dim_2"
-                                android:text="2"
-                                android:textColor="@android:color/darker_gray" />
-
-                            <RadioButton
-                                android:id="@+id/rdbtnThreeInchPrinter"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/dim_5"
-                                android:layout_marginTop="@dimen/dim_5"
-                                android:background="@null"
-                                android:padding="@dimen/dim_2"
-                                android:text="3"
-                                android:textColor="@android:color/darker_gray" />
-                        </RadioGroup>
-                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dim_5"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txtTestConnection"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/dim_5"
-                        android:background="@drawable/background_selector"
+                        android:gravity="left"
                         android:padding="@dimen/dim_5"
-                        android:text="@string/test_connection"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_dim_11" />
+                        android:text="@string/printer_width_inch"
+                        android:textColor="@color/dark_pink"
+                        android:textSize="@dimen/text_dim_12" />
+
+                    <RadioGroup
+                        android:id="@+id/rdbtngrpPrinterWidth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rdbtnTwoInchPrinter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dim_5"
+                            android:background="@null"
+                            android:checked="true"
+                            android:padding="@dimen/dim_2"
+                            android:text="2"
+                            android:textColor="@android:color/darker_gray" />
+
+                        <RadioButton
+                            android:id="@+id/rdbtnThreeInchPrinter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dim_5"
+                            android:layout_marginTop="@dimen/dim_5"
+                            android:background="@null"
+                            android:padding="@dimen/dim_2"
+                            android:text="3"
+                            android:textColor="@android:color/darker_gray" />
+                    </RadioGroup>
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtTestConnection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dim_5"
+                    android:background="@drawable/background_selector"
+                    android:padding="@dimen/dim_5"
+                    android:text="@string/test_connection"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_dim_11" />
             </LinearLayout>
 
             <LinearLayout

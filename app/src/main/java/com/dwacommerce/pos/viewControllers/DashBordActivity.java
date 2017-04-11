@@ -711,7 +711,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                 sharedMessageText.append(" Promotion Amt : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
             if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
                 sharedMessageText.append(" Loyalty Point : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
-            sharedMessageText.append("TOTAL " + receiptData.order_details.orderHeader.grandTotal + "\n");
+            sharedMessageText.append("TOTAL " + String.format("%.2f", receiptData.order_details.orderHeader.grandTotal) + "\n");
             sharedMessageText.append("Thanks for shopping with us\n");
             sharedMessageText.append("Powered by : DWA Commerce");
             return sharedMessageText.toString();
@@ -788,7 +788,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
                 sharedMessageText.append("Promotion Amt  : " + String.format("%.2f", receiptData.order_details.PROMOTION_AMOUNT) + "\n");
             if (receiptData.order_details.LOYALTY_POINTS_AMOUNT != 0)
                 sharedMessageText.append("Loyalty Point  : " + String.format("%.2f", receiptData.order_details.LOYALTY_POINTS_AMOUNT) + "\n");
-            sharedMessageText.append("TOTAL          : " + receiptData.order_details.orderHeader.grandTotal + "\n");
+            sharedMessageText.append("TOTAL          : " + String.format("%.2f", receiptData.order_details.orderHeader.grandTotal) + "\n");
             for (int i = 0; i < AEM_CHAR; i++) {
                 sharedMessageText.append("-");
             }
@@ -916,7 +916,7 @@ public class DashBordActivity extends AbstractFragmentActivity implements View.O
             method = "addTextSize";
             mPrinter.addTextSize(2, 2);
             method = "addText";
-            mPrinter.addText("TOTAL " + receiptData.order_details.orderHeader.grandTotal + "\n");
+            mPrinter.addText("TOTAL " + String.format("%.2f", receiptData.order_details.orderHeader.grandTotal) + "\n");
             mPrinter.addTextSize(1, 1);
             textData.append("Thanks for shopping with us\n");
             method = "addText";
