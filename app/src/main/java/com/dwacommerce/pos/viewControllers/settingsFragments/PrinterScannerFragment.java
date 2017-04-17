@@ -159,7 +159,7 @@ public class PrinterScannerFragment extends AbstractFragment implements View.OnC
             try {
                 m_AemScrybeDevice.disConnectPrinter();
                 m_AemScrybeDevice = null;
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
