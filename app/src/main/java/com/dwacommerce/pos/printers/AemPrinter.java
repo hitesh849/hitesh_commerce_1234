@@ -54,6 +54,9 @@ public class AemPrinter implements IAemScrybe {
                 Util.showAlertDialog(null, "Unable to connect");
             }
             return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Util.showAlertDialog(null, "Error occurred while printing");
         }
         return true;
     }
